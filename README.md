@@ -1,7 +1,7 @@
 # 483-Team-Support-Slackbots
 
 ## Development platform
-I am using Ubuntu(WSL2) and VSCode as editor. 
+I am using Ubuntu(WSL2) and VSCode as editor. \
 The commend list here should work on any Linux machine. 
 
 ## Set up Python environment:
