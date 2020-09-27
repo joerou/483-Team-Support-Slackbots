@@ -51,11 +51,10 @@ def error_handler(err):
 # slash commend handler
 ###############################################################################
 
+# Validate if the requset is actually from slack
 def validate_request():
     request_body = request.get_data().decode('utf-8')
-    print(request_body)
     timestamp = request.headers['X-Slack-Request-Timestamp']
-    print(timestamp)
     if abs(time.time() - float(timestamp)) > 60 * 5:
         return False
     sig_basestring = 'v0:' + timestamp + ':' + request_body
@@ -69,12 +68,13 @@ def validate_request():
         return False
     return True
 
+# Sample slash commend "/hello"
 @app.route('/slack/event/hello', methods=['POST'])
 def hello():
     if validate_request():
-        channel = request.form['channel_id']
-        slack_client.chat_postMessage(channel=channel, text='hello')
-        payload = {'text': 'Commend Completed!'}    
+        # return **must be implemented**
+        # Send 'Hello!' to channel
+        payload = {'response_type': 'in_channel', 'text': 'Hello!'}    
     else:
         payload = {'text': 'Bad Request'}
     return jsonify(payload)
