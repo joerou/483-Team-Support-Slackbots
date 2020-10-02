@@ -52,6 +52,20 @@ def reaction_added(event_data):
     slack_client.chat_postMessage(channel=channel, text=text)
 
 
+
+#Triggering event upon new member joining
+@slack_events_adapter.on("member_joined_channel")
+def new_member_survey(event_data):
+    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
+        return make_response("invalid request", 403)
+    event = event_data["event"]
+    channel = event["channel"]
+    user = event["user"]
+    message = "Hello <@%s> Thanks for joining the chat! :tada:" % user
+    slack_client.chat_postMessage(channel=channel, text=message)
+
+
+
 # Error events
 @slack_events_adapter.on("error")
 def error_handler(err):
