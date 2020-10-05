@@ -121,12 +121,12 @@ def sampleServey():
                 "type": "modal",
                 "title": {
                     "type": "plain_text",
-                    "text": "Sample Servey",
+                    "text": "Question 1: I am the life of the party",
                     "emoji": True
                 },
                 "submit": {
                     "type": "plain_text",
-                    "text": "Submit",
+                    "text": "Next",
                     "emoji": True
                 },
                 "close": {
@@ -139,7 +139,7 @@ def sampleServey():
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Please select *True* _or_ *False*."
+                            "text": "Please select a number 1-5"
                         }
                     },
                     {
@@ -149,10 +149,10 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "True",
+                                    "text": "1",
                                     "emoji": True
                                 },
-                                "value": "True"
+                                "value": "1"
                             }
                         ]
                     },
@@ -163,10 +163,10 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "False",
+                                    "text": "2",
                                     "emoji": True
                                 },
-                                "value": "False"
+                                "value": "2"
                             }
                         ]
                     }
