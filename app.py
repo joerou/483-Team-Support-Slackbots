@@ -54,7 +54,7 @@ def reaction_added(event_data):
 
 
 #Triggering event upon new member joining
-@slack_events_adapter.on("member_joined_channel")
+@slack_events_adapter.on("team_join")
 def new_member_survey(event_data):
     if not signature_verifier.is_valid_request(request.get_data(), request.headers):
         return make_response("invalid request", 403)
@@ -122,7 +122,7 @@ def sampleServey():
                 "type": "modal",
                 "title": {
                     "type": "plain_text",
-                    "text": "Question 1",
+                    "text": "Question 1, Please Select a number 1-5",
                     "emoji": True
                 },
                 "submit": {
@@ -168,6 +168,48 @@ def sampleServey():
                                     "emoji": True
                                 },
                                 "value": "2"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "3",
+                                    "emoji": True
+                                },
+                                "value": "3"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "4",
+                                    "emoji": True
+                                },
+                                "value": "4"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "5",
+                                    "emoji": True
+                                },
+                                "value": "5"
                             }
                         ]
                     }
