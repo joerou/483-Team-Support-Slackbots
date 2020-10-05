@@ -63,39 +63,69 @@ def new_member_survey(event_data):
     user = event["user"]
     message = "Hello <@%s> Thanks for joining the chat! :tada:" % user
     slack_client.chat_postMessage(channel=channel, text=message)
-    api_response = slack_client.views_open(
+    try:
+        api_response = slack_client.views_open(
             trigger_id=request.form["trigger_id"],
             view={
-                    "label": "I am the life of the party",
-                    "name": "question1",
-                    "type": "select",
-                    "options": [
-                        {
-                            "label": "1",
-                            "value": "1"
-                        },
-                        {
-                            "label": "2",
-                            "value": "2"
-                        },
-                        {
-                            "label": "3",
-                            "value": "3"
-                        },
-                        {
-                            "label": "4",
-                            "value": "4"
-                        },
-                        {
-
-
-                            "label": "5",
-                            "value": "5"
+                "type": "modal",
+                "title": {
+                    "type": "plain_text",
+                    "text": "Sample Servey",
+                    "emoji": True
+                },
+                "submit": {
+                    "type": "plain_text",
+                    "text": "Submit",
+                    "emoji": True
+                },
+                "close": {
+                    "type": "plain_text",
+                    "text": "Cancel",
+                    "emoji": True
+                },
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Please select *True* _or_ *False*."
                         }
-                    ]
-                }
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "True",
+                                    "emoji": True
+                                },
+                                "value": "True"
+                            }
+                        ]
+                    },
+                    {
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "False",
+                                    "emoji": True
+                                },
+                                "value": "False"
+                            }
+                        ]
+                    }
+                ]
+            }
         )
-    return make_response("", 200)
+        return make_response("", 200)
+    except SlackApiError as e:
+        code = e.response["error"]
+        return make_response(f"Failed to open a modal due to {code}", 200)
 
 
 
