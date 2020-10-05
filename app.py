@@ -54,16 +54,16 @@ def reaction_added(event_data):
 
 
 #Triggering event upon new member joining
-@slack_events_adapter.on("team_join")
+@slack_events_adapter.on("member_joined_channel")
 def new_member_survey(event_data):
     if not signature_verifier.is_valid_request(request.get_data(), request.headers):
         return make_response("invalid request", 403)
     event = event_data["event"]
     channel = event["channel"]
     user = event["user"]
-    message = "Hello <@%s> Thanks for joining the chat! Please type /survey to take a quick personality survey. :tada:" % user
+    message = "Hello <@%s> Thanks for joining the c! :tada:" % user
     slack_client.chat_postMessage(channel=channel, text=message)
-
+    
 
 
 # Error events
@@ -121,7 +121,7 @@ def sampleServey():
                 "type": "modal",
                 "title": {
                     "type": "plain_text",
-                    "text": "Question 1: I am the lif of the party",
+                    "text": "Sample Servey",
                     "emoji": True
                 },
                 "submit": {
@@ -139,7 +139,7 @@ def sampleServey():
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Please select a number 1-5"
+                            "text": "Please select *True* _or_ *False*."
                         }
                     },
                     {
@@ -149,10 +149,10 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "1",
+                                    "text": "True",
                                     "emoji": True
                                 },
-                                "value": "1"
+                                "value": "True"
                             }
                         ]
                     },
@@ -163,10 +163,10 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "2",
+                                    "text": "False",
                                     "emoji": True
                                 },
-                                "value": "2"
+                                "value": "False"
                             }
                         ]
                     }
