@@ -61,9 +61,8 @@ def new_member_survey(event_data):
     event = event_data["event"]
     channel = event["channel"]
     user = event["user"]
-    message = "Hello <@%s> Thanks for joining the chat! Please type /survey to take a quick personality survey:tada:" % user
+    message = "Hello <@%s> Thanks for joining the chat! Please type /survey to take a quick personality survey. :tada:" % user
     slack_client.chat_postMessage(channel=channel, text=message)
-    
 
 
 
@@ -104,7 +103,7 @@ def hello():
         slack_client.chat_postMessage(channel=channel, text='Hello!')
         return make_response("", 200)
         # Or return json
-        payload = {'response_type': 'in_channel', 'text': 'Hello!'} 
+        payload = {'response_type': 'in_channel', 'text': 'Hello!'}
     else:
         payload = {'text': 'Bad Request'}
     # return **must be implemented**
@@ -122,7 +121,7 @@ def sampleServey():
                 "type": "modal",
                 "title": {
                     "type": "plain_text",
-                    "text": "Question 1, Please Select a number 1-5",
+                    "text": "Question 1: I am the lif of the party",
                     "emoji": True
                 },
                 "submit": {
@@ -140,7 +139,7 @@ def sampleServey():
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "I am the life of the party"
+                            "text": "Please select a number 1-5"
                         }
                     },
                     {
@@ -171,10 +170,6 @@ def sampleServey():
                             }
                         ]
                     }
-                    
-                    
-                        ]
-                    }
                 ]
             }
         )
@@ -182,8 +177,6 @@ def sampleServey():
     except SlackApiError as e:
         code = e.response["error"]
         return make_response(f"Failed to open a modal due to {code}", 200)
-#slash command for /Survey
-
 
 ###############################################################################
 
