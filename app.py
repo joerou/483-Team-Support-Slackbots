@@ -178,9 +178,9 @@ def sampleServey():
     except SlackApiError as e:
         code = e.response["error"]
         return make_response(f"Failed to open a modal due to {code}", 200)
-        
+#slash command for /Survey
 @app.route('/slack/event/Survey', methods=['POST'])
-    def sampleServey():
+    def Survey():
         if not signature_verifier.is_valid_request(request.get_data(), request.headers):
             return make_response("invalid request", 403)
         try:
