@@ -61,49 +61,9 @@ def new_member_survey(event_data):
     event = event_data["event"]
     channel = event["channel"]
     user = event["user"]
-    message = "Hello <@%s> Thanks for joining the chat! :tada:" % user
+    message = "Hello <@%s> Thanks for joining the chat! Please type /survey to take a quick personality survey:tada:" % user
     slack_client.chat_postMessage(channel=channel, text=message)
-    try:
-        open_dialog = slack_client.api_call(
-            "dialog.open",
-            trigger_id=request.form["trigger_id"],
-            dialog={
-                "label": "Question 1",
-                "submit_label": "Next",
-                "elements": [
-                    {
-                        "label": "I am the life of the party",
-                        "type": "select",
-                        "name": "question1",
-                        "placeholder": "Select a number 1-5",
-                        "options": [
-                            {
-                                "label": "1",
-                                "value": "1"
-                             },
-                             {
-                                "label": "2",
-                                "value": "2"
-                                    },
-                            {
-                                "label": "3",
-                                "value": "3"
-                                    },
-                            {
-                                "label": "4",
-                                "value": "4"
-                                    },
-                            {
-                                "label": "5",
-                                "value": "5"
-                                    }
-                        ]
-                                            }
-                ]
-                
-                                            }
-            )
-    return make_response("",200)
+    
 
 
 
@@ -218,6 +178,105 @@ def sampleServey():
     except SlackApiError as e:
         code = e.response["error"]
         return make_response(f"Failed to open a modal due to {code}", 200)
+        
+@app.route('/slack/event/Survey', methods=['POST'])
+    def sampleServey():
+        if not signature_verifier.is_valid_request(request.get_data(), request.headers):
+            return make_response("invalid request", 403)
+        try:
+            api_response = slack_client.views_open(
+                trigger_id=request.form["trigger_id"],
+                view={
+                    "type": "modal",
+                    "title": {
+                        "type": "plain_text",
+                        "text": "Question 1",
+                        "emoji": True
+                        },
+                    "submit": {
+                        "type": "plain_text",
+                        "text": "Next",
+                        "emoji": True
+                        },
+                    "close": {
+                        "type": "plain_text",
+                        "text": "Cancel",
+                        "emoji": True
+                        },
+                    "blocks": [
+                            {
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Please Select a Number 1-5"
+                                }
+                            },
+                            {
+                            "type": "actions",
+                            "elements": [
+                                    {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "1",
+                                        },
+                                    "value": "1"
+                                    }
+                                ]
+                            },
+                            {
+                            "type": "actions",
+                            "elements": [
+                                    {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "2",
+                                        },
+                                    "value": "2"
+                                    },
+                            {
+                            "type": "actions",
+                            "elements": [
+                                    {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "3",
+                                        },
+                                    "value": "3"
+                                    },
+                            {
+                            "type": "actions",
+                            "elements": [
+                                    {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "4",
+                                        },
+                                    "value": "4"
+                                    },
+                            {
+                            "type": "actions",
+                            "elements": [
+                                    {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "5",
+                                        },
+                                    "value": "5"
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                )
+            return make_response("", 200)
+        except SlackApiError as e:
+            code = e.response["error"]
+            return make_response(f"Failed to open a modal due to {code}", 200)
 
 ###############################################################################
 
