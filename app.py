@@ -126,7 +126,7 @@ def sampleServey():
                 },
                 "submit": {
                     "type": "plain_text",
-                    "text": "Next",
+                    "text": "Submit",
                     "emoji": True
                 },
                 "close": {
@@ -139,7 +139,7 @@ def sampleServey():
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Please select a number 1-5"
+                            "text": "Please select *True* _or_ *False*."
                         }
                     },
                     {
@@ -149,10 +149,10 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "1",
+                                    "text": "True",
                                     "emoji": True
                                 },
-                                "value": "1"
+                                "value": "True"
                             }
                         ]
                     },
@@ -163,10 +163,10 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "2",
+                                    "text": "False",
                                     "emoji": True
                                 },
-                                "value": "2"
+                                "value": "False"
                             }
                         ]
                     }
