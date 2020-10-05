@@ -121,7 +121,7 @@ def sampleServey():
                 "type": "modal",
                 "title": {
                     "type": "plain_text",
-                    "text": "Question 1: I am the life of the party",
+                    "text": "Question 1 I am the life of the party",
                     "emoji": True
                 },
                 "submit": {
