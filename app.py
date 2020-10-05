@@ -61,9 +61,9 @@ def new_member_survey(event_data):
     event = event_data["event"]
     channel = event["channel"]
     user = event["user"]
-    message = "Hello <@%s> Thanks for joining the c! :tada:" % user
+    message = "Hello <@%s> Thanks for joining the chat! :tada:" % user
     slack_client.chat_postMessage(channel=channel, text=message)
-    
+
 
 
 # Error events
@@ -121,7 +121,7 @@ def sampleServey():
                 "type": "modal",
                 "title": {
                     "type": "plain_text",
-                    "text": "Question 1 I am the life of the party",
+                    "text": "Sample Servey",
                     "emoji": True
                 },
                 "submit": {
