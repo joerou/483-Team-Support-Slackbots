@@ -121,7 +121,7 @@ def sampleServey():
                 "type": "modal",
                 "title": {
                     "type": "plain_text",
-                    "text": "Sample Servey",
+                    "text": "I am the life of the party",
                     "emoji": True
                 },
                 "submit": {
@@ -149,7 +149,7 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "True",
+                                    "text": "1",
                                     "emoji": True
                                 },
                                 "value": "True"
@@ -163,7 +163,7 @@ def sampleServey():
                                 "type": "button",
                                 "text": {
                                     "type": "plain_text",
-                                    "text": "False",
+                                    "text": "2",
                                     "emoji": True
                                 },
                                 "value": "False"
