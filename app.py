@@ -54,7 +54,7 @@ def reaction_added(event_data):
 
 
 #Triggering event upon new member joining
-@slack_events_adapter.on("member_joined_channel")
+@slack_events_adapter.on("team_join")
 def new_member_survey(event_data):
     if not signature_verifier.is_valid_request(request.get_data(), request.headers):
         return make_response("invalid request", 403)
