@@ -61,8 +61,41 @@ def new_member_survey(event_data):
     event = event_data["event"]
     channel = event["channel"]
     user = event["user"]
-    message = "Hello <@%s> Thanks for joining the chat! :tada:" % user
+    message = "Hello <@%s> Thanks for joining the c! :tada:" % user
     slack_client.chat_postMessage(channel=channel, text=message)
+    api_response = slack_client.views_open(
+            trigger_id=request.form["trigger_id"],
+            view={
+                    "label": "I am the life of the party",
+                    "name": "question1",
+                    "type": "select",
+                    "options": [
+                        {
+                            "label": "1",
+                            "value": "1"
+                        },
+                        {
+                            "label": "2",
+                            "value": "2"
+                        },
+                        {
+                            "label": "3",
+                            "value": "3"
+                        },
+                        {
+                            "label": "4",
+                            "value": "4"
+                        },
+                        {
+
+
+                            "label": "5",
+                            "value": "5"
+                        }
+                    ]
+                }
+        )
+    return make_response("", 200)
 
 
 
