@@ -170,47 +170,9 @@ def sampleServey():
                                 "value": "2"
                             }
                         ]
-                    },
-                    {
-                        "type": "actions",
-                        "elements": [
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "3",
-                                    "emoji": True
-                                },
-                                "value": "3"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "actions",
-                        "elements": [
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "4",
-                                    "emoji": True
-                                },
-                                "value": "4"
-                            }
-                        ]
-                    },
-                    {
-                        "type": "actions",
-                        "elements": [
-                            {
-                                "type": "button",
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "5",
-                                    "emoji": True
-                                },
-                                "value": "5"
-                            }
+                    }
+                    
+                    
                         ]
                     }
                 ]
