@@ -188,58 +188,45 @@ def survey():
         api_response = slack_client.views_open(
             trigger_id=request.form["trigger_id"],
             view={
-                    "type": "modal",
-                    "title": {
-                        "type": "plain_text",
-                        "text": "Sample Servey",
-                        "emoji": True
-                    },
-                    "submit": {
-                        "type": "plain_text",
-                        "text": "Submit",
-                        "emoji": True
-                    },
-                    "close": {
-                        "type": "plain_text",
-                        "text": "Cancel",
-                        "emoji": True
-                    },
                     "blocks": [
                         {
-                            "type": "section",
-                            "text": {
-                                "type": "mrkdwn",
-                                "text": "Please select *True* _or_ *False*."
-                            }
-                        },
-                        {
-                            "type": "actions",
-                            "elements": [
-                                {
-                                    "type": "select",
-                                    "text": {
-                                        "type": "plain_text",
-                                        "text": "I am the life of the party",
-                                        "emoji": True
-                                    },
-                                    "value": "True"
-                                }
-                            ]
-                        },
-                        {
-                            "type": "actions",
-                            "elements": [
-                                {
-                                    "type": "button",
-                                    "text": {
-                                        "type": "plain_text",
-                                        "text": "False",
-                                        "emoji": True
-                                    },
-                                    "value": "False"
-                                }
-                            ]
-                        }
+                        "type": "actions",
+                        "elements": [
+                            {
+                                "type": "select",
+                               },
+                               {
+                               "option_groups": [
+                                    {
+                                        "label": "I am the life of the party",
+                                        "options": [
+                                            {
+                                                "label": "1",
+                                                "value": "value-1"
+                                                 },
+                                            {
+                                                "label": "2",
+                                                "value": "value-2"
+                                                    },
+                                            {
+                                                "label": "3",
+                                                "value": "value-3"
+                                                    },
+                                            {
+                                                "label": "4",
+                                                "value": "value-4"
+                                                    },
+                                            {
+                                                "label": "5",
+                                                "value": "value-5"
+                                                    }
+                                            
+                                        ]
+                                     }
+                               ]
+                                     }
+                        ]
+                                               }
                     ]
                 }
             )
