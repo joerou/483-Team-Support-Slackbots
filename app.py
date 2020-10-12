@@ -177,6 +177,80 @@ def sampleServey():
     except SlackApiError as e:
         code = e.response["error"]
         return make_response(f"Failed to open a modal due to {code}", 200)
+        
+        
+#slash command for survey
+@app.route('/slack/event/survey', methods=['POST'])
+def sampleServey():
+    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
+        return make_response("invalid request", 403)
+    try:
+        api_response = slack_client.views_open(
+            trigger_id=request.form["trigger_id"],
+            view={
+            {
+                "label": "Choose a number 1-5",
+                "name": "survey",
+                "type": "select",
+                "option_groups":[
+                {
+                    "label": "I am the life of the party",
+                    "options": [
+                    {
+                        "label": "1",
+                        "value": "1"
+                    },
+                    {
+                        "label": "2",
+                        "value": "2"
+                    },
+                    {
+                    "label": "3",
+                    "value": "3"
+                    },
+                    {
+                    "label": "4",
+                    "value": "4"
+                    },
+                    {
+                    "label": "5",
+                    "value": "5"
+                    }
+                    ]
+                },
+                {
+                    "label": "Feel little concerns for others",
+                    "options": [
+                    {
+                        "label": "1",
+                        "value": "1"
+                    },
+                    {
+                        "label": "2",
+                        "value": "2"
+                    },
+                    {
+                        "label": "3",
+                        "value": "3"
+                    },
+                    {
+                        "label": "4",
+                        "value": "4"
+                    },
+                    {
+                        "label": "5",
+                        "value": "5"
+                    }
+                    
+                    ]
+                },
+            ]
+         }
+        )
+        return make_response("", 200)
+    except SlackApiError as e:
+        code = e.response["error"]
+        return make_response(f"Failed to open a modal due to {code}", 200)
 
 ###############################################################################
 
