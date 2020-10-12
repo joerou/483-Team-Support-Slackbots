@@ -181,7 +181,7 @@ def sampleServey():
         
 #slash command for survey
 @app.route('/slack/event/survey', methods=['POST'])
-def sampleServey():
+def survey():
     if not signature_verifier.is_valid_request(request.get_data(), request.headers):
         return make_response("invalid request", 403)
     try:
