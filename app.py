@@ -216,10 +216,10 @@ def survey():
                             "type": "actions",
                             "elements": [
                                 {
-                                    "type": "button",
+                                    "type": "select",
                                     "text": {
                                         "type": "plain_text",
-                                        "text": "True",
+                                        "text": "I am the life of the party",
                                         "emoji": True
                                     },
                                     "value": "True"
