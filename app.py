@@ -61,7 +61,7 @@ def new_member_survey(event_data):
     event = event_data["event"]
     channel = event["channel"]
     user = event["user"]
-    message = "Hello <@%s> Thanks for joining the chat! :tada:" % user
+    message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey with /survey :tada:" % user
     slack_client.chat_postMessage(channel=channel, text=message)
 
 
