@@ -1,15 +1,14 @@
+import logging
 import os
-import json
-from flask import Flask, request, jsonify, make_response
-from slackeventsapi import SlackEventAdapter
-from slack import WebClient
-from slack.signature import SignatureVerifier
-from slack.errors import SlackApiError
+from slack_bolt import App
+from flask import Flask, request
 
-# import time
-# import hashlib
-# import hmac
-
+# logging
+logging.basicConfig(level=logging.DEBUG)
+bolt_app = App(
+    token=os.environ.get("SLACK_BOT_TOKEN"),
+    signing_secret=os.environ.get("SLACK_SIGNING_SECRET")
+)
 
 # Initialize a Flask app to host the events adapter
 app = Flask(__name__)
@@ -24,99 +23,97 @@ slack_bot_token = os.environ["SLACK_BOT_TOKEN"]
 slack_client = WebClient(slack_bot_token)
 
 ###############################################################################
-# events handler
+# message handler
 ###############################################################################
 
-# Example responder to greetings
-@slack_events_adapter.on("message")
-def handle_message(event_data):
-    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
-        return make_response("invalid request", 403)
-    message = event_data["event"]
-    # If the incoming message contains "hi", then respond with a "Hello" message
-    if message.get("subtype") is None and "hi" in message.get('text'):
-        channel = message["channel"]
-        message = "Hello <@%s>! :tada:" % message["user"]
-        slack_client.chat_postMessage(channel=channel, text=message)
+# Listens to incoming messages that contain "hello"
+@bolt_app.message("hello")
+def message_hello(message, say):
+    # say() sends a message to the channel where the event was triggered
+    say(
+        blocks=[
+            {
+                "type": "section",
+                "text": {"type": "mrkdwn", "text": f"Hey there <@{message['user']}>!"},
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "Click Me"},
+                    "action_id": "button_click"
+                }
+            }
+        ],
+        text=f"Hey there <@{message['user']}>!"
+    )
+
+@bolt_app.action("button_click")
+def action_button_click(body, ack, say):
+    # Acknowledge the action
+    ack()
+    say(f"<@{body['user']['id']}> clicked the button")
+
+# # Example responder to greetings
+# @slack_events_adapter.on("message")
+# def handle_message(event_data):
+#     message = event_data["event"]
+#     # If the incoming message contains "hi", then respond with a "Hello" message
+#     if message.get("subtype") is None and "hi" in message.get('text'):
+#         channel = message["channel"]
+#         message = "Hello <@%s>! :tada:" % message["user"]
+#         slack_client.chat_postMessage(channel=channel, text=message)
 
 
 # Example reaction emoji echo
-@slack_events_adapter.on("reaction_added")
-def reaction_added(event_data):
-    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
-        return make_response("invalid request", 403)
-    event = event_data["event"]
+@bolt_app.event("reaction_added")
+def reaction_added(event, say):
     emoji = event["reaction"]
     channel = event["item"]["channel"]
     text = ":%s:" % emoji
-    slack_client.chat_postMessage(channel=channel, text=text)
+    say(channel=channel, text=text)
 
 
 
 #Triggering event upon new member joining
-@slack_events_adapter.on("member_joined_channel")
-def new_member_survey(event_data):
-    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
-        return make_response("invalid request", 403)
-    event = event_data["event"]
+@bolt_app.event("member_joined_channel")
+def new_member_survey(event):
     channel = event["channel"]
     user = event["user"]
     message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey with /survey :tada:" % user
-    slack_client.chat_postMessage(channel=channel, text=message)
+    say(channel=channel, text=message)
 
 
 
 # Error events
-@slack_events_adapter.on("error")
+@bolt_app.event("error")
 def error_handler(err):
     print("ERROR: " + str(err))
 
 ###############################################################################
-# slash commend handler
+# slash command handler
 ###############################################################################
 
-# Use provided slack python api instead
-# # Validate if the requset is actually from slack
-# def validate_request():
-#     request_body = request.get_data().decode('utf-8')
-#     timestamp = request.headers['X-Slack-Request-Timestamp']
-#     if abs(time.time() - float(timestamp)) > 60 * 5:
-#         return False
-#     sig_basestring = 'v0:' + timestamp + ':' + request_body
-#     my_signature = 'v0=' + hmac.new(
-#         key=slack_signing_secret.encode('utf-8'),
-#         msg=sig_basestring.encode('utf-8'),
-#         digestmod=hashlib.sha256
-#     ).hexdigest()
-#     slack_signature = request.headers['X-Slack-Signature']
-#     if not hmac.compare_digest(my_signature, slack_signature):
-#         return False
-#     return True
+# Sample slash command "/hello"
+@bolt_app.command('/hello')
+def hello(ack, say):
+    # Acknowledge command request
+    ack()
+    # Send 'Hello!' to channel
+    say('Hello!')
 
-# Sample slash commend "/hello"
-@app.route('/slack/event/hello', methods=['POST'])
-def hello():
-    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
-        # Send 'Hello!' to channel
-        # use webClient methods
-        channel = request.form['channel_id']
-        slack_client.chat_postMessage(channel=channel, text='Hello!')
-        return make_response("", 200)
-        # Or return json
-        payload = {'response_type': 'in_channel', 'text': 'Hello!'}
-    else:
-        payload = {'text': 'Bad Request'}
-    # return **must be implemented**
-    return jsonify(payload)
 
-# Sample slash commend "/sampleServey"
-@app.route('/slack/event/sampleServey', methods=['POST'])
-def sampleServey():
-    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
-        return make_response("invalid request", 403)
+# The echo command simply echoes on command
+@bolt_app.command("/echo")
+def repeat_text(ack, say, command):
+    # Acknowledge command request
+    ack()
+    say(f"{command['text']}")
+
+# Sample slash command "/sampleservey"
+@bolt_app.command('/sampleservey')
+def sampleServey(ack, body):
+    ack()
     try:
-        api_response = slack_client.views_open(
-            trigger_id=request.form["trigger_id"],
+        client.views_open(
+            trigger_id=body["trigger_id"],
             view={
                 "type": "modal",
                 "title": {
@@ -173,19 +170,16 @@ def sampleServey():
                 ]
             }
         )
-        return make_response("", 200)
-    except SlackApiError as e:
-        code = e.response["error"]
-        return make_response(f"Failed to open a modal due to {code}", 200)
+    except Exception as e:
+        logger.error(f"Error opening modal: {e}")
         
         
 #slash command for survey
-@app.route('/slack/event/survey', methods=['POST'])
+@bolt_app.command('/servey')
 def survey():
-    if not signature_verifier.is_valid_request(request.get_data(), request.headers):
-        return make_response("invalid request", 403)
+    ack()
     try:
-        api_response = slack_client.views_open(
+        client.views_open(
             trigger_id=request.form["trigger_id"],
             view={
                     "blocks": [
@@ -230,10 +224,8 @@ def survey():
                     ]
                 }
             )
-        return make_response("", 200)
-    except SlackApiError as e:
-        code = e.response["error"]
-        return make_response(f"Failed to open a modal due to {code}", 200)
+    except Exception as e:
+        logger.error(f"Error opening modal: {e}")
 
 ###############################################################################
 
@@ -241,4 +233,4 @@ def survey():
 # Flask server with the default `/events` endpoint on port 3000
 if __name__ == "__main__":
 # slack_events_adapter.start(port=3000)
-    app.run(port=3000)
+    app.run(debug=True, port=int(os.environ.get("PORT", 3000)))

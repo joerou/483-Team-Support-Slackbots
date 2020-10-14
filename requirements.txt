@@ -1,5 +1,2 @@
-wheel
-uwsgi
-flask
-slackclient>=2.7.1
-slackeventsapi>=2.1.0
+slack_bolt
+Flask>=1.1,<2
