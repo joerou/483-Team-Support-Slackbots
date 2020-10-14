@@ -2,6 +2,7 @@ import logging
 import os
 from slack_bolt import App
 from flask import Flask, request
+from slack_bolt.adapter.flask import SlackRequestHandler
 
 # logging
 logging.basicConfig(level=logging.DEBUG)
@@ -12,7 +13,12 @@ bolt_app = App(
 
 # Initialize a Flask app to host the events adapter
 app = Flask(__name__)
+handler = SlackRequestHandler(bolt_app)
 
+@app.route("/slack/events", methods=["POST"])
+def slack_events():
+    return handler.handle(request)
+    
 ###############################################################################
 # message handler
 ###############################################################################
