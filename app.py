@@ -15,10 +15,10 @@ bolt_app = App(
 app = Flask(__name__)
 handler = SlackRequestHandler(bolt_app)
 
-@app.route("/slack/events", methods=["POST"])
+@app.route("/slack/event", methods=["POST"])
 def slack_events():
     return handler.handle(request)
-    
+
 ###############################################################################
 # message handler
 ###############################################################################
@@ -105,7 +105,7 @@ def repeat_text(ack, say, command):
     say(f"{command['text']}")
 
 # Sample slash command "/sampleservey"
-@bolt_app.command('/sampleservey')
+@bolt_app.command('/sampleServey')
 def sampleServey(ack, body):
     ack()
     try:
