@@ -13,15 +13,6 @@ bolt_app = App(
 # Initialize a Flask app to host the events adapter
 app = Flask(__name__)
 
-# Our app's Slack Event Adapter for receiving actions via the Events API
-slack_signing_secret = os.environ["SLACK_SIGNING_SECRET"]
-slack_events_adapter = SlackEventAdapter(slack_signing_secret, "/slack/event", app)
-signature_verifier = SignatureVerifier(slack_signing_secret)
-
-# Create a SlackClient for your bot to use for Web API requests
-slack_bot_token = os.environ["SLACK_BOT_TOKEN"]
-slack_client = WebClient(slack_bot_token)
-
 ###############################################################################
 # message handler
 ###############################################################################
