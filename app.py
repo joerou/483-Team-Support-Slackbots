@@ -29,8 +29,8 @@ def slack_events():
 
 # Initialize the Cosmos client
 cosmos = CosmosClient(
-    endpoint=os.environ.get("AZURE_COSMOS_ENDPOINT"),
-    key=os.environ.get("AZURE_COSMOS_MASTER_KEY")
+    url=os.environ.get("AZURE_COSMOS_ENDPOINT"),
+    credential=os.environ.get("AZURE_COSMOS_MASTER_KEY")
 )
 
 # Create a database
@@ -211,48 +211,47 @@ def survey(ack, body, client, logger):
         client.views_open(
             trigger_id=request.form["trigger_id"],
             view={
-                    "blocks": [
+                "blocks": [
+                    {
+                    "type": "actions",
+                    "elements": [
                         {
-                        "type": "actions",
-                        "elements": [
+                            "type": "select",
+                        },
+                        {
+                        "option_groups": [
                             {
-                                "type": "select",
-                               },
-                               {
-                               "option_groups": [
+                                "label": "I am the life of the party",
+                                "options": [
                                     {
-                                        "label": "I am the life of the party",
-                                        "options": [
-                                            {
-                                                "label": "1",
-                                                "value": "value-1"
-                                                 },
-                                            {
-                                                "label": "2",
-                                                "value": "value-2"
-                                                    },
-                                            {
-                                                "label": "3",
-                                                "value": "value-3"
-                                                    },
-                                            {
-                                                "label": "4",
-                                                "value": "value-4"
-                                                    },
-                                            {
-                                                "label": "5",
-                                                "value": "value-5"
-                                                    }
-                                            
-                                        ]
-                                     }
-                               ]
-                                     }
+                                        "label": "1",
+                                        "value": "value-1"
+                                    },
+                                    {
+                                        "label": "2",
+                                        "value": "value-2"
+                                    },
+                                    {
+                                        "label": "3",
+                                        "value": "value-3"
+                                    },
+                                    {
+                                        "label": "4",
+                                        "value": "value-4"
+                                    },
+                                    {
+                                        "label": "5",
+                                        "value": "value-5"
+                                    }    
+                                ]
+                            }
                         ]
-                                               }
+                        }
                     ]
-                }
-            )
+                    }
+                ]
+            }
+        )
     except Exception as e:
         logger.error(f"Error opening modal: {e}")
 
