@@ -51,7 +51,7 @@ msgDB = database.create_container_if_not_exists(
 ###############################################################################
 
 # Listing on all messages
-@bolt_app.message()
+@bolt_app.message("")
 def log_message(message):
     msg = {
         'timestamp' : message["ts"],
