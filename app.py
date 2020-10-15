@@ -47,6 +47,25 @@ msgDB = database.create_container_if_not_exists(
 )
 
 ###############################################################################
+# Global Middleware
+###############################################################################
+
+# Log on all messages
+@app.use
+def log_message(payload, next):
+    if (payload["type"]=="message"):
+        # id is required
+        msg = {
+            'id' : payload["ts"],
+            'channel': payload["channel"],
+            'user': payload["user"],
+            'message': payload["text"],
+            'mention': None
+        }
+        msgDB.create_item(msg)
+    next()
+
+###############################################################################
 # Message Handler
 ###############################################################################
 
@@ -82,20 +101,6 @@ def action_button_click(body, ack, say):
 ###############################################################################
 # Event Handler
 ###############################################################################
-
-# Listing on all messages
-@bolt_app.event("message")
-def log_message(message):
-    if (message["channel"]["name"]!="directmessage"):
-        # id is required
-        msg = {
-            'id' : message["ts"],
-            'channel': message["channel"],
-            'user': message["user"],
-            'message': message["text"],
-            'mention': None
-        }
-        msgDB.create_item(msg)
 
 # Example reaction emoji echo
 @bolt_app.event("reaction_added")
@@ -140,9 +145,8 @@ def repeat_text(ack, say, command):
 
 # Sample slash command "/samplesurvey"
 @bolt_app.command('/samplesurvey')
-def sampleSurvey(ack, body, say, client, logger):
+def sampleSurvey(ack, body, client, logger):
     ack()
-    say('samplesurvey')
     try:
         client.views_open(
             trigger_id=body["trigger_id"],
@@ -212,7 +216,7 @@ def survey(ack, body, client, logger):
     ack()
     try:
         client.views_open(
-            trigger_id=request.form["trigger_id"],
+            trigger_id=body["trigger_id"],
             view={
                 "blocks": [
                     {
