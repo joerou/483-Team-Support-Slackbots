@@ -15,7 +15,7 @@ bolt_app = App(
 app = Flask(__name__)
 handler = SlackRequestHandler(bolt_app)
 
-@app.route("/slack/event", methods=["POST"])
+@app.route("/slack/events", methods=["POST"])
 def slack_events():
     return handler.handle(request)
 
