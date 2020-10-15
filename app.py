@@ -123,7 +123,7 @@ def action_button_click(ack, body, say):
 def action_button_click(ack, body, say):
     # Acknowledge the action
     ack()
-    say(f"<@{body['user']}> is taking the survey!")
+    say(f"<@{body['user']['id']}> is taking the survey!")
 
 ###############################################################################
 # Event Handler
@@ -151,7 +151,7 @@ def new_member_survey(ack, event, say):
                 "text": {"type": "mrkdwn", "text": message},
                 "accessory": {
                     "type": "button",
-                    "text": {"type": "plain_text", "text": "take survey"},
+                    "text": {"type": "plain_text", "text": "Take Survey"},
                     "action_id": "take_survey"
                 }
             }
