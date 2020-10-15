@@ -57,9 +57,8 @@ def log_request(logger, body, next):
     return next()
 
 # Log all messages
-def log_message(context, payload, logger, next):
-    # if (context["logged"]==None):
-    #     context["logged"]==True
+@bolt_app.middleware
+def log_message(payload, logger, next):
     # id is required
     msg = {
         'id' : payload["ts"],
@@ -79,7 +78,7 @@ def log_message(context, payload, logger, next):
 ###############################################################################
 
 # Listens to incoming messages that contain "hello"
-@bolt_app.message("hello", middleware=[log_message])
+@bolt_app.message("hello")
 def message_hello(ack, message, say):
     # say() sends a message to the channel where the event was triggered
     ack()
@@ -99,7 +98,7 @@ def message_hello(ack, message, say):
     )
 
 # handle all messages
-@bolt_app.message("", middleware=[log_message])
+@bolt_app.message("")
 def message_rest(ack):
     ack()
 
