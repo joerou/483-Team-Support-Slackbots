@@ -51,16 +51,21 @@ msgDB = database.create_container_if_not_exists(
 ###############################################################################
 
 # Log all messages
-def log_message(payload, next):
-    # id is required
-    msg = {
-        'id' : payload["ts"],
-        'channel': payload["channel"],
-        'user': payload["user"],
-        'message': payload["text"],
-        'mention': None
-    }
-    msgDB.create_item(msg)
+def log_message(context, payload, logger, next):
+    if (context["logged"]==None):
+        context["logged"]==True
+        # id is required
+        msg = {
+            'id' : payload["ts"],
+            'channel': payload["channel"],
+            'user': payload["user"],
+            'message': payload["text"],
+            'mention': None
+        }
+        try:
+            msgDB.create_item(msg)
+        except Exception as e:
+            logger.error(f"Error logging message: {e}")
     next()
 
 ###############################################################################
@@ -87,9 +92,9 @@ def message_hello(message, say):
     )
 
 # handle all messages
-# @bolt_app.message("", middleware=[log_message])
-# def message_rest():
-#     pass
+@bolt_app.message("", middleware=[log_message])
+def message_rest():
+    pass
 
 ###############################################################################
 # Action Handler
