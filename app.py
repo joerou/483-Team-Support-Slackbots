@@ -54,11 +54,11 @@ msgDB = database.create_container_if_not_exists(
 @bolt_app.message("")
 def log_message(message):
     msg = {
-        'timestamp' : message["ts"],
+        'id' : message["ts"],
         'channel': message["channel"],
         'user': message["user"],
         'message': message["text"],
-        'mention': None,
+        'mention': None
     }
     msgDB.create_item(msg)
 
