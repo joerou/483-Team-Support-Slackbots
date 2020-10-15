@@ -12,11 +12,6 @@ from azure.cosmos import exceptions, CosmosClient, PartitionKey
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
 
-@app.middleware
-def log_request(logger: logging.Logger, body: dict, next: Callable):
-    logger.debug(body)
-    return next()
-
 # Initialize bolt
 bolt_app = App(
     token=os.environ.get("SLACK_BOT_TOKEN"),
@@ -52,8 +47,14 @@ msgDB = database.create_container_if_not_exists(
 )
 
 ###############################################################################
-# Listener Middleware
+# Middleware
 ###############################################################################
+
+# log request
+@bolt_app.middleware
+def log_request(logger: logging.Logger, body: dict, next: Callable):
+    logger.debug(body)
+    return next()
 
 # Log all messages
 def log_message(context, payload, logger, next):
