@@ -12,6 +12,11 @@ from azure.cosmos import exceptions, CosmosClient, PartitionKey
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
 
+@app.middleware
+def log_request(logger: logging.Logger, body: dict, next: Callable):
+    logger.debug(body)
+    return next()
+
 # Initialize bolt
 bolt_app = App(
     token=os.environ.get("SLACK_BOT_TOKEN"),
@@ -52,20 +57,20 @@ msgDB = database.create_container_if_not_exists(
 
 # Log all messages
 def log_message(context, payload, logger, next):
-    if (context["logged"]==None):
-        context["logged"]==True
-        # id is required
-        msg = {
-            'id' : payload["ts"],
-            'channel': payload["channel"],
-            'user': payload["user"],
-            'message': payload["text"],
-            'mention': None
-        }
-        try:
-            msgDB.create_item(msg)
-        except Exception as e:
-            logger.error(f"Error logging message: {e}")
+    # if (context["logged"]==None):
+    #     context["logged"]==True
+    # id is required
+    msg = {
+        'id' : payload["ts"],
+        'channel': payload["channel"],
+        'user': payload["user"],
+        'message': payload["text"],
+        'mention': None
+    }
+    try:
+        msgDB.create_item(msg)
+    except Exception as e:
+        logger.error(f"Error logging message: {e}")
     next()
 
 ###############################################################################
@@ -74,8 +79,9 @@ def log_message(context, payload, logger, next):
 
 # Listens to incoming messages that contain "hello"
 @bolt_app.message("hello", middleware=[log_message])
-def message_hello(message, say):
+def message_hello(ack, message, say):
     # say() sends a message to the channel where the event was triggered
+    ack()
     say(
         blocks=[
             {
@@ -93,15 +99,15 @@ def message_hello(message, say):
 
 # handle all messages
 @bolt_app.message("", middleware=[log_message])
-def message_rest():
-    pass
+def message_rest(ack):
+    ack()
 
 ###############################################################################
 # Action Handler
 ###############################################################################
 
 @bolt_app.action("button_click")
-def action_button_click(body, ack, say):
+def action_button_click(ack, body, say):
     # Acknowledge the action
     ack()
     say(f"<@{body['user']['id']}> clicked the button")
@@ -112,7 +118,8 @@ def action_button_click(body, ack, say):
 
 # Example reaction emoji echo
 @bolt_app.event("reaction_added")
-def reaction_added(event, say):
+def reaction_added(ack, event, say):
+    ack()
     emoji = event["reaction"]
     channel = event["item"]["channel"]
     text = ":%s:" % emoji
@@ -120,7 +127,8 @@ def reaction_added(event, say):
 
 #Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
-def new_member_survey(event, say):
+def new_member_survey(ack, event, say):
+    ack()
     channel = event["channel"]
     user = event["user"]
     message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey with /survey :tada:" % user
