@@ -89,7 +89,7 @@ def message_hello(message, say):
 
 # handle all messages
 @bolt_app.message("", middleware=[log_message])
-def message_hello():
+def message_rest():
     pass
 
 ###############################################################################
