@@ -51,7 +51,6 @@ msgDB = database.create_container_if_not_exists(
 ###############################################################################
 
 # Log all messages
-@bolt_app.use
 def log_message(payload, next):
     # id is required
     msg = {
@@ -88,9 +87,9 @@ def message_hello(message, say):
     )
 
 # handle all messages
-@bolt_app.message("", middleware=[log_message])
-def message_rest():
-    pass
+# @bolt_app.message("", middleware=[log_message])
+# def message_rest():
+#     pass
 
 ###############################################################################
 # Action Handler
