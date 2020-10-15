@@ -50,18 +50,6 @@ msgDB = database.create_container_if_not_exists(
 # Message Handler
 ###############################################################################
 
-# Listing on all messages
-@bolt_app.message("")
-def log_message(message):
-    msg = {
-        'id' : message["ts"],
-        'channel': message["channel"],
-        'user': message["user"],
-        'message': message["text"],
-        'mention': None
-    }
-    msgDB.create_item(msg)
-
 # Listens to incoming messages that contain "hello"
 @bolt_app.message("hello")
 def message_hello(message, say):
@@ -94,6 +82,20 @@ def action_button_click(body, ack, say):
 ###############################################################################
 # Event Handler
 ###############################################################################
+
+# Listing on all messages
+@bolt_app.event("message")
+def log_message(message):
+    if (message["channel"]["name"]!="directmessage"):
+        # id is required
+        msg = {
+            'id' : message["ts"],
+            'channel': message["channel"],
+            'user': message["user"],
+            'message': message["text"],
+            'mention': None
+        }
+        msgDB.create_item(msg)
 
 # Example reaction emoji echo
 @bolt_app.event("reaction_added")
@@ -136,8 +138,8 @@ def repeat_text(ack, say, command):
     ack()
     say(f"{command['text']}")
 
-# Sample slash command "/sampleservey"
-@bolt_app.command('/sampleServey')
+# Sample slash command "/samplesurvey"
+@bolt_app.command('/samplesurvey')
 def sampleServey(ack, body, client, logger):
     ack()
     try:
@@ -204,7 +206,7 @@ def sampleServey(ack, body, client, logger):
         
         
 #slash command for survey
-@bolt_app.command('/servey')
+@bolt_app.command('/survey')
 def survey(ack, body, client, logger):
     ack()
     try:
