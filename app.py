@@ -132,7 +132,7 @@ def hello(ack, say):
 
 
 # The echo command simply echoes on command
-@bolt_app.command("/echo")
+@bolt_app.command('/echo')
 def repeat_text(ack, say, command):
     # Acknowledge command request
     ack()
@@ -140,8 +140,9 @@ def repeat_text(ack, say, command):
 
 # Sample slash command "/samplesurvey"
 @bolt_app.command('/samplesurvey')
-def sampleServey(ack, body, client, logger):
+def sampleSurvey(ack, body, say, client, logger):
     ack()
+    say('samplesurvey')
     try:
         client.views_open(
             trigger_id=body["trigger_id"],
