@@ -72,7 +72,7 @@ def log_message(payload, logger, next):
             msgDB.create_item(msg)
         except Exception as e:
             logger.error(f"Error logging message: {e}")
-    next()
+    return next()
 
 ###############################################################################
 # Message Handler
