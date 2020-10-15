@@ -47,22 +47,21 @@ msgDB = database.create_container_if_not_exists(
 )
 
 ###############################################################################
-# Global Middleware
+# Listener Middleware
 ###############################################################################
 
-# Log on all messages
+# Log all messages
 @bolt_app.use
 def log_message(payload, next):
-    if (payload["type"]=="message"):
-        # id is required
-        msg = {
-            'id' : payload["ts"],
-            'channel': payload["channel"],
-            'user': payload["user"],
-            'message': payload["text"],
-            'mention': None
-        }
-        msgDB.create_item(msg)
+    # id is required
+    msg = {
+        'id' : payload["ts"],
+        'channel': payload["channel"],
+        'user': payload["user"],
+        'message': payload["text"],
+        'mention': None
+    }
+    msgDB.create_item(msg)
     next()
 
 ###############################################################################
@@ -70,7 +69,7 @@ def log_message(payload, next):
 ###############################################################################
 
 # Listens to incoming messages that contain "hello"
-@bolt_app.message("hello")
+@bolt_app.message("hello", middleware=[log_message])
 def message_hello(message, say):
     # say() sends a message to the channel where the event was triggered
     say(
@@ -87,6 +86,11 @@ def message_hello(message, say):
         ],
         text=f"Hey there <@{message['user']}>!"
     )
+
+# handle all messages
+@bolt_app.message("", middleware=[log_message])
+def message_hello():
+    pass
 
 ###############################################################################
 # Action Handler
