@@ -51,7 +51,7 @@ msgDB = database.create_container_if_not_exists(
 ###############################################################################
 
 # Log on all messages
-@app.use
+@bolt_app.use
 def log_message(payload, next):
     if (payload["type"]=="message"):
         # id is required
