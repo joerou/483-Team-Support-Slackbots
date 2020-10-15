@@ -1,3 +1,4 @@
+import sys
 import logging
 import os
 from slack_bolt import App
@@ -27,10 +28,16 @@ handler = SlackRequestHandler(bolt_app)
 def slack_events():
     return handler.handle(request)
 
+# Create a logger for the 'azure' SDK and configure a console output
+azureLogger = logging.getLogger('azure')
+azureLogger.setLevel(logging.DEBUG)
+azureLogger.addHandler(logging.StreamHandler(stream=sys.stdout))
+
 # Initialize the Cosmos client
 cosmos = CosmosClient(
     url=os.environ.get("AZURE_COSMOS_ENDPOINT"),
-    credential=os.environ.get("AZURE_COSMOS_MASTER_KEY")
+    credential=os.environ.get("AZURE_COSMOS_MASTER_KEY"),
+    logging_enable=True
 )
 
 # Create a database
