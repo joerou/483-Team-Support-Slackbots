@@ -52,7 +52,7 @@ msgDB = database.create_container_if_not_exists(
 
 # log request
 @bolt_app.middleware
-def log_request(logger: logging.Logger, body: dict, next: Callable):
+def log_request(logger, body, next):
     logger.debug(body)
     return next()
 
