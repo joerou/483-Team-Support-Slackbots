@@ -59,18 +59,19 @@ def log_request(logger, body, next):
 # Log all messages
 @bolt_app.middleware
 def log_message(payload, logger, next):
-    # id is required
-    msg = {
-        'id' : payload["ts"],
-        'channel': payload["channel"],
-        'user': payload["user"],
-        'message': payload["text"],
-        'mention': None
-    }
-    try:
-        msgDB.create_item(msg)
-    except Exception as e:
-        logger.error(f"Error logging message: {e}")
+    if (payload["type"]=="message"):
+        # id is required
+        msg = {
+            'id' : payload["ts"],
+            'channel': payload["channel"],
+            'user': payload["user"],
+            'message': payload["text"],
+            'mention': None
+        }
+        try:
+            msgDB.create_item(msg)
+        except Exception as e:
+            logger.error(f"Error logging message: {e}")
     next()
 
 ###############################################################################
