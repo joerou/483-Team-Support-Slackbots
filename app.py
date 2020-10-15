@@ -53,11 +53,13 @@ msgDB = database.create_container_if_not_exists(
     offer_throughput=400
 )
 
+## Add more container here for survey
+
 ###############################################################################
 # Middleware
 ###############################################################################
 
-# log request
+# Log request
 @bolt_app.middleware
 def log_request(logger, body, next):
     logger.debug(body)
@@ -75,10 +77,7 @@ def log_message(payload, logger, next):
             'message': payload["text"],
             'mention': None
         }
-        try:
-            msgDB.create_item(msg)
-        except Exception as e:
-            logger.error(f"Error logging message: {e}")
+        msgDB.create_item(msg)
     return next()
 
 ###############################################################################
@@ -120,6 +119,12 @@ def action_button_click(ack, body, say):
     ack()
     say(f"<@{body['user']['id']}> clicked the button")
 
+@bolt_app.action("take_survey")
+def action_button_click(ack, body, say):
+    # Acknowledge the action
+    ack()
+    say(f"<@{body['user']}> is taking the survey!")
+
 ###############################################################################
 # Event Handler
 ###############################################################################
@@ -133,18 +138,31 @@ def reaction_added(ack, event, say):
     text = ":%s:" % emoji
     say(channel=channel, text=text)
 
-#Triggering event upon new member joining
+# Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
 def new_member_survey(ack, event, say):
     ack()
-    channel = event["channel"]
     user = event["user"]
     message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey with /survey :tada:" % user
-    say(channel=channel, text=message)
+    say(
+        blocks=[
+            {
+                "type": "section",
+                "text": {"type": "mrkdwn", "text": message},
+                "accessory": {
+                    "type": "button",
+                    "text": {"type": "plain_text", "text": "take survey"},
+                    "action_id": "take_survey"
+                }
+            }
+        ],
+        text=message
+    )
 
 # Error events
 @bolt_app.event("error")
-def error_handler(err):
+def error_handler(ack, err):
+    ack()
     print("ERROR: " + str(err))
 
 ###############################################################################
