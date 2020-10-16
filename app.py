@@ -140,7 +140,31 @@ def action_button_click(ack, body, say):
                     "value": "next",
                     "action_id": "next_button"
                 }
-            }
+            },
+            {
+                "type": "actions",
+                "elements": [
+                {
+                    "type": "static_select",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "I am the life of the party",
+                        "emoji": true
+                    },
+                    "options": [
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "1 Strongly disagree",
+                                "emoji": true
+                            },
+                            "value": "value-1"
+                        }
+                    ]
+                 }
+                 
+                 ]
+                 }
         ]
 
     )
