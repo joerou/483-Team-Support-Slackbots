@@ -120,69 +120,76 @@ def action_button_click(ack, body, say):
     say(f"<@{body['user']['id']}> clicked the button")
 
 @bolt_app.action("take_survey")
-def action_button_click(ack, body, say):
+def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack()
-    say(
-        blocks=[
-            {
-                "type": "actions",
-                "elements": [
-                    {
-                        "type": "static_select",
-                        "placeholder": {
-                            "type": "plain_text",
-                            "text": "I am the life of the party",
-                            "emoji": true
+    ack();
+    client.views_open(
+    trigger_id=body["trigger_id"],
+    
+    view={
+    "type": modal,
+    "callback_id": "view_1",
+    "title": {"type": "plain_text", "text": "Question 1"},
+    "submit": {"type": "plain_text", "text": "Submit"},
+    "blocks": [
+        {
+            "type": "actions",
+            "elements": [
+                {
+                    "type": "static_select",
+                    "placeholder": {
+                        "type": "plain_text",
+                        "text": "I am the life of the party",
+                        "emoji": true
+                    },
+                    "options": [
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "1 Strongly disagree",
+                                "emoji": true
+                            },
+                            "value": "value-1"
                         },
-                        "options": [
-                            {
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "1 Strongly disagree",
-                                    "emoji": true
-                                },
-                                "value": "value-1"
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "2",
+                                "emoji": true
                             },
-                            {
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "2",
-                                    "emoji": true
-                                },
-                                "value": "value-2"
+                            "value": "value-2"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "3",
+                                "emoji": true
                             },
-                            {
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "3",
-                                    "emoji": true
-                                },
-                                "value": "value-3"
+                            "value": "value-3"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "4",
+                                "emoji": true
                             },
-                            {
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "4",
-                                    "emoji": true
-                                },
-                                "value": "value-4"
+                            "value": "value-4"
+                        },
+                        {
+                            "text": {
+                                "type": "plain_text",
+                                "text": "5 Strongly agree",
+                                "emoji": true
                             },
-                            {
-                                "text": {
-                                    "type": "plain_text",
-                                    "text": "5",
-                                    "emoji": true
-                                },
-                                "value": "value-5"
-                            }
-                        ],
-                        "action_id": "actionId-3"
-                    }
-                ]
-            }
-        ]
-
+                            "value": "value-5"
+                        }
+                    ],
+                    "action_id": "question1"
+                }
+            ]
+        }
+    ]
+                      }
     )
 
 ###############################################################################
