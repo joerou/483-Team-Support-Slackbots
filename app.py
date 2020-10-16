@@ -127,7 +127,7 @@ def action_button_click(ack, body, client):
     trigger_id=body["trigger_id"],
     
     view={
-    "type": modal,
+    "type": "modal",
     "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Question 1"},
     "submit": {"type": "plain_text", "text": "Submit"},
