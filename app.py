@@ -260,47 +260,121 @@ def survey(ack, body, client, logger):
         client.views_open(
             trigger_id=body["trigger_id"],
             view={
-                "blocks": [
-                    {
-                    "type": "actions",
-                    "elements": [
+                    "type": "modal",
+                    "title": {
+                        "type": "plain_text",
+                        "text": "Sample Servey",
+                        "emoji": True
+                    },
+                    "submit": {
+                        "type": "plain_text",
+                        "text": "Submit",
+                        "emoji": True
+                    },
+                    "close": {
+                        "type": "plain_text",
+                        "text": "Cancel",
+                        "emoji": True
+                    },
+                    "blocks": [
                         {
-                            "type": "select",
+                            "type": "section",
+                            "text": {
+                                "type": "mrkdwn",
+                                "text": "Question 1"
+                            },
+                            "accessory": {
+                                "type": "button",
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "Next"
+                                },
+                                "value": "next",
+                                "action_id": "button"
+                            }
                         },
                         {
-                        "option_groups": [
-                            {
-                                "label": "I am the life of the party",
-                                "options": [
-                                    {
-                                        "label": "1",
-                                        "value": "value-1"
+                            "type": "actions",
+                            "block_id": "actionblock789",
+                            "elements": [
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Save"
                                     },
-                                    {
-                                        "label": "2",
-                                        "value": "value-2"
+                                    "style": "primary",
+                                    "value": "click_me_456"
+                                },
+                                {
+                                    "type": "button",
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "Exit"
                                     },
-                                    {
-                                        "label": "3",
-                                        "value": "value-3"
+                                    "url": "https://api.slack.com/block-kit"
+                                }
+                            ]
+                        },
+                        {
+                            "type": "actions",
+                            "elements": [
+                                {
+                                    "type": "static_select",
+                                    "placeholder": {
+                                        "type": "plain_text",
+                                        "text": "I am the life of the party",
+                                        "emoji": true
                                     },
-                                    {
-                                        "label": "4",
-                                        "value": "value-4"
-                                    },
-                                    {
-                                        "label": "5",
-                                        "value": "value-5"
-                                    }    
-                                ]
-                            }
-                        ]
+                                    "options": [
+                                        {
+                                            "text": {
+                                                "type": "plain_text",
+                                                "text": "1 Strongly disagree",
+                                                "emoji": true
+                                            },
+                                            "value": "value-1"
+                                        },
+                                        {
+                                            "text": {
+                                                "type": "plain_text",
+                                                "text": "2",
+                                                "emoji": true
+                                            },
+                                            "value": "value-2"
+                                        },
+                                        {
+                                            "text": {
+                                                "type": "plain_text",
+                                                "text": "3",
+                                                "emoji": true
+                                            },
+                                            "value": "value-3"
+                                        },
+                                        {
+                                            "text": {
+                                                "type": "plain_text",
+                                                "text": "4",
+                                                "emoji": true
+                                            },
+                                            "value": "value-4"
+                                        },
+                                        {
+                                            "text": {
+                                                "type": "plain_text",
+                                                "text": "5",
+                                                "emoji": true
+                                            },
+                                            "value": "value-5"
+                                        }
+                                    ],
+                                    "action_id": "actionId-3"
+                                }
+                            ]
                         }
                     ]
-                    }
-                ]
-            }
-        )
+                }
+            )
     except Exception as e:
         logger.error(f"Error opening modal: {e}")
 
