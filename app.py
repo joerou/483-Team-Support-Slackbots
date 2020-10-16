@@ -48,7 +48,7 @@ database = cosmos.create_database_if_not_exists(id=database_name)
 # Using a good partition key improves the performance of database operations.
 msgDB_name = 'message-storage'
 msgDB = database.create_container_if_not_exists(
-    id=msgDB_name, 
+    id=msgDB_name,
     partition_key=PartitionKey(path="/user"),
     offer_throughput=400
 )
@@ -140,7 +140,7 @@ def action_button_click(ack, body, say):
                     "value": "next",
                     "action_id": "next_button"
                 }
-            
+            }
         ]
 
     )
@@ -293,7 +293,7 @@ def survey(ack, body, client, logger):
                     "value": "next",
                     "action_id": "next_button"
                 }
-            
+            }
         ]
 
     )
