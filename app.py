@@ -272,6 +272,31 @@ def sampleSurvey(ack, body, client, logger):
         logger.error(f"Error opening modal: {e}")
         
         
+#slash command for survey
+@bolt_app.command('/survey')
+def survey(ack, body, client, logger):
+    ack()
+    say(
+        blocks=[
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": "Question 1"
+                },
+                "accessory": {
+                    "type": "button",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Next"
+                    },
+                    "value": "next",
+                    "action_id": "next_button"
+                }
+            
+        ]
+
+    )
 
 ###############################################################################
 
