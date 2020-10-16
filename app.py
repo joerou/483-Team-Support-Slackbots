@@ -138,8 +138,64 @@ def action_button_click(ack, body, say):
                         "text": "Next"
                     },
                     "value": "next",
-                    "action_id": "next_button"
+                    "action_id": "button"
                 }
+            },
+            {
+                "type": "actions",
+                "elements": [
+                    {
+                        "type": "static_select",
+                        "placeholder": {
+                            "type": "plain_text",
+                            "text": "I am the life of the party",
+                            "emoji": true
+                        },
+                        "options": [
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "1 Strongly disagree",
+                                    "emoji": true
+                                },
+                                "value": "value-1"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "2",
+                                    "emoji": true
+                                },
+                                "value": "value-2"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "3",
+                                    "emoji": true
+                                },
+                                "value": "value-3"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "4",
+                                    "emoji": true
+                                },
+                                "value": "value-4"
+                            },
+                            {
+                                "text": {
+                                    "type": "plain_text",
+                                    "text": "5",
+                                    "emoji": true
+                                },
+                                "value": "value-5"
+                            }
+                        ],
+                        "action_id": "actionId-3"
+                    }
+                ]
             }
         ]
 
