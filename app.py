@@ -128,14 +128,11 @@ def action_button_click(ack, body, client):
             trigger_id=body["trigger_id"],
         # View payload
             view={
-                "title": {
-                    "type": "plain_text",
-                    "text": "Question 1"
-                },
-                "submit": {
-                    "type": "plain_text",
-                    "text": "Submit"
-                },
+                "type": "modal",
+            # View identifier
+                "callback_id": "view_1",
+                "title": {"type": "plain_text", "text": "My App"},
+                "submit": {"type": "plain_text", "text": "Submit"},
                 "blocks": [
                     {
                         "type": "section",
@@ -220,8 +217,7 @@ def action_button_click(ack, body, client):
                             "action_id": "question1-next"
                         }
                     }
-                ],
-                "type": "modal"
+                ]
             }
     )
 
