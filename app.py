@@ -120,77 +120,10 @@ def action_button_click(ack, body, say):
     say(f"<@{body['user']['id']}> clicked the button")
 
 @bolt_app.action("take_survey")
-def action_button_click(ack, body, client):
+def action_button_click(ack, body, say):
     # Acknowledge the action
     ack();
-    client.views_open(
-    trigger_id=body["trigger_id"],
-    
-    view={
-    "type": "modal",
-    "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 1"},
-    "submit": {"type": "plain_text", "text": "Submit"},
-    "blocks": [
-        {
-            "type": "actions",
-            "elements": [
-                {
-                    "type": "static_select",
-                    "placeholder": {
-                        "type": "plain_text",
-                        "text": "I am the life of the party",
-                        "emoji": true
-                    },
-                    "options": [
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "1 Strongly disagree",
-                                "emoji": true
-                            },
-                            "value": "value-1"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "2",
-                                "emoji": true
-                            },
-                            "value": "value-2"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "3",
-                                "emoji": true
-                            },
-                            "value": "value-3"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "4",
-                                "emoji": true
-                            },
-                            "value": "value-4"
-                        },
-                        {
-                            "text": {
-                                "type": "plain_text",
-                                "text": "5 Strongly agree",
-                                "emoji": true
-                            },
-                            "value": "value-5"
-                        }
-                    ],
-                    "action_id": "question1"
-                }
-            ]
-        }
-    ]
-                      }
-    )
+    say("thanks for taking the survey")
 
 ###############################################################################
 # Event Handler
@@ -321,29 +254,43 @@ def sampleSurvey(ack, body, client, logger):
         
 #slash command for survey
 @bolt_app.command('/survey')
-def survey(ack, body, client, logger):
-    ack()
-    say(
-        blocks=[
+def survey(ack, body, client):
+# Acknowledge the command request
+ack();
+# Call views_open with the built-in client
+client.views_open(
+    # Pass a valid trigger_id within 3 seconds of receiving it
+    trigger_id=body["trigger_id"],
+    # View payload
+    view={
+        "type": "modal",
+        # View identifier
+        "callback_id": "view_1",
+        "title": {"type": "plain_text", "text": "My App"},
+        "submit": {"type": "plain_text", "text": "Submit"},
+        "blocks": [
             {
                 "type": "section",
-                "text": {
-                    "type": "mrkdwn",
-                    "text": "Question 1"
-                },
+                "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
                 "accessory": {
                     "type": "button",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "Next"
-                    },
-                    "value": "next",
-                    "action_id": "next_button"
+                    "text": {"type": "plain_text", "text": "Click me!"},
+                    "action_id": "button_abc"
+                }
+            },
+            {
+                "type": "input",
+                "block_id": "input_c",
+                "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
+                "element": {
+                    "type": "plain_text_input",
+                    "action_id": "dreamy_input",
+                    "multiline": True
                 }
             }
         ]
-
-    )
+    }
+)
 
 ###############################################################################
 
