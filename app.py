@@ -167,19 +167,12 @@ def action_button_click(ack, body, client):
                                         "emoji": true
                                     },
                                     "value": "value-1"
-                                },
-                                {
-                                    "text": {
-                                        "type": "plain_text",
-                                        "text": "*this is plain_text text*",
-                                        "emoji": true
-                                    },
-                                    "value": "value-2"
                                 }
                             ],
                             "action_id": "radio_buttons-action"
                         }
                     }
+                    
                     
                 ]
             }
