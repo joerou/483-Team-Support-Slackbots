@@ -241,7 +241,65 @@ def action_button_click(ack, body, client):
             view=question10_payload
     )
     
-
+@bolt_app.action("question10_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question11_payload
+    )
+    
+@bolt_app.action("question11_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question12_payload
+    )
+    
+@bolt_app.action("question12_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question13_payload
+    )
+    
+@bolt_app.action("question13_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question14_payload
+    )
+    
+@bolt_app.action("question14_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question15_payload
+    )
 ###############################################################################
 # Event Handler
 ###############################################################################
