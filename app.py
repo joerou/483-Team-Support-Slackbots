@@ -142,6 +142,27 @@ def action_button_click(ack, body, client):
                             "text": {"type": "plain_text", "text": "Next"},
                             "action_id": "button_abc"
                         }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Section block with radio buttons"
+                        },
+                        "accessory": {
+                            "type": "radio_buttons",
+                            "options": [
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "*this is plain_text text*",
+                                        "emoji": true
+                                    },
+                                    "value": "value-0"
+                                }
+                            ],
+                            "action_id": "radio_buttons-action"
+                        }
                     }
                     
                     
