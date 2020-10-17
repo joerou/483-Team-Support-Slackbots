@@ -131,15 +131,15 @@ def action_button_click(ack, body, client):
                 "type": "modal",
             # View identifier
                 "callback_id": "view_1",
-                "title": {"type": "plain_text", "text": "My App"},
+                "title": {"type": "plain_text", "text": "Question 1"},
                 "submit": {"type": "plain_text", "text": "Submit"},
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
+                        "text": {"type": "mrkdwn", "text": "I am the life of the party"},
                         "accessory": {
                             "type": "button",
-                            "text": {"type": "plain_text", "text": "Click me!"},
+                            "text": {"type": "plain_text", "text": "Next"},
                             "action_id": "button_abc"
                         }
                     },
