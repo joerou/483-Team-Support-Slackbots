@@ -143,7 +143,103 @@ def action_button_click(ack, body, client):
         # View payload
             view=question2_payload
     )
+    
+@bolt_app.action("question2_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question3_payload
+    )
 
+
+@bolt_app.action("question3_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question4_payload
+    )
+    
+@bolt_app.action("question4_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question5_payload
+    )
+    
+@bolt_app.action("question5_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question6_payload
+    )
+    
+@bolt_app.action("question6_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question7_payload
+    )
+    
+@bolt_app.action("question7_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question8_payload
+    )
+    
+@bolt_app.action("question8_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question9_payload
+    )
+    
+@bolt_app.action("question9_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question10_payload
+    )
 ###############################################################################
 # Event Handler
 ###############################################################################
