@@ -132,7 +132,7 @@ def action_button_click(ack, body, client):
             # View identifier
                 "callback_id": "view_1",
                 "title": {"type": "plain_text", "text": "Question 1"},
-                "submit": {"type": "plain_text", "text": "Submit"},
+                
                 "blocks": [
                     {
                         "type": "section",
@@ -216,7 +216,7 @@ def reaction_added(ack, event, say):
 def new_member_survey(ack, event, say):
     ack()
     user = event["user"]
-    message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey with /survey :tada:" % user
+    message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey by pressing the take survey button! :tada:" % user
     say(
         blocks=[
             {
