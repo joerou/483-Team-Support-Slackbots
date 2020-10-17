@@ -128,32 +128,100 @@ def action_button_click(ack, body, client):
             trigger_id=body["trigger_id"],
         # View payload
             view={
-                "type": "modal",
-            # View identifier
-                "callback_id": "view_1",
-                "title": {"type": "plain_text", "text": "My App"},
-                "submit": {"type": "plain_text", "text": "Submit"},
+                "title": {
+                    "type": "plain_text",
+                    "text": "Question 1"
+                },
+                "submit": {
+                    "type": "plain_text",
+                    "text": "Submit"
+                },
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
-                        "accessory": {
-                            "type": "button",
-                            "text": {"type": "plain_text", "text": "Click me!"},
-                            "action_id": "button_abc"
+                        "text": {
+                            "type": "plain_text",
+                            "text": "I am the life of the party",
+                            "emoji": true
                         }
                     },
                     {
-                        "type": "input",
-                        "block_id": "input_c",
-                        "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
-                        "element": {
-                            "type": "plain_text_input",
-                            "action_id": "dreamy_input",
-                            "multiline": True
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Choose a number 1-5"
+                        },
+                        "accessory": {
+                            "type": "static_select",
+                            "placeholder": {
+                                "type": "plain_text",
+                                "text": "Select an number",
+                                "emoji": true
+                            },
+                            "options": [
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "1 Strongly Disagree",
+                                        "emoji": true
+                                    },
+                                    "value": "value-1"
+                                },
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "2",
+                                        "emoji": true
+                                    },
+                                    "value": "value-2"
+                                },
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "3",
+                                        "emoji": true
+                                    },
+                                    "value": "value-3"
+                                },
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "4",
+                                        "emoji": true
+                                    },
+                                    "value": "value-4"
+                                },
+                                {
+                                    "text": {
+                                        "type": "plain_text",
+                                        "text": "5 Strongly Agree",
+                                        "emoji": true
+                                    },
+                                    "value": "value-5"
+                                }
+                            ],
+                            "action_id": "static_select-action"
+                        }
+                    },
+                    {
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Next Question"
+                        },
+                        "accessory": {
+                            "type": "button",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Next",
+                                "emoji": true
+                            },
+                            "value": "question1-next",
+                            "action_id": "question1-next"
                         }
                     }
-                ]
+                ],
+                "type": "modal"
             }
     )
 
