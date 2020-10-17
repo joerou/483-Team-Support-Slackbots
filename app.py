@@ -174,6 +174,20 @@ def action_button_click(ack, body, client):
                               "type": "plain_text",
                               "text": "3"
                             }
+                          },
+                          {
+                            "value": "Q1_4",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "4"
+                            }
+                          },
+                          {
+                            "value": "Q1_5",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "5 Strongly Agree"
+                            }
                           }
                         ]
                       }
