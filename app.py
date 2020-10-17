@@ -142,16 +142,6 @@ def action_button_click(ack, body, client):
                             "text": {"type": "plain_text", "text": "Next"},
                             "action_id": "button_abc"
                         }
-                    },
-                    {
-                        "type": "input",
-                        "block_id": "input_c",
-                        "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
-                        "element": {
-                            "type": "plain_text_input",
-                            "action_id": "dreamy_input",
-                            "multiline": True
-                        }
                     }
                 ]
             }
