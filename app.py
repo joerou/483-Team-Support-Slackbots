@@ -147,31 +147,31 @@ def action_button_click(ack, body, client):
                       "type": "section",
                       "text": {
                         "type": "plain_text",
-                        "text": "Check out these rad radio buttons"
+                        "text": "Choose a number 1-5 based on how this represents you"
                       },
                       "accessory": {
                         "type": "radio_buttons",
                         "action_id": "this_is_an_action_id",
                         "initial_option": {
-                          "value": "A1",
+                          "value": "Q1_1",
                           "text": {
                             "type": "plain_text",
-                            "text": "Radio 1"
+                            "text": "1 Strongly Disagree"
                           }
                         },
                         "options": [
                           {
-                            "value": "A1",
+                            "value": "Q1_1",
                             "text": {
                               "type": "plain_text",
-                              "text": "Radio 1"
+                              "text": "1 Strongly Disagree"
                             }
                           },
                           {
-                            "value": "A2",
+                            "value": "Q1_2",
                             "text": {
                               "type": "plain_text",
-                              "text": "Radio 2"
+                              "text": "2"
                             }
                           }
                         ]
