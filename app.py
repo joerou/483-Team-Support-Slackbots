@@ -256,40 +256,40 @@ def sampleSurvey(ack, body, client, logger):
 @bolt_app.command('/survey')
 def survey(ack, body, client):
 # Acknowledge the command request
-ack();
+    ack()
 # Call views_open with the built-in client
-client.views_open(
+    client.views_open(
     # Pass a valid trigger_id within 3 seconds of receiving it
-    trigger_id=body["trigger_id"],
+        trigger_id=body["trigger_id"],
     # View payload
-    view={
-        "type": "modal",
+        view={
+            "type": "modal",
         # View identifier
-        "callback_id": "view_1",
-        "title": {"type": "plain_text", "text": "My App"},
-        "submit": {"type": "plain_text", "text": "Submit"},
-        "blocks": [
-            {
-                "type": "section",
-                "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
-                "accessory": {
-                    "type": "button",
-                    "text": {"type": "plain_text", "text": "Click me!"},
-                    "action_id": "button_abc"
+            "callback_id": "view_1",
+            "title": {"type": "plain_text", "text": "My App"},
+            "submit": {"type": "plain_text", "text": "Submit"},
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
+                    "accessory": {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "Click me!"},
+                        "action_id": "button_abc"
+                    }
+                },
+                {
+                    "type": "input",
+                    "block_id": "input_c",
+                    "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
+                    "element": {
+                        "type": "plain_text_input",
+                        "action_id": "dreamy_input",
+                        "multiline": True
+                    }
                 }
-            },
-            {
-                "type": "input",
-                "block_id": "input_c",
-                "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
-                "element": {
-                    "type": "plain_text_input",
-                    "action_id": "dreamy_input",
-                    "multiline": True
-                }
-            }
-        ]
-    }
+            ]
+        }
 )
 
 ###############################################################################
