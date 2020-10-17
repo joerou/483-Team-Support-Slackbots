@@ -147,36 +147,38 @@ def action_button_click(ack, body, client):
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Pick an item from the dropdown list"
+                            "text": "This is a section block with checkboxes."
                         },
                         "accessory": {
-                            "type": "static_select",
-                            "placeholder": {
-                                "type": "plain_text",
-                                "text": "Select an item",
-                                "emoji": true
-                            },
+                            "type": "checkboxes",
                             "options": [
                                 {
                                     "text": {
-                                        "type": "plain_text",
-                                        "text": "*this is plain_text text*",
-                                        "emoji": true
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
+                                    },
+                                    "description": {
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
                                     },
                                     "value": "value-0"
                                 },
                                 {
                                     "text": {
-                                        "type": "plain_text",
-                                        "text": "*this is plain_text text*",
-                                        "emoji": true
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
                                     },
-                                    "value": "value-1"
+                                    "description": {
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
+                                    },
+                                    "value": "value-2"
                                 }
                             ],
-                            "action_id": "static_select-action"
+                            "action_id": "checkboxes-action"
                         }
                     }
+                    
                 ]
             }
     )
