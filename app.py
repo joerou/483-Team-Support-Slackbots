@@ -147,21 +147,46 @@ def action_button_click(ack, body, client):
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Section block with radio buttons"
+                            "text": "This is a section block with checkboxes."
                         },
                         "accessory": {
-                            "type": "radio_buttons",
+                            "type": "checkboxes",
                             "options": [
                                 {
                                     "text": {
-                                        "type": "plain_text",
-                                        "text": "*this is plain_text text*",
-                                        "emoji": true
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
+                                    },
+                                    "description": {
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
                                     },
                                     "value": "value-0"
+                                },
+                                {
+                                    "text": {
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
+                                    },
+                                    "description": {
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
+                                    },
+                                    "value": "value-1"
+                                },
+                                {
+                                    "text": {
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
+                                    },
+                                    "description": {
+                                        "type": "mrkdwn",
+                                        "text": "*this is mrkdwn text*"
+                                    },
+                                    "value": "value-2"
                                 }
                             ],
-                            "action_id": "radio_buttons-action"
+                            "action_id": "checkboxes-action"
                         }
                     }
                     
