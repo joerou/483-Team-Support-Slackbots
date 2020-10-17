@@ -144,41 +144,38 @@ def action_button_click(ack, body, client):
                         }
                     },
                     {
-                        "type": "section",
-                        "text": {
-                            "type": "mrkdwn",
-                            "text": "Section block with radio buttons"
+                      "type": "section",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Check out these rad radio buttons"
+                      },
+                      "accessory": {
+                        "type": "radio_buttons",
+                        "action_id": "this_is_an_action_id",
+                        "initial_option": {
+                          "value": "A1",
+                          "text": {
+                            "type": "plain_text",
+                            "text": "Radio 1"
+                          }
                         },
-                        "accessory": {
-                            "type": "radio_buttons",
-                            "options": [
-                                {
-                                    "text": {
-                                        "type": "plain_text",
-                                        "text": "*this is plain_text text*",
-                                        "emoji": true
-                                    },
-                                    "value": "value-0"
-                                },
-                                {
-                                    "text": {
-                                        "type": "plain_text",
-                                        "text": "*this is plain_text text*",
-                                        "emoji": true
-                                    },
-                                    "value": "value-1"
-                                },
-                                {
-                                    "text": {
-                                        "type": "plain_text",
-                                        "text": "*this is plain_text text*",
-                                        "emoji": true
-                                    },
-                                    "value": "value-2"
-                                }
-                            ],
-                            "action_id": "radio_buttons-action"
-                        }
+                        "options": [
+                          {
+                            "value": "A1",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "Radio 1"
+                            }
+                          },
+                          {
+                            "value": "A2",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "Radio 2"
+                            }
+                          }
+                        ]
+                      }
                     }
                     
                     
