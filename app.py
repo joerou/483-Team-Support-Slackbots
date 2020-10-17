@@ -131,6 +131,18 @@ def action_button_click(ack, body, client):
         # View payload
             view=question1_payload
     )
+    
+@bolt_app.action("question1_next")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view=question2_payload
+    )
 
 ###############################################################################
 # Event Handler

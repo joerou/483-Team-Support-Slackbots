@@ -11,7 +11,7 @@ question1_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "button_abc"
+                "action_id": "question1_next"
             }
         },
         {
@@ -55,6 +55,78 @@ question1_payload = {
               },
               {
                 "value": "Q1_5",
+                "text": {
+                  "type": "plain_text",
+                  "text": "5 Strongly Agree"
+                }
+              }
+            ]
+          }
+        }
+        
+        
+    ]
+}
+
+
+
+question2_payload = {
+    "type": "modal",
+# View identifier
+    "callback_id": "view_1",
+    "title": {"type": "plain_text", "text": "Question 2"},
+    
+    "blocks": [
+        {
+            "type": "section",
+            "text": {"type": "mrkdwn", "text": "I feel little concern for others"},
+            "accessory": {
+                "type": "button",
+                "text": {"type": "plain_text", "text": "Next"},
+                "action_id": "question2_next"
+            }
+        },
+        {
+          "type": "section",
+          "text": {
+            "type": "plain_text",
+            "text": "Choose a number 1-5 based on how this represents you"
+          },
+          "accessory": {
+            "type": "radio_buttons",
+            "action_id": "this_is_an_action_id",
+            
+            "options": [
+              {
+                "value": "Q2_1",
+                "text": {
+                  "type": "plain_text",
+                  "text": "1 Strongly Disagree"
+                }
+              },
+              {
+                "value": "Q2_2",
+                "text": {
+                  "type": "plain_text",
+                  "text": "2"
+                }
+              },
+              {
+                "value": "Q2_3",
+                "text": {
+                  "type": "plain_text",
+                  "text": "3"
+                }
+              },
+              {
+                "value": "Q2_4",
+                "text": {
+                  "type": "plain_text",
+                  "text": "4"
+                }
+              },
+              {
+                "value": "Q2_5",
                 "text": {
                   "type": "plain_text",
                   "text": "5 Strongly Agree"
