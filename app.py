@@ -152,13 +152,7 @@ def action_button_click(ack, body, client):
                       "accessory": {
                         "type": "radio_buttons",
                         "action_id": "this_is_an_action_id",
-                        "initial_option": {
-                          "value": "Q1_1",
-                          "text": {
-                            "type": "plain_text",
-                            "text": "1 Strongly Disagree"
-                          }
-                        },
+                        
                         "options": [
                           {
                             "value": "Q1_1",
