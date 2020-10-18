@@ -725,6 +725,17 @@ def action_button_click(ack, body, client):
 
 # Psych Survey crap
 
+@bolt_app.action("psych_survey")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    client.views_open(
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            trigger_id=body["trigger_id"],
+        # View payload
+            view=psych_q1_payload
+    )
+        
 @bolt_app.action("psych_q1_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
@@ -977,7 +988,7 @@ def psych_survey(ack, body, client):
         view={
             "type": "modal",
         # View identifier
-            "callback_id": "view_1",
+            "callback_id": "view_2",
             "title": {"type": "plain_text", "text": "My App"},
             "submit": {"type": "plain_text", "text": "Submit"},
             "blocks": [
@@ -986,8 +997,8 @@ def psych_survey(ack, body, client):
                     "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
                     "accessory": {
                         "type": "button",
-                        "text": {"type": "plain_text", "text": "Click me!"},
-                        "action_id": "button_abc"
+                        "text": {"type": "plain_text", "text": "psych survey"},
+                        "action_id": "psych_survey"
                     }
                 },
                 {
