@@ -724,17 +724,6 @@ def action_button_click(ack, body, client):
     )
 
 # Psych Survey crap
-        
-@bolt_app.command('/psych_survey')
-def psych_survey(ack, body, client):
-# Acknowledge the command request
-    ack()
-	client.views_open(
-        # Pass a valid trigger_id within 3 seconds of receiving it
-            trigger_id=body["trigger_id"],
-        # View payload
-            view=psych_q1_payload
-    )
 
 @bolt_app.action("psych_q1_next")
 def action_button_click(ack, body, client):
@@ -974,6 +963,18 @@ def survey(ack, body, client):
             ]
         }
 )
+
+# Psych Survey slash command (temp)
+@bolt_app.command('/psych_survey')
+def psych_survey(ack, body, client):
+# Acknowledge the command request
+    ack()
+	client.views_open(
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            trigger_id=body["trigger_id"],
+        # View payload
+            view=psych_q1_payload
+    )
 
 ###############################################################################
 
