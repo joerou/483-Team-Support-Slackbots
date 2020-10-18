@@ -984,7 +984,7 @@ def psych_survey(ack, body, client):
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
         # View payload
-            view=question1_payload
+            view=psych_q1_payload
     )
 ###############################################################################
 
