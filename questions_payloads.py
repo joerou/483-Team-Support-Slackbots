@@ -3562,7 +3562,7 @@ psych_q1_payload = {
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "I am the life of the party"},
+            "text": {"type": "mrkdwn", "text": "1. If you make a mistake on this team, it is often held against you."},
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
