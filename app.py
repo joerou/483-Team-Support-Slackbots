@@ -6,7 +6,6 @@ from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from questions_payloads import *
-from psych_payload import *
 
 ###############################################################################
 # Initializing
@@ -980,43 +979,13 @@ def survey(ack, body, client):
 # Psych Survey slash command (temp)
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
-# Acknowledge the command request
-    ack()
-# Call views_open with the built-in client
+    ack();
     client.views_open(
-    # Pass a valid trigger_id within 3 seconds of receiving it
-        trigger_id=body["trigger_id"],
-    # View payload
-        view={
-            "type": "modal",
-        # View identifier
-            "callback_id": "view_2",
-            "title": {"type": "plain_text", "text": "My App"},
-            "submit": {"type": "plain_text", "text": "Submit"},
-            "blocks": [
-                {
-                    "type": "section",
-                    "text": {"type": "mrkdwn", "text": "Welcome to a modal with _blocks_"},
-                    "accessory": {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "psych survey"},
-                        "action_id": "psych_survey"
-                    }
-                },
-                {
-                    "type": "input",
-                    "block_id": "input_c",
-                    "label": {"type": "plain_text", "text": "What are your hopes and dreams?"},
-                    "element": {
-                        "type": "plain_text_input",
-                        "action_id": "dreamy_input",
-                        "multiline": True
-                    }
-                }
-            ]
-        }
-)
-
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            trigger_id=body["trigger_id"],
+        # View payload
+            view=psych_q1_payload
+    )
 ###############################################################################
 
 # Once we have our event listeners configured, we can start the
