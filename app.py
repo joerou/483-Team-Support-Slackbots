@@ -723,19 +723,6 @@ def action_button_click(ack, body, client):
     )
 
 # Psych Survey crap
-
-@bolt_app.action("psych_survey")
-def action_button_click(ack, body, client):
-    # Acknowledge the action
-    ack();
-    client.views_update(
-        # Pass a valid trigger_id within 3 seconds of receiving it
-            view_id=body["view"]["id"],
-        # Pass a valid trigger_id within 3 seconds of receiving it
-            hash=body["view"]["hash"],
-        # View payload
-            view=psych_q1_payload
-    )
         
 @bolt_app.action("psych_q1_next")
 def action_button_click(ack, body, client):
