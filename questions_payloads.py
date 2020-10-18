@@ -3566,7 +3566,7 @@ psych_q1_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "question1_next"
+                "action_id": "psych_q1_next"
             }
         },
         {
@@ -3584,35 +3584,35 @@ psych_q1_payload = {
                 "value": "Q1_1",
                 "text": {
                   "type": "plain_text",
-                  "text": "1 Strongly Disagree"
+                  "text": "very inaccurate"
                 }
               },
               {
                 "value": "Q1_2",
                 "text": {
                   "type": "plain_text",
-                  "text": "2"
+                  "text": "inaccurate"
                 }
               },
               {
                 "value": "Q1_3",
                 "text": {
                   "type": "plain_text",
-                  "text": "3"
+                  "text": "neutral"
                 }
               },
               {
                 "value": "Q1_4",
                 "text": {
                   "type": "plain_text",
-                  "text": "4"
+                  "text": "accurate"
                 }
               },
               {
                 "value": "Q1_5",
                 "text": {
                   "type": "plain_text",
-                  "text": "5 Strongly Agree"
+                  "text": "very accurate"
                 }
               }
             ]
