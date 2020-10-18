@@ -969,11 +969,11 @@ def survey(ack, body, client):
 def psych_survey(ack, body, client):
 # Acknowledge the command request
     ack()
-	client.views_open(
+    client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
-            trigger_id=body["trigger_id"],
+        trigger_id=body["trigger_id"],
         # View payload
-            view=psych_q1_payload
+        view=psych_q1_payload
     )
 
 ###############################################################################
