@@ -3557,23 +3557,23 @@ psych_q1_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 1"},
     
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "1. If you make a mistake on this team, it is often held against you."},
+            "text": {"type": "mrkdwn", "text": "I am the life of the party"},
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q1_next_button"
+                "action_id": "question1_next"
             }
         },
         {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Please select the option that best represents your opinion."
+            "text": "Choose a number 1-5 based on how this represents you"
           },
           "accessory": {
             "type": "radio_buttons",
@@ -3581,38 +3581,38 @@ psych_q1_payload = {
             
             "options": [
               {
-                "value": "psych_q1_1",
+                "value": "Q1_1",
                 "text": {
                   "type": "plain_text",
-                  "text": "very inaccurate"
+                  "text": "1 Strongly Disagree"
                 }
               },
               {
-                "value": "psych_q1_2",
+                "value": "Q1_2",
                 "text": {
                   "type": "plain_text",
-                  "text": "inaccurate"
+                  "text": "2"
                 }
               },
               {
-                "value": "psych_q1_3",
+                "value": "Q1_3",
                 "text": {
                   "type": "plain_text",
-                  "text": "neutral"
+                  "text": "3"
                 }
               },
               {
-                "value": "psych_q1_4",
+                "value": "Q1_4",
                 "text": {
                   "type": "plain_text",
-                  "text": "accurate"
+                  "text": "4"
                 }
               },
               {
-                "value": "psych_q1_5",
+                "value": "Q1_5",
                 "text": {
                   "type": "plain_text",
-                  "text": "very accurate"
+                  "text": "5 Strongly Agree"
                 }
               }
             ]
