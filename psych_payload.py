@@ -1,7 +1,7 @@
 psych_q1_payload = {
     "type": "modal",
 # View identifier
-    "callback_id": "view_2",
+    "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
@@ -71,7 +71,7 @@ psych_q1_payload = {
 psych_q2_payload = {
     "type": "modal",
 # View identifier
-    "callback_id": "view_2",
+    "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
@@ -141,7 +141,7 @@ psych_q2_payload = {
 psych_q3_payload = {
     "type": "modal",
 # View identifier
-    "callback_id": "view_2",
+    "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
@@ -211,7 +211,7 @@ psych_q3_payload = {
 psych_q4_payload = {
     "type": "modal",
 # View identifier
-    "callback_id": "view_2",
+    "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
@@ -281,7 +281,7 @@ psych_q4_payload = {
 psych_q5_payload = {
     "type": "modal",
 # View identifier
-    "callback_id": "view_2",
+    "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
@@ -351,7 +351,7 @@ psych_q5_payload = {
 psych_q6_payload = {
     "type": "modal",
 # View identifier
-    "callback_id": "view_2",
+    "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
@@ -421,7 +421,7 @@ psych_q6_payload = {
 psych_q7_payload = {
     "type": "modal",
 # View identifier
-    "callback_id": "view_2",
+    "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
