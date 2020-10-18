@@ -69,7 +69,7 @@ def log_request(logger, body, next):
 
 # Log all messages
 @bolt_app.middleware
-def log_message(payload, logger, next):
+def log_message(payload, next):
     if ("type" in payload and payload["type"]=="message"):
         # id is required
         msg = {
