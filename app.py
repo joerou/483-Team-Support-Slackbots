@@ -729,9 +729,11 @@ def action_button_click(ack, body, client):
 def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
-    client.views_open(
+    client.views_update(
         # Pass a valid trigger_id within 3 seconds of receiving it
-            trigger_id=body["trigger_id"],
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
         # View payload
             view=psych_q1_payload
     )
