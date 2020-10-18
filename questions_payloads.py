@@ -3557,7 +3557,7 @@ psych_q1_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 1"},
+    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
     
     "blocks": [
         {
@@ -3573,7 +3573,7 @@ psych_q1_payload = {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Choose a number 1-5 based on how this represents you"
+            "text": "Select the option that best represents your opinion."
           },
           "accessory": {
             "type": "radio_buttons",
@@ -3581,35 +3581,35 @@ psych_q1_payload = {
             
             "options": [
               {
-                "value": "Q1_1",
+                "value": "psych_Q1_1",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "Q1_2",
+                "value": "psych_Q1_2",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "Q1_3",
+                "value": "psych_Q1_3",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "Q1_4",
+                "value": "psych_Q1_4",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "Q1_5",
+                "value": "psych_Q1_5",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
