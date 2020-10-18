@@ -3557,7 +3557,7 @@ psych_q1_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 1"},
     
     "blocks": [
         {
