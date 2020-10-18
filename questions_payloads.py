@@ -3581,35 +3581,35 @@ psych_q1_payload = {
             
             "options": [
               {
-                "value": "psych_Q1_1",
+                "value": "psych_q1_1",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_Q1_2",
+                "value": "psych_q1_2",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_Q1_3",
+                "value": "psych_q1_3",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_Q1_4",
+                "value": "psych_q1_4",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_Q1_5",
+                "value": "psych_q1_5",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -3627,7 +3627,7 @@ psych_q2_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 2"},
     
     "blocks": [
         {
@@ -3636,7 +3636,7 @@ psych_q2_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q2_next_button"
+                "action_id": "psych_q2_next"
             }
         },
         {
@@ -3697,7 +3697,7 @@ psych_q3_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 3"},
     
     "blocks": [
         {
@@ -3706,7 +3706,7 @@ psych_q3_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q3_next_button"
+                "action_id": "psych_q3_next"
             }
         },
         {
@@ -3767,7 +3767,7 @@ psych_q4_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 4"},
     
     "blocks": [
         {
@@ -3776,7 +3776,7 @@ psych_q4_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q4_next_button"
+                "action_id": "psych_q4_next"
             }
         },
         {
@@ -3837,7 +3837,7 @@ psych_q5_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 5"},
     
     "blocks": [
         {
@@ -3846,7 +3846,7 @@ psych_q5_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q5_next_button"
+                "action_id": "psych_q5_next"
             }
         },
         {
@@ -3907,7 +3907,7 @@ psych_q6_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 6"},
     
     "blocks": [
         {
@@ -3916,7 +3916,7 @@ psych_q6_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q6_next_button"
+                "action_id": "psych_q6_next"
             }
         },
         {
@@ -3977,7 +3977,7 @@ psych_q7_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Psychological Safety Survey"},
+    "title": {"type": "plain_text", "text": "Question 7"},
     
     "blocks": [
         {
@@ -3986,7 +3986,7 @@ psych_q7_payload = {
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q7_next_button"
+                "action_id": "psych_q7_next"
             }
         },
         {
