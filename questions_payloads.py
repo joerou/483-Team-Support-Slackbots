@@ -3643,7 +3643,7 @@ psych_q2_payload = {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Please select the option that best represents your opinion."
+            "text": "Select the option that best represents your opinion."
           },
           "accessory": {
             "type": "radio_buttons",
@@ -3713,7 +3713,7 @@ psych_q3_payload = {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Please select the option that best represents your opinion."
+            "text": "Select the option that best represents your opinion."
           },
           "accessory": {
             "type": "radio_buttons",
@@ -3783,7 +3783,7 @@ psych_q4_payload = {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Please select the option that best represents your opinion."
+            "text": "Select the option that best represents your opinion."
           },
           "accessory": {
             "type": "radio_buttons",
@@ -3853,7 +3853,7 @@ psych_q5_payload = {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Please select the option that best represents your opinion."
+            "text": "Select the option that best represents your opinion."
           },
           "accessory": {
             "type": "radio_buttons",
@@ -3923,7 +3923,7 @@ psych_q6_payload = {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Please select the option that best represents your opinion."
+            "text": "Select the option that best represents your opinion."
           },
           "accessory": {
             "type": "radio_buttons",
@@ -3993,7 +3993,7 @@ psych_q7_payload = {
           "type": "section",
           "text": {
             "type": "plain_text",
-            "text": "Please select the option that best represents your opinion."
+            "text": "Select the option that best represents your opinion."
           },
           "accessory": {
             "type": "radio_buttons",
