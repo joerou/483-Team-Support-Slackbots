@@ -31,7 +31,7 @@ handler = SlackRequestHandler(bolt_app)
 def slack_events():
     return handler.handle(request)
 
-
+## Start platform related code
 # Create a logger for the 'azure' SDK and configure a console output
 azureLogger = logging.getLogger('azure')
 azureLogger.setLevel(logging.DEBUG)
@@ -58,6 +58,9 @@ msgDB = database.create_container_if_not_exists(
 )
 survey_containter = database.get_container_client("survey-storage")
 ## Add more container here for survey
+
+## The database usage in the rest part may need to be changed on a different platform
+## End platform related code
 
 ###############################################################################
 # Middleware
