@@ -761,7 +761,7 @@ def action_button_click(ack, body, client):
     n = 38 - temp[3] + temp[8] - temp[13] + temp[18] - temp[23] - temp[28] - temp[33] - temp[38] - temp[43] - temp[48]
     o = 8 + temp[4] - temp[9] + temp[14] - temp[19] + temp[24] - temp[29] + temp[34] + temp[39] + temp[44] + temp[49]
     text = "E %d A %d C %d N %d O %d" % (e,a,c,n,o)
-     client.views_update(
+    client.views_update(
                view_id=body["view"]["id"],
            # Pass a valid trigger_id within 3 seconds of receiving it
                hash=body["view"]["hash"],
