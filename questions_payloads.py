@@ -3486,16 +3486,12 @@ question50_payload = {
 # View identifier
     "callback_id": "view_1",
     "title": {"type": "plain_text", "text": "Question 50"},
+    "submit": {"type": "plain_text", "text": "Submit"},
     
     "blocks": [
         {
             "type": "section",
             "text": {"type": "mrkdwn", "text": "I am full of ideas"},
-            "accessory":{
-                "type": "button",
-                "text": {"type": "plain_text", "text": "Submit"},
-                "action_id": "submit"
-            }
             
         },
         {
