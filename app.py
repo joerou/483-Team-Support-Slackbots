@@ -11,6 +11,8 @@ from psych_payload import *
 ###############################################################################
 # Initializing
 ###############################################################################
+# initializing survey_dict
+survey_dict = {}
 
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
@@ -55,7 +57,7 @@ msgDB = database.create_container_if_not_exists(
     partition_key=PartitionKey(path="/user"),
     offer_throughput=400
 )
-
+survey_containter = database.get_container_client("survey-storage")
 ## Add more container here for survey
 
 ###############################################################################
@@ -115,6 +117,42 @@ def message_rest(ack):
 ###############################################################################
 # Action Handler
 ###############################################################################
+# handler for a radio button being selected
+@bolt_app.action("this_is_an_action_id")
+def action_button_click(ack, body, say):
+    # Acknowledge the action
+    ack()
+    user = body['user']['id']
+    value = body['actions']['selected_option']['value']
+    question = ""
+    response = int(value[-1])
+    for char in value:
+        if char == "Q":
+            pass
+        elif char == "_":
+            break
+        else:
+            question += char
+            
+    question = int(question)
+    temp = survey_dict[user]
+    temp[question] = response
+    survey_dict[user] = temp
+    
+
+@bolt_app.action("submit")
+def action_button_click(ack, body, say):
+    # Acknowledge the action
+    user = body['user']['id']
+    temp = survey_dict[user]
+    e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
+    a = 14 - temp[1] + temp[6] - temp[11] + temp[16] - temp[21] + temp[26] - temp[31] + temp[36] + temp[41] + temp[46]
+    c = 14 + temp[2] - temp[7] + temp[12] - temp[17] + temp[22] - temp[27] + temp[32] - temp[37] + temp[42] + temp[47]
+    n = 38 - temp[3] + temp[8] - temp[13] + temp[18] - temp[23] - temp[28] - temp[33] - temp[38] - temp[43] - temp[48]
+    o = 8 + temp[4] - temp[9] + temp[14] - temp[19] + temp[24] - temp[29] + temp[34] + temp[39] + temp[44] + temp[49]
+    say("E %d A %d C %d N %d O %d" % (e,a,c,n,o))
+    ack()
+    
 
 @bolt_app.action("button_click")
 def action_button_click(ack, body, say):
@@ -125,6 +163,8 @@ def action_button_click(ack, body, say):
 @bolt_app.action("take_survey")
 def action_button_click(ack, body, client):
     # Acknowledge the action
+    user = body['user']['id']
+    survey_dict[user] = [0 for x in range(50)]
     ack();
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it

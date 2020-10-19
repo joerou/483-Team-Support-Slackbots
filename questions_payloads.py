@@ -3493,9 +3493,10 @@ question50_payload = {
             "text": {"type": "mrkdwn", "text": "I am full of ideas"},
             "accessory":{
                 "type": "button",
-                "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "question50_next"
+                "text": {"type": "plain_text", "text": "Submit"},
+                "action_id": "submit"
             }
+            
         },
         {
           "type": "section",
