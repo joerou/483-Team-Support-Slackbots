@@ -750,7 +750,7 @@ def action_button_click(ack, body, client):
     )
     
 @bolt_app.action("submit")
-def action_button_click(ack, body, say):
+def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
     user = body["user"]["id"]
@@ -760,7 +760,29 @@ def action_button_click(ack, body, say):
     c = 14 + temp[2] - temp[7] + temp[12] - temp[17] + temp[22] - temp[27] + temp[32] - temp[37] + temp[42] + temp[47]
     n = 38 - temp[3] + temp[8] - temp[13] + temp[18] - temp[23] - temp[28] - temp[33] - temp[38] - temp[43] - temp[48]
     o = 8 + temp[4] - temp[9] + temp[14] - temp[19] + temp[24] - temp[29] + temp[34] + temp[39] + temp[44] + temp[49]
-    say("E %d A %d C %d N %d O %d" % (e,a,c,n,o))
+    text = "E %d A %d C %d N %d O %d" % (e,a,c,n,o)
+     client.views_update(
+               view_id=body["view"]["id"],
+           # Pass a valid trigger_id within 3 seconds of receiving it
+               hash=body["view"]["hash"],
+           # View payload
+               view={
+                   "type": "modal",
+               # View identifier
+                   "callback_id": "view_1",
+                   "title": {"type": "plain_text", "text": "Results"},
+                   
+                   "blocks": [
+                       {
+                           "type": "section",
+                           "text": {"type": "mrkdwn", "text": "E %d A %d C %d N %d O %d" % (e,a,c,n,o)}
+                           
+                       }
+                       
+                       
+                   ]
+               }
+       )
     
 
 # Psych Survey crap
