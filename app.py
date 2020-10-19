@@ -829,7 +829,7 @@ def action_button_click(ack, body, client):
 @bolt_app.event("view_closed")
 def action_button_click(ack, event, say):
     # Acknowledge the action
-    user = event["user"]
+    user = event["user"]["id"]
     temp = survey_dict[user]
     e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
     a = 14 - temp[1] + temp[6] - temp[11] + temp[16] - temp[21] + temp[26] - temp[31] + temp[36] + temp[41] + temp[46]
