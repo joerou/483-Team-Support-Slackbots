@@ -6,7 +6,6 @@ from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from questions_payloads import *
-from psych_payload import *
 
 ###############################################################################
 # Initializing
@@ -764,7 +763,7 @@ def action_button_click(ack, body, client):
     )
 
 # Psych Survey crap
-
+        
 @bolt_app.action("psych_q1_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
@@ -1007,15 +1006,13 @@ def survey(ack, body, client):
 # Psych Survey slash command (temp)
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
-# Acknowledge the command request
-    ack()
+    ack();
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
-        trigger_id=body["trigger_id"],
+            trigger_id=body["trigger_id"],
         # View payload
-        view=psych_q1_payload
+            view=psych_q1_payload
     )
-
 ###############################################################################
 
 # Once we have our event listeners configured, we can start the
