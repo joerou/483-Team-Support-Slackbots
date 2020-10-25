@@ -882,14 +882,16 @@ def action_button_click(ack, event, say):
 
 # Example reaction emoji echo
 @bolt_app.event("reaction_added")
-def reaction_added(ack, event, say):
+def reaction_added(ack, event, say, client):
     ack()
     emoji = event["reaction"]
     channel = event["item"]["channel"]
+    user = event["user"]
     message = event["item"]["type"]
-    if message == "Test3":
-        text = "Thank you for reacting! Your input will be useful for the future. " 
-        say(channel=channel, text=text)
+    client.chat_postEphemeral(
+        channel = channel,
+        user = user,
+        text = message)
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
