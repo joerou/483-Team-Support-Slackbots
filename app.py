@@ -887,8 +887,9 @@ def reaction_added(ack, event, say):
     emoji = event["reaction"]
     channel = event["item"]["channel"]
     message = event["item"]["type"]
-    text = "Thank you for reacting! Your input will be useful for the future. %s" %message 
-    say(channel=channel, text=text)
+    if message == "Test3":
+        text = "Thank you for reacting! Your input will be useful for the future. " 
+        say(channel=channel, text=text)
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
