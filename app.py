@@ -878,13 +878,16 @@ def action_button_click(ack, event, say):
     say("E %d A %d C %d N %d O %d" % (e,a,c,n,o))
     ack()
 
+
+
 # Example reaction emoji echo
 @bolt_app.event("reaction_added")
 def reaction_added(ack, event, say):
     ack()
     emoji = event["reaction"]
     channel = event["item"]["channel"]
-    text = ":%s:" % emoji
+    message = event["item"]["type"]
+    text = "Thank you for reacting! Your input will be useful for the future. %s" %message 
     say(channel=channel, text=text)
 
 # Triggering event upon new member joining
