@@ -891,7 +891,7 @@ def reaction_added(ack, event, say, client):
     client.chat_postEphemeral(
         channel = channel,
         user = user,
-        text = "Thank you <@%s> for the feedback! We will be sure to keep your input in consideration when making changes. %s" % (user, message))
+        text = "Thank you <@%s> for the feedback! We will be sure to keep your input in consideration when making changes." % (user))
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
