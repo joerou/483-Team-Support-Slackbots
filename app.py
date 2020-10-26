@@ -887,7 +887,9 @@ def reaction_added(ack, event, say, client):
     emoji = event["reaction"]
     channel = event["item"]["channel"]
     user = event["user"]
-    message = event["item"]["type"]
+    ts = event["item"]["ts"]
+    message = query_items(query = "SELECT * FROM message-storage WHERE message-storage.id = ts");
+    say(channel = channel, text = message)
     client.chat_postEphemeral(
         channel = channel,
         user = user,
