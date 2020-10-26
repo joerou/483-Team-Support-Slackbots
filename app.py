@@ -888,6 +888,9 @@ def reaction_added(ack, event, say, client):
     channel = event["item"]["channel"]
     user = event["user"]
     ts = event["item"]["ts"]
+
+    message = reactions.get(channel = channel, timestamp = ts)
+    say(channel = channel, text = message)
     client.chat_postEphemeral(
         channel = channel,
         user = user,
