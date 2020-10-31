@@ -899,12 +899,12 @@ def reaction_added(ack, event, say, client):
     client.chat_postEphemeral(
         channel = channel, 
         user = user,
-        text = "Thank you for taking the survey! Do you think the surveys is too frequent or just right?",
+        text = "Thank you for taking the survey! Do you think the surveys is asked too frequently or just right?",
         attachments = 
             [
                 {
                     "text": "Please Select an Option",
-                    "fallback": "Error",
+                    "callback_id":"feedback_button",
                     "color": "#3AA3E3",
                     "actions": [
                         {
@@ -912,26 +912,41 @@ def reaction_added(ack, event, say, client):
                             "text": "Perfect!",
                             "type": "button",
                             "value": "Perfect",
-                            "confirm": {
-                                "title": "Feedback",
-                                "text": "Thank you for the Feedback! We will keep this in consideration"
-                            }
+                            "action_id":"good_feedback"
                         },
                         {
                             "name": "Bad",
                             "text": "Too Frequent",
-                            "style": "danger",
                             "type": "button",
                             "value": "Bad",
-                            "confirm": {
-                                "title": "Feedback",
-                                "text": "Thank you for the Feedback! We will keep this in consideration"
-                            }
+                            "action_id":"bad_feedback"
                         }
                     ]
                 }
             ]     
     )
+
+    @bolt_app.action("good_feedback")
+    def action_button_click(ack, body, client):
+        # Acknowledge the action
+        user = body['user']['id']
+        client.chat_delete(channel = channel, timestamp = ts)
+        client.chat_postEphemeral(
+            channel = channel, 
+            user = user,
+            text = "Good Feedback")
+
+
+    @bolt_app.action("bad_feedback")
+    def action_button_click(ack, body, client):
+        # Acknowledge the action
+        user = body['user']['id']
+        client.chat_delete(channel = channel, timestamp = ts)
+        client.chat_postEphemeral(
+            channel = channel, 
+            user = user,
+            text = "Bad Feedback")
+    
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
