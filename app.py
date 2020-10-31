@@ -862,6 +862,13 @@ def action_button_click(ack, body, client):
             view=psych_q7_payload
     )
 
+@bolt_app.action("psych_submit")
+def action_button_click(ack, body, client):
+    # Acknowledge the action
+    ack();
+    user = body["user"]["id"]
+
+
 ###############################################################################
 # Event Handler
 ###############################################################################
@@ -890,9 +897,44 @@ def reaction_added(ack, event, say, client):
     ts = event["item"]["ts"]
 
     client.chat_postEphemeral(
-        channel = channel,
+        channel = channel, 
         user = user,
-        text = "Thank you <@%s> for the feedback! We will be sure to keep your input in consideration when making changes." % (user))
+        attachments = {
+            "text": "Thank you for taking the survey! Do you think the surveys is too frequent or just right?",
+            "attachments": [
+                {
+                    "text": "Please Select an Option",
+                    "fallback": "Error",
+                    "callback_id": "wopr_game",
+                    "color": "#3AA3E3",
+                    "attachment_type": "default",
+                        "actions": [
+                            {
+                                "name": "Perfect",
+                                "text": "Perfect!",
+                                "type": "button",
+                                "value": "Perfect",
+                                "confirm": {
+                                    "title": "Feedback",
+                                    "text": "Thank you for the Feedback! We will keep this in consideration"
+                                }
+                            },
+                            {
+                            "name": "Bad",
+                            "text": "Too Frequent",
+                            "style": "danger",
+                            "type": "button",
+                            "value": "Bad",
+                            "confirm": {
+                                "title": "Feedback",
+                                "text": "Thank you for the Feedback! We will keep this in consideration"
+                            }
+                        }
+                    ]
+                }
+            ]
+        }
+    )
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
