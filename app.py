@@ -899,9 +899,9 @@ def reaction_added(ack, event, say, client):
     client.chat_postEphemeral(
         channel = channel, 
         user = user,
+        text = "Thank you for taking the survey! Do you think the surveys is too frequent or just right?",
         attachments = {
-            "text": "Thank you for taking the survey! Do you think the surveys is too frequent or just right?",
-            "attachments": [
+            [
                 {
                     "text": "Please Select an Option",
                     "fallback": "Error",
