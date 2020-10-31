@@ -912,7 +912,6 @@ def reaction_added(ack, event, say, client):
                             "text": "Perfect!",
                             "type": "button",
                             "value": "Perfect",
-                            "action_id":"good_feedback" 
                         },
                         {
                             "name": "Bad",
@@ -920,14 +919,13 @@ def reaction_added(ack, event, say, client):
                             "style": "danger",
                             "type": "button",
                             "value": "Bad",
-                            "action_id":"bad_feedback"
                         }
                     ]
                 }
             ]     
     )
 
-@bolt_app.action("good_feedback")
+    @bolt_app.action("feedback_button")
     def action_button_click(ack, body, client):
         # Acknowledge the action
         user = body['user']['id']
@@ -937,16 +935,6 @@ def reaction_added(ack, event, say, client):
             user = user,
             text = "Good Feedback")
 
-
-    @bolt_app.action("bad_feedback")
-    def action_button_click(ack, body, client):
-        # Acknowledge the action
-        user = body['user']['id']
-        client.chat_delete(channel = channel, timestamp = ts)
-        client.chat_postEphemeral(
-            channel = channel, 
-            user = user,
-            text = "Bad Feedback")
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
