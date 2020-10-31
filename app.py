@@ -904,7 +904,7 @@ def reaction_added(ack, event, say, client):
             [
                 {
                     "text": "Please Select an Option",
-                    "callback_id":"feedback_button",
+                    "callback_id":"feedback_button"
                     "color": "#3AA3E3",
                     "actions": [
                         {
@@ -912,11 +912,12 @@ def reaction_added(ack, event, say, client):
                             "text": "Perfect!",
                             "type": "button",
                             "value": "Perfect",
-                            "action_id":"good_feedback"
+                            "action_id":"good_feedback" 
                         },
                         {
                             "name": "Bad",
                             "text": "Too Frequent",
+                            "style": "danger",
                             "type": "button",
                             "value": "Bad",
                             "action_id":"bad_feedback"
@@ -926,7 +927,7 @@ def reaction_added(ack, event, say, client):
             ]     
     )
 
-    @bolt_app.action("good_feedback")
+@bolt_app.action("good_feedback")
     def action_button_click(ack, body, client):
         # Acknowledge the action
         user = body['user']['id']
@@ -946,7 +947,6 @@ def reaction_added(ack, event, say, client):
             channel = channel, 
             user = user,
             text = "Bad Feedback")
-    
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
