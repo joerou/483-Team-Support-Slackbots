@@ -904,21 +904,21 @@ def reaction_added(ack, event, say, client):
             [
                 {
                     "text": "Please Select an Option",
-                    "callback_id":"feedback_button"
+                    "callback_id":"feedback_button",
                     "color": "#3AA3E3",
                     "actions": [
                         {
                             "name": "Perfect",
                             "text": "Perfect!",
                             "type": "button",
-                            "value": "Perfect",
+                            "value": "Perfect"
                         },
                         {
                             "name": "Bad",
                             "text": "Too Frequent",
                             "style": "danger",
                             "type": "button",
-                            "value": "Bad",
+                            "value": "Bad"
                         }
                     ]
                 }
