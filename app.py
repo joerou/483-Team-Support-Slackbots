@@ -912,27 +912,29 @@ def reaction_added(ack, event, say, client):
                             "name": "Perfect",
                             "text": "Perfect!",
                             "type": "button",
-                            "value": "Perfect",
-                            "confirm": {
-                                "title": "Feedback",
-                                "text": "Thank you for the Feedback! We will keep this in consideration"
-                            }
+                            "value": "Perfect"
                         },
                         {
                             "name": "Bad",
                             "text": "Too Frequent",
                             "style": "danger",
                             "type": "button",
-                            "value": "Bad",
-                            "confirm": {
-                                "title": "Feedback",
-                                "text": "Thank you for the Feedback! We will keep this in consideration"
-                            }
+                            "value": "Bad"
                         }
                     ]
                 }
             ]     
     )
+
+    @bolt_app.action("feedback_button")
+    def action_button_click(ack, body, client):
+        # Acknowledge the action
+        user = body['user']['id']
+        client.chat_delete(channel = channel, timestamp = ts)
+        client.chat_postEphemeral(
+            channel = channel, 
+            user = user,
+            text = "Good Feedback")
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
