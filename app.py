@@ -925,15 +925,6 @@ def reaction_added(ack, event, say, client):
             ]     
     )
 
-    @bolt_app.action("feedback_button")
-    def action_button_click(ack, body, client):
-        # Acknowledge the action
-        user = body['user']['id']
-        client.chat_delete(channel = channel, timestamp = ts)
-        client.chat_postEphemeral(
-            channel = channel, 
-            user = user,
-            text = "Good Feedback")
 
 
 # Triggering event upon new member joining
