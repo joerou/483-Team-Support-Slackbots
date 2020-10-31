@@ -905,21 +905,19 @@ def reaction_added(ack, event, say, client):
                 {
                     "text": "Please Select an Option",
                     "fallback": "Error",
-                    "callback_id": "wopr_game",
                     "color": "#3AA3E3",
-                    "attachment_type": "default",
-                        "actions": [
-                            {
-                                "name": "Perfect",
-                                "text": "Perfect!",
-                                "type": "button",
-                                "value": "Perfect",
-                                "confirm": {
-                                    "title": "Feedback",
-                                    "text": "Thank you for the Feedback! We will keep this in consideration"
-                                }
-                            },
-                            {
+                    "actions": [
+                        {
+                            "name": "Perfect",
+                            "text": "Perfect!",
+                            "type": "button",
+                            "value": "Perfect",
+                            "confirm": {
+                                "title": "Feedback",
+                                "text": "Thank you for the Feedback! We will keep this in consideration"
+                            }
+                        },
+                        {
                             "name": "Bad",
                             "text": "Too Frequent",
                             "style": "danger",
