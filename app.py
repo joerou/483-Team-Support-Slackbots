@@ -900,7 +900,7 @@ def reaction_added(ack, event, say, client):
         channel = channel, 
         user = user,
         text = "Thank you for taking the survey! Do you think the surveys is too frequent or just right?",
-        attachments = {
+        attachments = 
             [
                 {
                     "text": "Please Select an Option",
@@ -930,8 +930,7 @@ def reaction_added(ack, event, say, client):
                         }
                     ]
                 }
-            ]
-        }
+            ]     
     )
 
 # Triggering event upon new member joining
