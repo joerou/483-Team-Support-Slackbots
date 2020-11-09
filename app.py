@@ -6,6 +6,7 @@ from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from questions_payloads import *
+from statistics import *
 
 ###############################################################################
 # Initializing
@@ -59,6 +60,24 @@ msgDB = database.create_container_if_not_exists(
 survey_containter = database.get_container_client("survey-storage")
 ## Add more container here for survey
 
+# Create container for statistics.
+statDB_name = 'statistics-storage'
+statDB = database.create_container_if_not_exists(
+    id=statDB_name,
+    partition_key=PartitionKey(path="/info_type"),
+    offer_throughput=400
+)
+# Insert the initial item for workspace-wide statistics.
+statDB.upsert_item({
+        'id': '1',
+        'total_workspace_messages': 0,
+        'info_type': 'Workspace-wide stats'
+    }
+)
+# Insert the initial items for individual user statistics.
+
+# Insert the initial items for individual channel statistics.
+
 ## The database usage in the rest part may need to be changed on a different platform
 ## End platform related code
 
@@ -85,6 +104,7 @@ def log_message(payload, next):
             'mention': None
         }
         msgDB.create_item(msg)
+        update_statistics(msg)
     return next()
 
 ###############################################################################
