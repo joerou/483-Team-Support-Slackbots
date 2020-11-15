@@ -1096,6 +1096,13 @@ def psych_survey(ack, body, say, client):
     ack();
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
+    channel = body["channel"]
+    ts = body["ts"]
+    client.chat_scheduleMessage(
+        channel = channel,
+        text = "Reminder: Brainstorm listening ends in 15 minutes.",
+        post_at = ts + 60,
+    )
 
 @bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, client):
