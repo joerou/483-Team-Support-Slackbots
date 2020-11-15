@@ -1096,7 +1096,7 @@ def psych_survey(ack, body, say, command, client):
     ack();
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
-    channel = command["channel"]
+    channel = command["channel_id"]
     ts = command["ts"]
     client.chat_scheduleMessage(
         channel = channel,
