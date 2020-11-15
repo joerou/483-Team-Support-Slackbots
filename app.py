@@ -1,6 +1,7 @@
 import sys
 import logging
 import os
+import time
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
@@ -1097,7 +1098,7 @@ def psych_survey(ack, body, say, command, client):
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
     channel = command["channel_id"]
-    ts = command["ts"]
+    ts = time.time()
     client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Brainstorm listening ends in 15 minutes.",
