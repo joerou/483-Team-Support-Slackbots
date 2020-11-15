@@ -1110,6 +1110,34 @@ def psych_survey(ack, body, client):
         # View payload
             view=psych_q1_payload
     )
+
+@bolt_app.command('/StartBrainstorming')
+def psych_survey(ack, body, say, client):
+    ack();
+    channel = body["channel"]
+    ts = body["ts"]
+    say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
+    client.chat_scheduleMessage(
+        "channel": channel,
+        "text": "Reminder: Brainstorm listening ends in 15 minutes.",
+        "post_at": ts + 60,
+    )
+
+    client.chat_scheduleMessage(
+        "channel": channel,
+        "text": "Brainstorm listening has ended",
+        "post_at": ts + 120,
+    )
+
+@bolt_app.command('/EndBrainstorming')
+def psych_survey(ack, body, say, client):
+    ack();
+
+    say('Brainstorm listening has ended')
+    
+    
+
+
 ###############################################################################
 
 # Once we have our event listeners configured, we can start the
