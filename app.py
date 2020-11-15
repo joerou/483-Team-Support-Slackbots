@@ -1091,13 +1091,13 @@ def psych_survey(ack, body, client):
             view=psych_q1_payload
     )
 
-@bolt_app.command('/StartBrainstorming')
+@bolt_app.command('/startbrainstorming')
 def psych_survey(ack, body, say, client):
     ack();
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
 
-@bolt_app.command('/EndBrainstorming')
+@bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, client):
     ack();
     say('Brainstorm listening has ended')
