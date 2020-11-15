@@ -1092,12 +1092,12 @@ def psych_survey(ack, body, client):
     )
 
 @bolt_app.command('/startbrainstorming')
-def psych_survey(ack, body, say, payload, client):
+def psych_survey(ack, body, say, command, client):
     ack();
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
-    channel = payload["channel"]
-    ts = payload["ts"]
+    channel = command["channel"]
+    ts = command["ts"]
     client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Brainstorm listening ends in 15 minutes.",
