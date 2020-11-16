@@ -1105,10 +1105,24 @@ def psych_survey(ack, body, say, command, client):
         post_at = ts + 60,
     )
 
+    client.chat_scheduleMessage(
+        channel = channel,
+        text = "Brainstorm listening has ended",
+        post_at = ts + 120,
+    )
+
 @bolt_app.command('/endbrainstorming')
-def psych_survey(ack, body, say, client):
+def psych_survey(ack, body, say, command, client):
     ack();
     say('Brainstorm listening has ended')
+    channel = command["channel_id"]
+    ts = time.time()
+    scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
+    while(len(scheduledList["scheduled_messages"]) != 0)
+        scheduledId = scheduledList["scheduled_messages"]["id"]
+        client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = id)
+        scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
+    
 
 
 ###############################################################################
