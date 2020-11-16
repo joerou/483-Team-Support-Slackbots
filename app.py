@@ -133,7 +133,7 @@ def message_rest(ack):
     ack()
 
 @bolt_app.message("Brainstorm listening has ended")
-def message_endBrainstorming(ack, message, say)
+def message_endBrainstorming(ack, message, say):
     ack()
     brainstormOn = 0
     say("Finished")
