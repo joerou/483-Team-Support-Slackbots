@@ -99,7 +99,7 @@ def log_message(payload, next):
         }
         msgDB.create_item(msg)
 
-        if brainstormOn == 1
+        if brainstormOn == 1:
             msg = {
                 'id' : payload["ts"],
                 'channel': payload["channel"],
