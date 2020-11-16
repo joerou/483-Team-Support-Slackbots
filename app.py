@@ -1130,7 +1130,7 @@ def psych_survey(ack, body, say, command, client):
 
     client.chat_scheduleMessage(
         channel = channel,
-        text = "Brainstorm listening has ended",
+        text = "/endbrainstorming",
         post_at = ts + 120,
     )
 
