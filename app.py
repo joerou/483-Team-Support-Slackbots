@@ -61,14 +61,6 @@ survey_containter = database.get_container_client("survey-storage")
 ## Add more container here for survey
 
 
-#Database for brainstorming
-brainstormDB_name = 'brainstorm-storage'
-brainstormDB = database.create_container_if_not_exists(
-    id=brainstormDB_name,
-    partition_key=PartitionKey(path="/user"),
-    offer_throughput=400
-)
-
 ## The database usage in the rest part may need to be changed on a different platform
 ## End platform related code
 
