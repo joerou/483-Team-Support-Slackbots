@@ -60,8 +60,20 @@ msgDB = database.create_container_if_not_exists(
 survey_containter = database.get_container_client("survey-storage")
 ## Add more container here for survey
 
+
+#Database for brainstorming
+brainstormDB_name = 'brainstorm-storage'
+brainstormDB = database.create_container_if_not_exists(
+    id=brainstormDB_name,
+    partition_key=PartitionKey(path="/user"),
+    offer_throughput=400
+)
+
 ## The database usage in the rest part may need to be changed on a different platform
 ## End platform related code
+
+# Global Variables 
+brainstormOn = 0
 
 ###############################################################################
 # Middleware
@@ -86,6 +98,17 @@ def log_message(payload, next):
             'mention': None
         }
         msgDB.create_item(msg)
+
+        if brainstormOn == 1
+            msg = {
+                'id' : payload["ts"],
+                'channel': payload["channel"],
+                'user': payload["user"],
+                'message': payload["text"],
+                'mention': None
+            }
+            brainstormDB.create_item(msg)
+
     return next()
 
 ###############################################################################
@@ -1095,13 +1118,14 @@ def psych_survey(ack, body, client):
 @bolt_app.command('/startbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
+    brainstormOn = 1
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
     channel = command["channel_id"]
     ts = time.time()
     client.chat_scheduleMessage(
         channel = channel,
-        text = "Reminder: Brainstorm listening ends in 15 minutes.",
+        text = "Reminder: Brainstorm listening ends in 15 minutes. Think outside the box and dont be afraid to come up with unique ideas!",
         post_at = ts + 60,
     )
 
@@ -1114,6 +1138,7 @@ def psych_survey(ack, body, say, command, client):
 @bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
+    brainstormOn = 0
     say('Brainstorm listening has ended')
     channel = command["channel_id"]
     ts = time.time()
