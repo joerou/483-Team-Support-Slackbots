@@ -32,8 +32,8 @@ question1_payload = {
                 "value": "Q1_1",
                 "text": {
                   "type": "plain_text",
-                  "text": "1 Strongly Disagree",
-                  "action_id": "this_is_an_action_id"
+                  "text": "1 Strongly Disagree"
+                  #"action_id": "this_is_an_action_id"
                 }
               },
               {
