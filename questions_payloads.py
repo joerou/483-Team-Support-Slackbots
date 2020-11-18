@@ -1,6 +1,4 @@
 
-
-
 question1_payload = {
     "type": "modal",
 # View identifier
