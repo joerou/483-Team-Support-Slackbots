@@ -25,7 +25,7 @@ question1_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "radio_buttons",
+            "action_id": "this_is_an_action_id",
             
             "options": [
               {
