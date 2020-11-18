@@ -177,7 +177,7 @@ def action_button_click(ack, body, say):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "%d Answer" %(question)},
+                        "text": {"type": "mrkdwn", "text": " Answer"},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
