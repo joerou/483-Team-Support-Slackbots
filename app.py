@@ -127,12 +127,6 @@ def message_hello(ack, message, say):
         text=f"Hey there <@{message['user']}>!"
     )
 
-@bolt_app.message("Brainstorm listening has ended")
-def message_endBrainstorming(ack, message, say):
-    ack()
-    brainstormOn = 0
-    say("Finished")
-
 # handle all messages
 @bolt_app.message("")
 def message_rest(ack):
@@ -1207,6 +1201,23 @@ def psych_survey(ack, body, say, command, client):
     client.chat_scheduleMessage(
         channel = channel,
         text = "Brainstorm listening has ended",
+        attachments = 
+            [
+                {
+                    "text": "Please Select an Option",
+                    "fallback": "Error",
+                    "callback_id": "feedback_button",
+                    "color": "#3AA3E3",
+                    "actions": [
+                        {
+                            "name": "Perfect",
+                            "text": "Perfect!",
+                            "type": "button",
+                            "value": "Perfect"
+                        }
+                    ]
+                }
+            ]   
         post_at = ts + 120,
     )
 
@@ -1218,7 +1229,7 @@ def psych_survey(ack, body, say, command, client):
     channel = command["channel_id"]
     ts = time.time()
     scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
-    scheduledId = scheduledList["scheduled_messages"]["id"]
+    say(scheduledList)
     client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = scheduledId)
     
 
@@ -1229,3 +1240,8 @@ def psych_survey(ack, body, say, command, client):
 # Flask server with the default `/events` endpoint on port 3000
 if __name__ == "__main__":
     app.run(debug=True, port=int(os.environ.get("PORT", 3000)))
+
+
+
+
+
