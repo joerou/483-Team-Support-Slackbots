@@ -250,6 +250,7 @@ def action_button_click(ack, body, say):
     global brainstormOn
     brainstormOn = 0
     say('Here are all of the ideas the group came up with: ')
+    brainDB.read_all_items(brainDB)
 
 
 
