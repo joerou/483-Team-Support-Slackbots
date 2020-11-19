@@ -99,14 +99,15 @@ def log_message(payload, next):
         }
         msgDB.create_item(msg)
 
-        msgBrain = {
-            'id' : payload["ts"],
-            'channel': payload["channel"],
-            'user': payload["user"],
-            'message': payload["text"],
-            'mention': None
-        }
-        brainDB.create_item(msgBrain)
+        if (brainstormOn == 1):
+            msgBrain = {
+                'id' : payload["ts"],
+                'channel': payload["channel"],
+                'user': payload["user"],
+                'message': payload["text"],
+                'mention': None
+            }
+            brainDB.create_item(msgBrain)
 
     return next()
 
