@@ -251,6 +251,7 @@ def action_button_click(ack, body, say):
     brainstormOn = 0
     say('Here are all of the ideas the group came up with: ')
     item_list = list(brainDB.read_all_items())
+    msg = ""
     for i in item_list:
         msg += i.get("message") + "\n"
         brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
@@ -1216,7 +1217,7 @@ def psych_survey(ack, body, say, command, client):
     client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Brainstorm listening ends in 15 minutes. Think outside the box and dont be afraid to come up with unique ideas!",
-        post_at = ts + 10,
+        post_at = ts + 25,
     )
 
     client.chat_scheduleMessage(
@@ -1239,7 +1240,7 @@ def psych_survey(ack, body, say, command, client):
                     ]
                 }
             ],   
-        post_at = ts + 30,
+        post_at = ts + 35,
     )
 
 @bolt_app.command('/endbrainstorming')
