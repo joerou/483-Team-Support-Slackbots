@@ -1217,7 +1217,7 @@ def psych_survey(ack, body, say, command, client):
                         }
                     ]
                 }
-            ]   
+            ],   
         post_at = ts + 120,
     )
 
