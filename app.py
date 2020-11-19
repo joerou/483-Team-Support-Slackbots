@@ -235,6 +235,12 @@ def action_button_click(ack, body, client):
     temp[question] = response
     survey_dict[user] = temp
     
+@bolt_app.action("EndBrainstorming")
+def action_button_click(ack, body, say):
+    # Acknowledge the action
+    ack()
+    say(f"<@{body['user']['id']}> clicked the button")
+
 
 @bolt_app.action("button_click")
 def action_button_click(ack, body, say):
@@ -1204,16 +1210,16 @@ def psych_survey(ack, body, say, command, client):
         attachments = 
             [
                 {
-                    "text": "Please Select an Option",
+                    "text": "Please hit this Button to End Brainstorming",
                     "fallback": "Error",
-                    "callback_id": "feedback_button",
+                    "callback_id": "EndBrainstorming",
                     "color": "#3AA3E3",
                     "actions": [
                         {
-                            "name": "Perfect",
-                            "text": "Perfect!",
+                            "name": "EndBrainstorming",
+                            "text": "End Brainstorming",
                             "type": "button",
-                            "value": "Perfect"
+                            "value": "End"
                         }
                     ]
                 }
