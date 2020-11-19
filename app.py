@@ -252,10 +252,9 @@ def action_button_click(ack, body, say):
     say('Here are all of the ideas the group came up with: ')
     item_list = list(brainDB.read_all_items())
     for i in item_list:
-        say(i.get("message"))
-        brainDB.delete_item(item = i.get("id"), partition_key = PartitionKey(path="/user"))
-
-
+        msg += i.get("message") + "\n"
+        brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
+    say(msg)
 
 @bolt_app.action("button_click")
 def action_button_click(ack, body, say):
