@@ -60,11 +60,19 @@ msgDB = database.create_container_if_not_exists(
 survey_containter = database.get_container_client("survey-storage")
 ## Add more container here for survey
 
+#Create Brainstorming container
+brainDB_name = 'brainstorm-storage'
+brainDB = database.create_container_if_not_exists(
+    id=brainDB_name,
+    partition_key=PartitionKey(path="/user"),
+    offer_throughput=400
+)
 
 ## The database usage in the rest part may need to be changed on a different platform
 ## End platform related code
 
 # Global Variables 
+global brainstormOn
 brainstormOn = 0
 
 ###############################################################################
@@ -92,14 +100,13 @@ def log_message(payload, next):
         msgDB.create_item(msg)
 
         if brainstormOn == 1:
-            msg = {
+            msgBrain = {
                 'id' : payload["ts"],
                 'channel': payload["channel"],
                 'user': payload["user"],
-                'message': payload["text"],
-                'mention': None
+                'message': payload["text"]
             }
-            brainstormDB.create_item(msg)
+            brainDB.create_item(msgBrain)
 
     return next()
 
@@ -239,7 +246,9 @@ def action_button_click(ack, body, client):
 def action_button_click(ack, body, say):
     # Acknowledge the action
     ack()
-    say(f"<@{body['user']['id']}> clicked the button")
+    brainstormOn = 0
+    say('Here are all of the ideas the group came up with: ')
+
 
 
 @bolt_app.action("button_click")
@@ -1235,7 +1244,7 @@ def psych_survey(ack, body, say, command, client):
     channel = command["channel_id"]
     ts = time.time()
     scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
-    say(scheduledList)
+    
     client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = scheduledId)
     
 
