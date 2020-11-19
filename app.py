@@ -103,7 +103,7 @@ def log_message(payload, next):
             'id' : payload["ts"],
             'channel': payload["channel"],
             'user': payload["user"],
-            'message': payload["text"]
+            'message': payload["text"],
             'mention': None
         }
         brainDB.create_item(msgBrain)
