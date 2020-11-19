@@ -75,8 +75,6 @@ brainDB = database.create_container_if_not_exists(
 
 #Brainstorming Globals
 brainstormOn = 0
-brainSchedule1 = ""
-brainSchedule2 = ""
 
 ###############################################################################
 # Middleware
@@ -252,14 +250,18 @@ def action_button_click(ack, body, say):
     # Acknowledge the action
     ack()
     global brainstormOn
-    brainstormOn = 0
-    say('Here are all of the ideas the group came up with: ')
-    item_list = list(brainDB.read_all_items())
-    msg = ""
-    for i in item_list:
-        msg += "• " + i.get("message") + "\n"
-        brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
-    say(msg)
+
+    if (brainstormOn == 1):
+        brainstormOn = 0
+        say('Here are all of the ideas the group came up with: ')
+        item_list = list(brainDB.read_all_items())
+        msg = ""
+        for i in item_list:
+            msg += "• " + i.get("message") + "\n"
+            brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
+        say(msg)
+    else:
+        say("Brainstorming has already ended")
 
 @bolt_app.action("button_click")
 def action_button_click(ack, body, say):
@@ -1212,21 +1214,20 @@ def psych_survey(ack, body, client):
 @bolt_app.command('/startbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
-    global brainstormOn, brainSchedule1, brainSchedule2
+    global brainstormOn
     brainstormOn = 1
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
     channel = command["channel_id"]
     ts = time.time()
-    brain1 = client.chat_scheduleMessage(
+    
+    client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Brainstorm listening ends in 15 minutes. Think outside the box and dont be afraid to come up with unique ideas!",
         post_at = ts + 60,
     )
 
-    brainSchedule1 = brain1["scheduled_message_id"]
-
-    brain2 = client.chat_scheduleMessage(
+    client.chat_scheduleMessage(
         channel = channel,
         text = "Brainstorm listening has ended",
         attachments = 
@@ -1249,26 +1250,28 @@ def psych_survey(ack, body, say, command, client):
         post_at = ts + 120,
     )
 
-    brainSchedule2 = brain2["scheduled_message_id"]
-
 @bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
-    global brainstormOn, brainSchedule1, brainSchedule2
-    brainstormOn = 0
-    say('Brainstorm listening has ended')
-    channel = command["channel_id"]
-    
-    client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainSchedule1)
-    client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainSchedule2)
+    global brainstormOn
 
-    say('Here are all of the ideas the group came up with: ')
-    item_list = list(brainDB.read_all_items())
-    msg = ""
-    for i in item_list:
-        msg += "• " + i.get("message") + "\n"
-        brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
-    say(msg)
+    if (brainstormOn == 1):
+        brainstormOn = 0
+        say('Brainstorm listening has ended')
+        channel = command["channel_id"]
+        
+        #client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = schedule)
+        
+
+        say('Here are all of the ideas the group came up with: ')
+        item_list = list(brainDB.read_all_items())
+        msg = ""
+        for i in item_list:
+            msg += "• " + i.get("message") + "\n"
+            brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
+        say(msg)
+    else:
+        say("Brainstorming has already ended")
     
 
 
