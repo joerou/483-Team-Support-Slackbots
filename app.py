@@ -72,7 +72,6 @@ brainDB = database.create_container_if_not_exists(
 ## End platform related code
 
 # Global Variables 
-global brainstormOn
 brainstormOn = 0
 
 ###############################################################################
@@ -88,6 +87,7 @@ def log_request(logger, body, next):
 # Log all messages
 @bolt_app.middleware
 def log_message(payload, next):
+    global brainstormOn
     if ("type" in payload and payload["type"]=="message"):
         # id is required
         msg = {
@@ -247,6 +247,7 @@ def action_button_click(ack, body, client):
 def action_button_click(ack, body, say):
     # Acknowledge the action
     ack()
+    global brainstormOn
     brainstormOn = 0
     say('Here are all of the ideas the group came up with: ')
 
@@ -1203,6 +1204,7 @@ def psych_survey(ack, body, client):
 @bolt_app.command('/startbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
+    global brainstormOn
     brainstormOn = 1
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
     
@@ -1240,6 +1242,7 @@ def psych_survey(ack, body, say, command, client):
 @bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
+    global brainstormOn
     brainstormOn = 0
     say('Brainstorm listening has ended')
     channel = command["channel_id"]
