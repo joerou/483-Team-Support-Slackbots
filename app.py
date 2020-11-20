@@ -260,7 +260,9 @@ def action_button_click(ack, body, say):
             msg += "• " + i.get("message") + "\n"
             brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
         say(msg)
-        say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up>")
+        say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up> or <https://www.figma.com/|Figma>")
+        say("Also a reminder has been set for next week to look back on the brainstorming process")
+        
     else:
         say("Brainstorming has already ended")
 
@@ -1251,6 +1253,12 @@ def psych_survey(ack, body, say, command, client):
         post_at = ts + 120,
     )
 
+    client.chat_scheduleMessage(
+        channel = channel,
+        text = "Reminder: Look back on the Brainstorming session you had last week, was an Idea decided upon? Perhaps more mockups or another brainstorming session is needed?",
+        post_at = ts + 180,
+    )
+
 @bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
@@ -1274,7 +1282,7 @@ def psych_survey(ack, body, say, command, client):
             msg += "• " + i.get("message") + "\n"
             brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
         say(msg)
-        say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up>")
+        say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up> or <https://www.figma.com/|Figma>")
     else:
         say("Brainstorming has already ended")
     
