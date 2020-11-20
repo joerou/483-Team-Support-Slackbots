@@ -1217,7 +1217,7 @@ def psych_survey(ack, body, say, command, client):
     ack();
     global brainstormOn
     brainstormOn = 1
-    say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming')
+    say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming. Remember do not critique ideas until after the session is over')
     
     channel = command["channel_id"]
     ts = time.time()
@@ -1261,6 +1261,7 @@ def psych_survey(ack, body, say, command, client):
         say('Brainstorm listening has ended')
         channel = command["channel_id"]
         
+        ts = time.time()
         scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
         for i in scheduledList["scheduled_messages"]["id"]:
             client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = i)
