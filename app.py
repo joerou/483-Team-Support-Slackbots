@@ -1292,10 +1292,16 @@ def psych_survey(ack, body, say, command, client):
         
         try:
             client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainmessage1)
+        except:
+            pass
         try:
             client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainmessage2)
+        except:
+            pass
         try:
             client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainmessage3)
+        except: 
+            pass
 
         say('Here are all of the ideas the group came up with: ')
         item_list = list(brainDB.read_all_items())
