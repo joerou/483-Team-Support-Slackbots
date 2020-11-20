@@ -1271,8 +1271,8 @@ def psych_survey(ack, body, say, command, client):
         
         ts = time.time()
         scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
-        for i in scheduledList:
-            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = i)
+        for i in scheduledList['scheduled_messages']:
+            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = i.id)
         
 
         say('Here are all of the ideas the group came up with: ')
