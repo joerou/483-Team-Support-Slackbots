@@ -75,6 +75,9 @@ brainDB = database.create_container_if_not_exists(
 
 #Brainstorming Globals
 brainstormOn = 0
+brainmessage1 = ""
+brainmessage2 = ""
+brainmessage3 = ""
 
 ###############################################################################
 # Middleware
@@ -1218,19 +1221,25 @@ def psych_survey(ack, body, client):
 def psych_survey(ack, body, say, command, client):
     ack();
     global brainstormOn
+    global brainmessage1
+    global brainmessage2
+    global brainmessage3
+
     brainstormOn = 1
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming. Remember do not critique ideas until after the session is over')
     
     channel = command["channel_id"]
     ts = time.time()
     
-    client.chat_scheduleMessage(
+    brain1 = client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Brainstorm listening ends in 15 minutes. Think outside the box and dont be afraid to come up with unique ideas!",
         post_at = ts + 60,
     )
 
-    client.chat_scheduleMessage(
+    brainmessage1 = brain1["scheduled_message_id"]
+
+    brain2 = client.chat_scheduleMessage(
         channel = channel,
         text = "Brainstorm listening has ended",
         attachments = 
@@ -1253,27 +1262,40 @@ def psych_survey(ack, body, say, command, client):
         post_at = ts + 120,
     )
 
-    client.chat_scheduleMessage(
+    brainmessage2 = brain2["scheduled_message_id"]
+
+    brain3 = client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Look back on the Brainstorming session you had last week, was an Idea decided upon? Perhaps more mockups or another brainstorming session is needed?",
         post_at = ts + 180,
     )
 
+    brainmessage3 = brain3["scheduled_message_id"]
+
 @bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, command, client):
     ack();
     global brainstormOn
+    global brainmessage1
+    global brainmessage2
+    global brainmessage3
 
     if (brainstormOn == 1):
         brainstormOn = 0
         say('Brainstorm listening has ended')
         channel = command["channel_id"]
         
-        ts = time.time()
-        scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
-        for i in scheduledList['scheduled_messages']:
-            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = i["id"])
+        #ts = time.time()
+        #scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
+        #for i in scheduledList['scheduled_messages']:
+        #    client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = i["id"])
         
+        try:
+            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainmessage1)
+        try:
+            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainmessage2)
+        try:
+            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = brainmessage3)
 
         say('Here are all of the ideas the group came up with: ')
         item_list = list(brainDB.read_all_items())
