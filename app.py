@@ -260,6 +260,7 @@ def action_button_click(ack, body, say):
             msg += "• " + i.get("message") + "\n"
             brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
         say(msg)
+        say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up>")
     else:
         say("Brainstorming has already ended")
 
@@ -1260,7 +1261,9 @@ def psych_survey(ack, body, say, command, client):
         say('Brainstorm listening has ended')
         channel = command["channel_id"]
         
-        #client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = schedule)
+        scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
+        for i in scheduledList["scheduled_messages"]["id"]:
+            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = i)
         
 
         say('Here are all of the ideas the group came up with: ')
@@ -1270,6 +1273,7 @@ def psych_survey(ack, body, say, command, client):
             msg += "• " + i.get("message") + "\n"
             brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
         say(msg)
+        say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up>")
     else:
         say("Brainstorming has already ended")
     
