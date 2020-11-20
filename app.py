@@ -1234,7 +1234,7 @@ def psych_survey(ack, body, say, command, client):
     brain1 = client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Brainstorm listening ends in 15 minutes. Think outside the box and dont be afraid to come up with unique ideas!",
-        post_at = ts + 60,
+        post_at = ts + 900,
     )
 
     brainmessage1 = brain1["scheduled_message_id"]
@@ -1259,7 +1259,7 @@ def psych_survey(ack, body, say, command, client):
                     ]
                 }
             ],   
-        post_at = ts + 120,
+        post_at = ts + 1800,
     )
 
     brainmessage2 = brain2["scheduled_message_id"]
@@ -1267,7 +1267,7 @@ def psych_survey(ack, body, say, command, client):
     brain3 = client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Look back on the Brainstorming session you had last week, was an Idea decided upon? Perhaps more mockups or another brainstorming session is needed?",
-        post_at = ts + 180,
+        post_at = ts + 604800,
     )
 
     brainmessage3 = brain3["scheduled_message_id"]
@@ -1311,6 +1311,7 @@ def psych_survey(ack, body, say, command, client):
             brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
         say(msg)
         say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up> or <https://www.figma.com/|Figma>")
+        say("Also a reminder has been set for next week to look back on the brainstorming process")
     else:
         say("Brainstorming has already ended")
     
