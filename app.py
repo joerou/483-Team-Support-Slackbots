@@ -245,10 +245,9 @@ def action_button_click(ack, body, client):
     temp[question] = response
     survey_dict[user] = temp
 
-
+'''
 @bot_app.action("psych_radio_id")
     ack();
-'''
     user = body['user']['id']
     value = body['actions']['selected_option']['value']
     question = int(value[7])-1
