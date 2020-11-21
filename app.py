@@ -245,8 +245,10 @@ def action_button_click(ack, body, client):
     temp[question] = response
     survey_dict[user] = temp
 
+
 @bot_app.action("psych_radio_id")
     ack();
+'''
     user = body['user']['id']
     value = body['actions']['selected_option']['value']
     question = int(value[7])-1
@@ -254,6 +256,7 @@ def action_button_click(ack, body, client):
     temp = psych_dict[user]
     temp[question] = response
     psych_dict[user] = temp
+'''
     
 @bolt_app.action("EndBrainstorming")
 def action_button_click(ack, body, say):
