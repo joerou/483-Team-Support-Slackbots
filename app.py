@@ -165,7 +165,7 @@ def action_button_click(ack, body, client):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "hello %s" % (body['team']['domain'])},
+                        "text": {"type": "mrkdwn", "text": "hello %s" % (body['actions'][0]['selected_option'][0]['value'])},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
