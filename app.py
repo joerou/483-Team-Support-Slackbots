@@ -165,7 +165,7 @@ def action_button_click(ack, body, client):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "hello %s" % (body['user']['id'])},
+                        "text": {"type": "mrkdwn", "text": "hello %s" % (tuple(body))},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
@@ -188,7 +188,6 @@ def action_button_click(ack, body, client):
                             "text": {
                               "type": "plain_text",
                               "text": "1 Strongly Disagree"
-                              #"action_id": "this_is_an_action_id"
                             }
                           },
                           {
