@@ -13,6 +13,7 @@ from questions_payloads import *
 ###############################################################################
 # initializing survey_dict
 survey_dict = {}
+psych_dict = {}
 
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
@@ -243,6 +244,18 @@ def action_button_click(ack, body, client):
     temp = survey_dict[user]
     temp[question] = response
     survey_dict[user] = temp
+
+###
+@bot_app.action("psych_radio_id")
+    ack();
+    user = body['user']['id']
+    value = body['actions']['selected_option']['value']
+    question = int(value[7])-1
+    response = int(value[-1])
+    temp = psych_dict[user]
+    temp[question] = response
+    psych_dict[user] = temp
+###
     
 @bolt_app.action("EndBrainstorming")
 def action_button_click(ack, body, say):
@@ -1227,6 +1240,8 @@ def survey(ack, body, client):
 # Psych Survey slash command (temp)
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
+    user = body['user']['id']###
+    psych_dict[user] = [0 for x in range(7)]###
     ack();
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
