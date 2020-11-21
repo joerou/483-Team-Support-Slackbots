@@ -991,7 +991,23 @@ def action_button_click(ack, body, client):
 def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
-    user = body["user"]["id"]
+    client.views_update(
+        view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+        hash=body["view"]["hash"],
+        # View payload
+        view={
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Your survey has been submitted. Thank you."
+                    }
+                }
+            ]
+        }
+    )
 
 
 ###############################################################################
