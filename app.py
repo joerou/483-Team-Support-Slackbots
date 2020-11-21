@@ -247,8 +247,8 @@ def action_button_click(ack, body, client):
 
 
 @bot_app.action("psych_radio_id")
-def psych_action_click(ack, body, say)
-    ack();
+def action_button_click(ack, body, say)
+    ack()
     user = body['user']['id']
     value = body['actions']['selected_option']['value']
     question = int(value[7])-1
