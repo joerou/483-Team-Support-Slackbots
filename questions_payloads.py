@@ -3560,7 +3560,7 @@ psych_q1_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 1"},
+    "title": {"type": "plain_text", "text": "Question 1/7"},
     
     "blocks": [
         {
@@ -3580,7 +3580,7 @@ psych_q1_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "this_is_an_action_id",
+            "action_id": "psych_radio_id",
             
             "options": [
               {
@@ -3630,7 +3630,7 @@ psych_q2_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 2"},
+    "title": {"type": "plain_text", "text": "Question 2/7"},
     
     "blocks": [
         {
@@ -3650,7 +3650,7 @@ psych_q2_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "this_is_an_action_id",
+            "action_id": "psych_radio_id",
             
             "options": [
               {
@@ -3700,7 +3700,7 @@ psych_q3_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 3"},
+    "title": {"type": "plain_text", "text": "Question 3/7"},
     
     "blocks": [
         {
@@ -3720,7 +3720,7 @@ psych_q3_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "this_is_an_action_id",
+            "action_id": "psych_radio_id",
             
             "options": [
               {
@@ -3770,7 +3770,7 @@ psych_q4_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 4"},
+    "title": {"type": "plain_text", "text": "Question 4/7"},
     
     "blocks": [
         {
@@ -3790,7 +3790,7 @@ psych_q4_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "this_is_an_action_id",
+            "action_id": "psych_radio_id",
             
             "options": [
               {
@@ -3840,7 +3840,7 @@ psych_q5_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 5"},
+    "title": {"type": "plain_text", "text": "Question 5/7"},
     
     "blocks": [
         {
@@ -3860,7 +3860,7 @@ psych_q5_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "this_is_an_action_id",
+            "action_id": "psych_radio_id",
             
             "options": [
               {
@@ -3910,7 +3910,7 @@ psych_q6_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 6"},
+    "title": {"type": "plain_text", "text": "Question 6/7"},
     
     "blocks": [
         {
@@ -3930,7 +3930,7 @@ psych_q6_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "this_is_an_action_id",
+            "action_id": "psych_radio_id",
             
             "options": [
               {
@@ -3980,7 +3980,7 @@ psych_q7_payload = {
     "type": "modal",
 # View identifier
     "callback_id": "view_1",
-    "title": {"type": "plain_text", "text": "Question 7"},
+    "title": {"type": "plain_text", "text": "Question 7/7"},
     
     "blocks": [
         {
@@ -3988,8 +3988,8 @@ psych_q7_payload = {
             "text": {"type": "mrkdwn", "text": "7. Working with members of this team, my unique skills and talents are valued and utilized."},
             "accessory": {
                 "type": "button",
-                "text": {"type": "plain_text", "text": "Next"},
-                "action_id": "psych_q7_next"
+                "text": {"type": "plain_text", "text": "Submit"},
+                "action_id": "psych_submit"
             }
         },
         {
@@ -4000,7 +4000,7 @@ psych_q7_payload = {
           },
           "accessory": {
             "type": "radio_buttons",
-            "action_id": "this_is_an_action_id",
+            "action_id": "psych_radio_id",
             
             "options": [
               {
