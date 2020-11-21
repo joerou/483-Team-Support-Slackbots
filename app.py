@@ -1240,8 +1240,8 @@ def survey(ack, body, client):
 # Psych Survey slash command (temp)
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
-    user = body['user']['id']
-    psych_dict[user] = [0 for x in range(7)]
+    #user = body['user']['id']
+    #psych_dict[user] = [0 for x in range(7)]
     ack();
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
