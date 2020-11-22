@@ -156,7 +156,7 @@ def action_button_click(ack, body, client, say):
     form_json = form_json[-150:]
     question_number = ""
     result = form_json.find('value')
-    question number = form_json[result+8:result+12]
+    question_number = form_json[result+8:result+12]
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
