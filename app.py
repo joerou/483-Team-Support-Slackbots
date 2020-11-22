@@ -149,10 +149,10 @@ def message_rest(ack):
 ###############################################################################
 # handler for a radio button being selected
 @bolt_app.action("this_is_an_action_id")
-def action_button_click(ack, body, client, say):
+def action_button_click(ack, body, client, event):
     # Acknowledge the action
     ack();
-    #form_json = json.loads(request.form["payload"])
+    form_json = json.dumps(body)
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -229,7 +229,7 @@ def action_button_click(ack, body, client, say):
             }
 
     )
-    say(body)
+    say(form_json)
     user = body['user']['id']
     value = body['actions']['selected_option']['value']
     question = ""
