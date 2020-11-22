@@ -149,7 +149,7 @@ def message_rest(ack):
 ###############################################################################
 # handler for a radio button being selected
 @bolt_app.action("this_is_an_action_id")
-def action_button_click(ack, body, client, event):
+def action_button_click(ack, body, client, say):
     # Acknowledge the action
     ack();
     form_json = json.loads(body)
