@@ -2,6 +2,7 @@ import sys
 import logging
 import os
 import time
+import json
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
@@ -151,6 +152,7 @@ def message_rest(ack):
 def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
+    form_json = json.loads(request.form["payload"])
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -165,7 +167,7 @@ def action_button_click(ack, body, client):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "hello %s" % (body['actions'][0]['selected_option'][0]['value'])},
+                        "text": {"type": "mrkdwn", "text": "hello %s" % (form_json["actions"][0]["selected_options"][0]["value"])},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
