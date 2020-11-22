@@ -155,6 +155,7 @@ def action_button_click(ack, body, client, say):
     form_json = json.dumps(body)
     form_json = form_json[-150:]
     question_number = ""
+    result = form_json.find('value')
     for x in range(len(form_json)):
         if form_json[x] == 'v':
             if form_json[x:x+4] == "value":
@@ -173,7 +174,7 @@ def action_button_click(ack, body, client, say):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "hello %s" % (question_number)},
+                        "text": {"type": "mrkdwn", "text": "hello %d" % (result)},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
