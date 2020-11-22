@@ -14,6 +14,7 @@ from questions_payloads import *
 ###############################################################################
 # initializing survey_dict
 survey_dict = {}
+psych_dict = {}
 
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
@@ -245,6 +246,19 @@ def action_button_click(ack, body, client):
     temp = survey_dict[user]
     temp[question] = response
     survey_dict[user] = temp
+
+
+@bot_app.action("psych_radio_id")
+def action_button_click(ack, body, say)
+    ack()
+    user = body['user']['id']
+    value = body['actions']['selected_option']['value']
+    question = int(value[7])-1
+    response = int(value[-1])
+    temp = psych_dict[user]
+    temp[question] = response
+    psych_dict[user] = temp
+
     
 @bolt_app.action("EndBrainstorming")
 def action_button_click(ack, body, say):
@@ -993,7 +1007,26 @@ def action_button_click(ack, body, client):
 def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
-    user = body["user"]["id"]
+    client.views_update(
+        view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+        hash=body["view"]["hash"],
+        # View payload
+        view={
+            "type": "modal",
+            "callback_id": "view_1",
+            "title": {"type": "plain_text", "text": "Thank You"},
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Your survey has been submitted. Thank you."
+                    }
+                }
+            ]
+        }
+    )
 
 
 ###############################################################################
@@ -1211,6 +1244,8 @@ def survey(ack, body, client):
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
     ack();
+    user = body['user']['id']
+    psych_dict[user] = [0 for x in range(7)]
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
