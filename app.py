@@ -156,10 +156,7 @@ def action_button_click(ack, body, client, say):
     form_json = form_json[-150:]
     question_number = ""
     result = form_json.find('value')
-    for x in range(len(form_json)):
-        if form_json[x] == 'v':
-            if form_json[x:x+4] == "value":
-                question_number = form_json[x+8:x+12]
+    question number = form_json[result+8:result+12]
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -174,7 +171,7 @@ def action_button_click(ack, body, client, say):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "hello %d" % (result)},
+                        "text": {"type": "mrkdwn", "text": "hello %s" % (question_number)},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
