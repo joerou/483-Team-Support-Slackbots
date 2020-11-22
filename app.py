@@ -152,7 +152,7 @@ def message_rest(ack):
 def action_button_click(ack, body, client, say):
     # Acknowledge the action
     ack();
-    form_json = json.dumps(body)
+    form_json = json.loads(body)
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
