@@ -2,7 +2,6 @@ import sys
 import logging
 import os
 import time
-#import json
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
@@ -14,7 +13,6 @@ from questions_payloads import *
 ###############################################################################
 # initializing survey_dict
 survey_dict = {}
-psych_dict = {}
 
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
@@ -73,7 +71,7 @@ brainDB = database.create_container_if_not_exists(
 ## The database usage in the rest part may need to be changed on a different platform
 ## End platform related code
 
-# Global Variables 
+# Global Variables
 
 #Brainstorming Globals
 brainstormOn = 0
@@ -153,8 +151,82 @@ def message_rest(ack):
 def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
-    #form_json = json.loads(request.form["payload"])
-    
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view={
+                "type": "modal",
+            # View identifier
+                "callback_id": "view_1",
+                "title": {"type": "plain_text", "text": "Question 1"},
+                
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {"type": "mrkdwn", "text": "hello %s" % (body['actions'][0]['selected_option'][0]['value'])},
+                        "accessory": {
+                            "type": "button",
+                            "text": {"type": "plain_text", "text": "Next"},
+                            "action_id": "question1_next"
+                        }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Choose a number 1-5 based on how this represents you"
+                      },
+                      "accessory": {
+                        "type": "radio_buttons",
+                        "action_id": "this_is_an_action_id",
+                        
+                        "options": [
+                          {
+                            "value": "Q1_1",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "1 Strongly Disagree"
+                            }
+                          },
+                          {
+                            "value": "Q1_2",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "2"
+                            }
+                          },
+                          {
+                            "value": "Q1_3",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "3"
+                            }
+                          },
+                          {
+                            "value": "Q1_4",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "4"
+                            }
+                          },
+                          {
+                            "value": "Q1_5",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "5 Strongly Agree"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                    
+                    
+                ]
+            }
+
+    )
     user = body['user']['id']
     value = body['actions']['selected_option']['value']
     question = ""
@@ -171,19 +243,6 @@ def action_button_click(ack, body, client):
     temp = survey_dict[user]
     temp[question] = response
     survey_dict[user] = temp
-
-
-@bot_app.action("psych_radio_id")
-def action_button_click(ack, body, say):
-    ack()
-    user = body['user']['id']
-    value = body['actions']['selected_option']['value']
-    question = int(value[7])-1
-    response = int(value[-1])
-    temp = psych_dict[user]
-    temp[question] = response
-    psych_dict[user] = temp
-
     
 @bolt_app.action("EndBrainstorming")
 def action_button_click(ack, body, say):
@@ -932,26 +991,7 @@ def action_button_click(ack, body, client):
 def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
-    client.views_update(
-        view_id=body["view"]["id"],
-        # Pass a valid trigger_id within 3 seconds of receiving it
-        hash=body["view"]["hash"],
-        # View payload
-        view={
-            "type": "modal",
-            "callback_id": "view_1",
-            "title": {"type": "plain_text", "text": "Thank You"},
-            "blocks": [
-                {
-                    "type": "section",
-                    "text": {
-                        "type": "plain_text",
-                        "text": "Your survey has been submitted. Thank you."
-                    }
-                }
-            ]
-        }
-    )
+    user = body["user"]["id"]
 
 
 ###############################################################################
@@ -982,10 +1022,10 @@ def reaction_added(ack, event, say, client):
     ts = event["item"]["ts"]
 
     client.chat_postEphemeral(
-        channel = channel, 
+        channel = channel,
         user = user,
         text = "Thank you for taking the survey! Do you think the surveys is asked too frequently or just right?",
-        attachments = 
+        attachments =
             [
                 {
                     "text": "Please Select an Option",
@@ -1008,7 +1048,7 @@ def reaction_added(ack, event, say, client):
                         }
                     ]
                 }
-            ]     
+            ]
     )
 
 # Triggering event upon new member joining
@@ -1169,8 +1209,6 @@ def survey(ack, body, client):
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
     ack();
-    user = body['user']['id']
-    psych_dict[user] = [0 for x in range(7)]
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
@@ -1200,7 +1238,7 @@ def psych_survey(ack, body, say, command, client):
     client.chat_scheduleMessage(
         channel = channel,
         text = "Brainstorm listening has ended",
-        attachments = 
+        attachments =
             [
                 {
                     "text": "Please hit this Button to End Brainstorming",
@@ -1216,7 +1254,7 @@ def psych_survey(ack, body, say, command, client):
                         }
                     ]
                 }
-            ],   
+            ],
         post_at = ts + 1800,
     )
 
@@ -1231,7 +1269,7 @@ def psych_survey(ack, body, say, command, client):
     ack();
     global brainstormOn
 
-    #If brainstorming is off no need to run through the rest of the proceedures 
+    #If brainstorming is off no need to run through the rest of the proceedures
     if (brainstormOn == 1):
         brainstormOn = 0
         say('Brainstorm listening has ended')
@@ -1246,7 +1284,7 @@ def psych_survey(ack, body, say, command, client):
             except:
                 pass
 
-        #Iterate back to the group all of the ideas they came up with 
+        #Iterate back to the group all of the ideas they came up with
         say('Here are all of the ideas the group came up with: ')
         item_list = list(brainDB.read_all_items())
         msg = ""
@@ -1267,8 +1305,3 @@ def psych_survey(ack, body, say, command, client):
 # Flask server with the default `/events` endpoint on port 3000
 if __name__ == "__main__":
     app.run(debug=True, port=int(os.environ.get("PORT", 3000)))
-
-
-
-
-
