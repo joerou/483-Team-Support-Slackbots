@@ -153,6 +153,7 @@ def action_button_click(ack, body, client, say):
     # Acknowledge the action
     ack();
     form_json = json.dumps(body)
+    
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -167,7 +168,7 @@ def action_button_click(ack, body, client, say):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "hello %s" % (form_json[-175:])},
+                        "text": {"type": "mrkdwn", "text": "hello %s" % (form_json[-150:])},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
