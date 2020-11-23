@@ -1297,7 +1297,7 @@ question17_payload = {
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "I sympothize with other's feelings"},
+            "text": {"type": "mrkdwn", "text": "I sympathize with other's feelings"},
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
@@ -2593,7 +2593,7 @@ question33_payload = {
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "I am not really interested in others"},
+            "text": {"type": "mrkdwn", "text": "I like order"},
             "accessory":{
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
@@ -2998,7 +2998,7 @@ question38_payload = {
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "I take time out for others"},
+            "text": {"type": "mrkdwn", "text": "I shirk my duties"},
             "accessory":{
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
