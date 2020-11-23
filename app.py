@@ -124,7 +124,7 @@ def log_message(payload, next):
             'mention': None
         }
         msgDB.create_item(msg)
-        update_statistics(msg, statDB)
+        # update_statistics(msg, statDB)
 
         if (brainstormOn == 1):
             msgBrain = {
