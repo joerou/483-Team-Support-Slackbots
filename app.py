@@ -207,6 +207,7 @@ def action_button_click(ack, body, client, say):
     survey_dict[user] = temp
                 
                 
+'''
 @bolt_app.action("psych_radio_id")
 def action_button_click(ack, body, say):
     ack()
@@ -217,7 +218,7 @@ def action_button_click(ack, body, say):
     temp = psych_dict[user]
     temp[question] = response
     psych_dict[user] = temp
-    
+'''
     
     
 @bolt_app.action("EndBrainstorming")
