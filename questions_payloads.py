@@ -16,16 +16,6 @@ question1_payload = {
             }
         },
         {
-            "type": "section",
-            "text": {"type": "mrkdwn", "text": " "},
-            "accessory": {
-                "type": "button",
-                "text": {"type": "plain_text", "text": "Back"},
-                "action_id": "back"
-            }
-        
-               },
-        {
           "type": "section",
           "text": {
             "type": "plain_text",

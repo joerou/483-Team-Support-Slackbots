@@ -248,7 +248,89 @@ def action_button_click(ack, body, client):
         # View payload
             view=question1_payload
     )
-    
+
+@bolt_app.action("back")
+def action_button_click(ack, body, client):
+    ack();
+    form_json = json.dumps(body)
+    client.views_update(
+            view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            hash=body["view"]["hash"],
+        # View payload
+            view={
+                "type": "modal",
+            # View identifier
+                "callback_id": "view_1",
+                "title": {"type": "plain_text", "text": "Question 1"},
+                
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {"type": "mrkdwn", "text": "%s" % (form_json)},
+                        "accessory": {
+                            "type": "button",
+                            "text": {"type": "plain_text", "text": "Next"},
+                            "action_id": "question1_next"
+                        }
+                    },
+                    {
+                      "type": "section",
+                      "text": {
+                        "type": "plain_text",
+                        "text": "Choose a number 1-5 based on how this represents you"
+                      },
+                      "accessory": {
+                        "type": "radio_buttons",
+                        "action_id": "this_is_an_action_id",
+                        
+                        "options": [
+                          {
+                            "value": "Q1_1",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "1 Strongly Disagree"
+                              #"action_id": "this_is_an_action_id"
+                            }
+                          },
+                          {
+                            "value": "Q1_2",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "2"
+                            }
+                          },
+                          {
+
+                            "value": "Q1_3",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "3"
+                            }
+                          },
+                          {
+                            "value": "Q1_4",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "4"
+                            }
+                          },
+                          {
+                            "value": "Q1_5",
+                            "text": {
+                              "type": "plain_text",
+                              "text": "5 Strongly Agree"
+                            }
+                          }
+                        ]
+                      }
+                    }
+                    
+                    
+                ]
+            }
+    )
+
 @bolt_app.action("question1_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
