@@ -13,13 +13,18 @@ question1_payload = {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
                 "action_id": "question1_next"
-            },
+            }
+        },
+        {
+            "type": "section",
+            "text": {"type": "mrkdwn", "text": ""},
             "accessory": {
                 "type": "button",
-                "text": { "type": "plain_text", "text": "Back"},
+                "text": {"type": "plain_text", "text": "Back"},
                 "action_id": "question1_back"
-               }
-        },
+            }
+        
+               },
         {
           "type": "section",
           "text": {
