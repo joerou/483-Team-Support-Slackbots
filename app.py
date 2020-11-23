@@ -152,6 +152,7 @@ def message_rest(ack):
 def action_button_click(ack, body, client, say):
     # Acknowledge the action
     ack();
+    user = body['user']['id']
     form_json = json.dumps(body)
     form_json = form_json[-150:]
     question_number = ""
@@ -184,7 +185,7 @@ def action_button_click(ack, body, client, say):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "%s" % (emp.join(survey_dict[user]))},
+                        "text": {"type": "mrkdwn", "text": "%s" % (' '.join([str(elem) for elem in survey_dict[user]]))},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
