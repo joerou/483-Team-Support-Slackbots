@@ -168,7 +168,7 @@ def action_button_click(ack, body, client, say):
     answer = int(answer)
     question_number = int(question_number)
     temp = survey_dict[user]
-    temp[question_number] = answer
+    temp[question_number-1] = answer
     survey_dict[user] = temp
     emp = ""
     for elem in survey_dict[user]:
