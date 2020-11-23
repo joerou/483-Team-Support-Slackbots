@@ -166,6 +166,10 @@ def action_button_click(ack, body, client, say):
             question_number += form_json[x]
     answer = int(answer)
     question_number = int(question_number)
+    temp = survey_dict[user]
+    temp[question_number] = answer
+    survey_dict[user] = temp
+    emp = " "
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -180,7 +184,7 @@ def action_button_click(ack, body, client, say):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "%d %d" % (question_number, answer)},
+                        "text": {"type": "mrkdwn", "text": "%s" % (emp.join(survey_dict[user]))},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
@@ -242,11 +246,7 @@ def action_button_click(ack, body, client, say):
                     
                 ]
             }
-
     )
-    temp = survey_dict[user]
-    temp[question_number] = answer
-    survey_dict[user] = temp
     
 @bolt_app.action("EndBrainstorming")
 def action_button_click(ack, body, say):
