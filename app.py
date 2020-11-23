@@ -8,6 +8,7 @@ from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from questions_payloads import *
+from statistics import update_statistics
 
 ###############################################################################
 # Initializing
@@ -123,6 +124,7 @@ def log_message(payload, next):
             'mention': None
         }
         msgDB.create_item(msg)
+        update_statistics(msg)
 
         if (brainstormOn == 1):
             msgBrain = {
