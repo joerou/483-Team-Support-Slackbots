@@ -170,7 +170,9 @@ def action_button_click(ack, body, client, say):
     temp = survey_dict[user]
     temp[question_number] = answer
     survey_dict[user] = temp
-    emp = " "
+    emp = ""
+    for elem in survey_dict[user]:
+        emp += str(elem)
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -185,7 +187,7 @@ def action_button_click(ack, body, client, say):
                 "blocks": [
                     {
                         "type": "section",
-                        "text": {"type": "mrkdwn", "text": "%s" % (' '.join([str(elem) for elem in survey_dict[user]]))},
+                        "text": {"type": "mrkdwn", "text": "%s" % (emp)},
                         "accessory": {
                             "type": "button",
                             "text": {"type": "plain_text", "text": "Next"},
