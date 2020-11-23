@@ -268,7 +268,7 @@ def action_button_click(ack, body, client):
         # Pass a valid trigger_id within 3 seconds of receiving it
             hash=body["view"]["hash"],
         # View payload
-            view=question"%d" % (question_number)_payload
+            view=question_list[question_number-1]
     )
 
 @bolt_app.action("question1_next")
