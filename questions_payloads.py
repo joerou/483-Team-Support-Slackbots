@@ -17,7 +17,7 @@ question1_payload = {
         },
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": ""},
+            "text": {"type": "mrkdwn", "text": "back"},
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Back"},
