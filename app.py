@@ -69,6 +69,28 @@ brainDB = database.create_container_if_not_exists(
     offer_throughput=400
 )
 
+# Create container for statistics.
+statDB_name = 'statistics-storage'
+statDB = database.create_container_if_not_exists(
+    id=statDB_name,
+    partition_key=PartitionKey(path="/info_type")
+)
+# Insert the initial item for workspace-wide statistics only if it doesn't exist:
+try:
+    statDB.create_item({
+        'id': '1',
+        'total_workspace_messages': 0,
+        'info_type': 'Workspace-wide stats'
+    }
+)
+except exceptions.CosmosHttpResponseError:
+    print("Initial item for workspace-wide statistics already exists, continuing:")
+
+# Insert the initial items for individual user statistics.
+
+# Insert the initial items for individual channel statistics.
+
+
 ## The database usage in the rest part may need to be changed on a different platform
 ## End platform related code
 
