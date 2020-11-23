@@ -15,6 +15,7 @@ from statistics import update_statistics
 ###############################################################################
 # initializing survey_dict
 survey_dict = {}
+psych_dict = {}
 
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
@@ -204,6 +205,19 @@ def action_button_click(ack, body, client, say):
     temp = survey_dict[user]
     temp[question_number-1] = answer
     survey_dict[user] = temp
+                
+                
+@bolt_app.action("psych_radio_id")
+def action_button_click(ack, body, say):
+    ack()
+    user = body['user']['id']
+    value = body['actions']['selected_option']['value']
+    question = int(value[7])
+    response = int(value[-1])
+    temp = psych_dict[user]
+    temp[question] = response
+    psych_dict[user] = temp
+    
     
     
 @bolt_app.action("EndBrainstorming")
@@ -1218,6 +1232,8 @@ def survey(ack, body, client):
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
     ack();
+    user = body['user']['id']
+    psych_dict[user] = 0 for x in range(8)]
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
