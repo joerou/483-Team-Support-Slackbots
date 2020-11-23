@@ -887,10 +887,35 @@ def action_button_click(ack, body, client):
                    "blocks": [
                        {
                            "type": "section",
-                           "text": {"type": "mrkdwn", "text": "E %d A %d C %d N %d O %d" % (e,a,c,n,o)}
+                           "text": {"type": "mrkdwn", "text": "Each Score is between 0 and 40, 0 being you don't embody this trait at all and 40 being you totally embody the trait"}
                            
-                       }
+                       },
+                       {
+                            "type": "section",
+                            "text": {"type": "mrkdwn", "text": "Extroversion is the personality trait of seeking fulfillment from sources outside the self or in community. High scorers tend to be very social while low scorers prefer to work on their projects alone. Your score for Extroversion is %d" % (e)}
                        
+                       
+                              },
+                        {
+                            "type": "section",
+                            "text": {"type": "mrkdwn", "text": "Agreeableness reflects much individuals adjust their behavior to suit others. High scorers are typically polite and like people. Low scorers tend to 'tell it like it is'. Your score for Agreeableness is %d" % (a)}
+                                  
+                        },
+                       {
+                           "type": "section",
+                           "text": {"type": "mrkdwn", "text": "Conscientiousness is the personality trait of being honest and hardworking. High scorers tend to follow rules and prefer clean homes. Low scorers may be messy and cheat others. Your score for Conscientiousness is %d" % (c)}
+                                 
+                       },
+                       {
+                           "type": "section",
+                           "text": {"type": "mrkdwn", "text": "Neuroticism is the personality trait of being emotional. Your score for Neuroticism is %d" % (n)}
+                                 
+                       },
+                       {
+                           "type": "section",
+                           "text": {"type": "mrkdwn", "text": "Openness to Experience is the personality trait of seeking new experience and intellectual pursuits. High scores may day dream a lot. Low scorers may be very down to earth. Your score for Openness to Experience is %d" % (o)}
+                                 
+                       }
                        
                    ]
                }
