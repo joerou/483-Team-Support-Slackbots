@@ -13,7 +13,12 @@ question1_payload = {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
                 "action_id": "question1_next"
-            }
+            },
+            "accessory": {
+                "type": "button",
+                "text": { "type": "plain_text", "text": "Back"},
+                "action_id": "question1_back"
+               }
         },
         {
           "type": "section",

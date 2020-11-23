@@ -204,9 +204,6 @@ def action_button_click(ack, body, client, say):
     temp = survey_dict[user]
     temp[question_number-1] = answer
     survey_dict[user] = temp
-    emp = ""
-    for elem in survey_dict[user]:
-        emp += str(elem)
     
     
 @bolt_app.action("EndBrainstorming")
