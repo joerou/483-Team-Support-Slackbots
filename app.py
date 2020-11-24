@@ -1025,6 +1025,7 @@ def action_button_click(ack, body, client):
     user = body["user"]["id"]
     temp = psych_dict[user]
     temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
+    '''
     psych_msg = {
         'user' : user,
         'q_total' : temp[0],
@@ -1038,6 +1039,7 @@ def action_button_click(ack, body, client):
         'q_8' : temp[8]
     }
     psychDB.create_item(psych_msg)
+    '''
 
 
 ###############################################################################
