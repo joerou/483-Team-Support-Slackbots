@@ -85,6 +85,13 @@ try:
         'info_type': 'Workspace-wide stats'
     }
 )
+    
+psychDB_name = 'psych-storage'
+psychDB = database.create_container_if_not_exists(
+    id=psychDB_name,
+    partition_key=PartitionKey(path="/user"),
+    offer_throughput=400
+)
 except exceptions.CosmosHttpResponseError:
     print("Initial item for workspace-wide statistics already exists, continuing:")
 
@@ -1016,6 +1023,21 @@ def action_button_click(ack, body, client):
     # Acknowledge the action
     ack();
     user = body["user"]["id"]
+    temp = psych_dict[user]
+    temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
+    psych_msg = {
+        'user' : user,
+        'q_total' : temp[0],
+        'q_1' : temp[1],
+        'q_2' : temp[2],
+        'q_3' : temp[3],
+        'q_4' : temp[4],
+        'q_5' : temp[5],
+        'q_6' : temp[6],
+        'q_7' : temp[7],
+        'q_8' : temp[8]
+    }
+    psychDB.create_item(psych_msg)
 
 
 ###############################################################################
