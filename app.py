@@ -1041,7 +1041,7 @@ def action_button_click(ack, body, client):
         'q_7' : temp[7],
         'q_8' : temp[8]
     }
-    #psychDB.create_item(psych_msg)
+    psychDB.create_item(psych_msg)
     
 
 
