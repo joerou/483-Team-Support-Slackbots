@@ -85,14 +85,14 @@ try:
         'info_type': 'Workspace-wide stats'
     }
 )
-'''
-psychDB_name = 'psych-storage'
-psychDB = database.create_container_if_not_exists(
-    id=psychDB_name,
-    partition_key=PartitionKey(path="/user"),
-    offer_throughput=400
-)
-'''
+
+#psychDB_name = 'psych-storage'
+#psychDB = database.create_container_if_not_exists(
+#    id=psychDB_name,
+#    partition_key=PartitionKey(path="/user"),
+#    offer_throughput=400
+#)
+
 except exceptions.CosmosHttpResponseError:
     print("Initial item for workspace-wide statistics already exists, continuing:")
 
