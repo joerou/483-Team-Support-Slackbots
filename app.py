@@ -77,6 +77,15 @@ statDB = database.create_container_if_not_exists(
     id=statDB_name,
     partition_key=PartitionKey(path="/info_type")
 )
+
+#Create Psych container
+psychDB_name = 'psych-storage'
+psychDB = database.create_container_if_not_exists(
+    id=psychDB_name,
+    partition_key=PartitionKey(path="/user"),
+    offer_throughput=400
+)
+
 # Insert the initial item for workspace-wide statistics only if it doesn't exist:
 try:
     statDB.create_item({
@@ -85,13 +94,6 @@ try:
         'info_type': 'Workspace-wide stats'
     }
 )
-
-#psychDB_name = 'psych-storage'
-#psychDB = database.create_container_if_not_exists(
-#    id=psychDB_name,
-#    partition_key=PartitionKey(path="/user"),
-#    offer_throughput=400
-#)
 
 except exceptions.CosmosHttpResponseError:
     print("Initial item for workspace-wide statistics already exists, continuing:")
