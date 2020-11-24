@@ -1022,25 +1022,9 @@ def action_button_click(ack, body, client):
     )
 
 @bolt_app.action("psych_submit")
-def action_button_click(ack, body, client):
+def action_button_click(ack, body, client, say):
     # Acknowledge the action
     ack();
-    user = body["user"]["id"]
-    temp = psych_dict[user]
-    temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
-    psych_msg = {
-        'user' : user,
-        'q_total' : temp[0]#,
-        #'q_1' : temp[1],
-        #'q_2' : temp[2],
-        #'q_3' : temp[3],
-        #'q_4' : temp[4],
-        #'q_5' : temp[5],
-        #'q_6' : temp[6],
-        #'q_7' : temp[7],
-        #'q_8' : temp[8]
-    }
-    psychDB.create_item(psych_msg)
     client.views_update(
         view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1061,6 +1045,14 @@ def action_button_click(ack, body, client):
             ]
         }
     )
+    user = body["user"]["id"]
+    temp = psych_dict[user]
+    temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
+    say("%d" % temp[0])
+    psych_msg = {
+        'user' : user,
+        'q_total' : temp[0]
+    }
     
     
 
