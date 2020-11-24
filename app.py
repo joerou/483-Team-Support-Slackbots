@@ -1028,7 +1028,6 @@ def action_button_click(ack, body, client):
     user = body["user"]["id"]
     temp = psych_dict[user]
     temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
-    
     psych_msg = {
         'user' : user,
         'q_total' : temp[0],
@@ -1042,6 +1041,27 @@ def action_button_click(ack, body, client):
         'q_8' : temp[8]
     }
     psychDB.create_item(psych_msg)
+    client.views_update(
+        view_id=body["view"]["id"],
+        # Pass a valid trigger_id within 3 seconds of receiving it
+        hash=body["view"]["hash"],
+        # View payload
+        view={
+            "type": "modal",
+            "callback_id": "view_1",
+            "title": {"type": "plain_text", "text": "Thank You"},
+            "blocks": [
+                {
+                    "type": "section",
+                    "text": {
+                        "type": "plain_text",
+                        "text": "Your survey has been submitted. Thank you."
+                    }
+                }
+            ]
+        }
+    )
+    
     
 
 
