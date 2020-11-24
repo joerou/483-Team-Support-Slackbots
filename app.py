@@ -1045,14 +1045,13 @@ def action_button_click(ack, body, client, say):
             ]
         }
     )
-    user = body["user"]["id"]
-    temp = psych_dict[user]
-    temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
-    say("%d" % temp[0])
-    psych_msg = {
-        'user' : user,
-        'q_total' : temp[0]
-    }
+    #user = body["user"]["id"]
+    #temp = psych_dict[user]
+    #temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
+    #psych_msg = {
+    #    'user' : user,
+    #    'q_total' : temp[0]
+    #}
     
     
 
@@ -1134,6 +1133,7 @@ def new_member_survey(ack, event, say):
         ],
         text=message
     )
+        
 
 # Error events
 @bolt_app.event("error")
