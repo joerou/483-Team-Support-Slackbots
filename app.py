@@ -15,7 +15,7 @@ from statistics import update_statistics
 ###############################################################################
 # initializing survey_dict
 survey_dict = {}
-psych_dict = {}
+#psych_dict = {}
 
 # enable logging
 logging.basicConfig(level=logging.DEBUG)
