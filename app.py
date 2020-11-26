@@ -1363,6 +1363,56 @@ def psych_survey(ack, body, say, command, client):
         say("Brainstorming has already ended")
     
 
+###############################################################################
+# App Home Page
+###############################################################################
+
+@bolt_app.event("app_home_opened")
+def amy_home(ack, event, say):
+    ack()
+
+    views.publish(
+        user_id = event["user"]["id"], 
+        view = {
+           "type":"home",
+           "blocks":[
+              {
+                 "type":"section",
+                 "text":{
+                    "type":"mrkdwn",
+                    "text":"A simple stack of blocks for the simple sample Block Kit Home tab."
+                 }
+              },
+              {
+                 "type":"actions",
+                 "elements":[
+                    {
+                       "type":"button",
+                       "text":{
+                          "type":"plain_text",
+                          "text":"Action A",
+                          "emoji":true
+                       }
+                    },
+                    {
+                       "type":"button",
+                       "text":{
+                          "type":"plain_text",
+                          "text":"Action B",
+                          "emoji":true
+                       }
+                    }
+                 ]
+              }
+           ]
+        })
+
+
+
+
+
+
+
 
 ###############################################################################
 
