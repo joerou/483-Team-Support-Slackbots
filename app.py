@@ -1371,7 +1371,7 @@ def psych_survey(ack, body, say, command, client):
 def amy_home(ack, event, say):
     ack()
 
-    views.publish(
+    client.views_publish(
         user_id = event["user"]["id"], 
         view = {
            "type":"home",
