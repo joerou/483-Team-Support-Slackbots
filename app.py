@@ -1151,7 +1151,7 @@ def hello(ack, say):
     # Acknowledge command request
     ack()
     # Send 'Hello!' to channel
-    say('Hello!')
+    say('Hello!!')
 
 
 # The echo command simply echoes on command
@@ -1370,7 +1370,7 @@ def psych_survey(ack, body, say, command, client):
 @bolt_app.event("app_home_opened")
 def amy_home(ack, event, say):
     ack()
-
+    say("Home Page was Opened")
     client.views_publish(
         user_id = event["user"]["id"], 
         view = {
