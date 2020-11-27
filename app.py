@@ -1419,8 +1419,8 @@ def amy_home(ack, event, client, say):
                             "text": "No"
                             }
                         }]
-                    },
-                }
+                    }
+                },
                 #Horizontal divider line 
                 {
                   "type": "divider"
