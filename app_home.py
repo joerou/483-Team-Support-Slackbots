@@ -1,3 +1,16 @@
+from azure.cosmos import exceptions, CosmosClient, PartitionKey
+
+opening = """Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
+            On this page you can customize certain funcitonalities to best suit your teams needs as well as
+            check out some interesting statistics from your channel that could help you identify certain things
+            and allow your team to be more efficient in their work. Also, check out the about tab to see what 
+            slash commands are available to you!\n\n\n"""
+
+stats = list(statDB.read_all_items())
+totalMessages = stats.get("total_workspace_messages")
+
+StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
+
 app_home = {
            "type":"home",
            "blocks":[
@@ -5,11 +18,7 @@ app_home = {
                  "type":"section",
                  "text":{
                     "type":"mrkdwn",
-                    "text":"""Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
-                    On this page you can customize certain funcitonalities to best suit your teams needs as well as
-                    check out some interesting statistics from your channel that could help you identify certain things
-                    and allow your team to be more efficient in their work. Also, check out the about tab to see what 
-                    slash commands are available to you!\n\n\n"""
+                    "text": opening
                  }
               },
               {
@@ -82,6 +91,19 @@ app_home = {
                             }
                         }]
                     }
+                },
+                #Horizontal divider line 
+                {
+                  "type": "divider"
+                },
+              {
+                  #Section with text and a button
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": StatsText
+                  }
+                  
                 }
            ]
         }
