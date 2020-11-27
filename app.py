@@ -1399,7 +1399,7 @@ def amy_home(ack, event, client, say):
     ack()
     stats = list(statDB.read_all_items())
     for i in stats:
-        totalMessages = stats.get("total_workspace_messages")
+        totalMessages = i.get("total_workspace_messages")
     StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
 
     opening = """Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
