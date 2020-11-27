@@ -1430,7 +1430,7 @@ def amy_home(ack, event, client, say):
 
 
 @bolt_app.action("Brainstorm_Options")
-def action_button_click(ack, body):
+def action_button_click(ack, body, say):
     global brain_weekly
     # Acknowledge the action
     ack()
