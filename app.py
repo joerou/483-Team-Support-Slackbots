@@ -1436,7 +1436,7 @@ def action_button_click(ack, body):
     ack()
     form_json = json.dumps(body)
     value = form_json.find('value')
-
+    say('In BO')
     if (value == 1):
         say("brain_weekly is now 1")
         brain_weekly = 1
