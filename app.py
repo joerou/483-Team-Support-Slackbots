@@ -1403,10 +1403,10 @@ def amy_home(ack, event, client, say):
     StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
 
     opening = """Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
-            On this page you can customize certain funcitonalities to best suit your teams needs as well as
-            check out some interesting statistics from your channel that could help you identify certain things
-            and allow your team to be more efficient in their work. Also, check out the about tab to see what 
-            slash commands are available to you!\n\n\n"""
+    On this page you can customize certain funcitonalities to best suit your teams needs as well as
+    check out some interesting statistics from your channel that could help you identify certain things
+    and allow your team to be more efficient in their work. Also, check out the about tab to see what 
+    slash commands are available to you!"""
             
     app_home = {
            "type":"home",
