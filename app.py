@@ -1430,15 +1430,13 @@ def amy_home(ack, event, client, say):
 
 
 @bolt_app.action("Brainstorm_Options")
-def action_button_click(ack, body, say):
+def action_button_click(ack, body):
     global brain_weekly
     # Acknowledge the action
     ack()
     form_json = json.dumps(body)
     value = form_json.find('value')
-    say('In BO')
     if (value == 1):
-        say("brain_weekly is now 1")
         brain_weekly = 1
     else:
         brain_weekly = 0
