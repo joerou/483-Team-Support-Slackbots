@@ -110,6 +110,7 @@ except exceptions.CosmosHttpResponseError:
 
 #Brainstorming Globals
 brainstormOn = 0
+brain_weekly = 0
 
 ###############################################################################
 # Middleware
@@ -196,7 +197,7 @@ def message_rest(ack):
 @bolt_app.action("this_is_an_action_id")
 def action_button_click(ack, body, client, say):
     # Acknowledge the action
-    ack();
+    ack()
     user = body['user']['id']
     form_json = json.dumps(body)
     form_json = form_json[-150:]
@@ -250,8 +251,8 @@ def action_button_click(ack, body, say):
             brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
         say(msg)
         say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up> or <https://www.figma.com/|Figma>")
-        say("Also a reminder has been set for next week to look back on the brainstorming process")
-        
+        if (brain_weekly == 1):
+            say("Also a reminder has been set for next week to look back on the brainstorming process")      
     else:
         say("Brainstorming has already ended")
 
@@ -1322,12 +1323,13 @@ def psych_survey(ack, body, say, command, client):
             ],
         post_at = ts + 1800,
     )
-
-    client.chat_scheduleMessage(
-        channel = channel,
-        text = "Reminder: Look back on the Brainstorming session you had last week, was an Idea decided upon? Perhaps more mockups or another brainstorming session is needed?",
-        post_at = ts + 604800,
-    )
+    
+    if (brain_weekly == 1):
+        client.chat_scheduleMessage(
+            channel = channel,
+            text = "Reminder: Look back on the Brainstorming session you had last week, was an Idea decided upon? Perhaps more mockups or another brainstorming session is needed?",
+            post_at = ts + 604800,
+        )
 
 @bolt_app.command('/endbrainstorming')
 def psych_survey(ack, body, say, command, client):
@@ -1358,7 +1360,8 @@ def psych_survey(ack, body, say, command, client):
             brainDB.delete_item(item = i.get("id"), partition_key = i.get("user"))
         say(msg)
         say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up> or <https://www.figma.com/|Figma>")
-        say("Also a reminder has been set for next week to look back on the brainstorming process")
+        if (brain_weekly == 1):
+            say("Also a reminder has been set for next week to look back on the brainstorming process")
     else:
         say("Brainstorming has already ended")
     
@@ -1380,10 +1383,10 @@ def amy_home(ack, event, client, say):
                  "text":{
                     "type":"mrkdwn",
                     "text":"""Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
-                        On this page you can customize certain funcitonalities to best suit your teams needs as well as
-                        check out some interesting statistics from your channel that could help you identify certain things
-                        and allow your team to be more efficient in their work. Also, check out the about tab to see what 
-                        slash commands are available to you!\n\n\n"""
+                    On this page you can customize certain funcitonalities to best suit your teams needs as well as
+                    check out some interesting statistics from your channel that could help you identify certain things
+                    and allow your team to be more efficient in their work. Also, check out the about tab to see what 
+                    slash commands are available to you!\n\n\n"""
                  }
               },
               {
@@ -1395,17 +1398,29 @@ def amy_home(ack, event, client, say):
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Welcome!* \nYou can add small notes here!"
+                    "text": "*Brainstorming* \nWould you like to be reminded to revisit your brainstorming session a week after?"
                   },
                   "accessory": {
-                    "type": "button",
-                    "action_id": "add_note", 
-                    "text": {
-                      "type": "plain_text",
-                      "text": "Add a Stickie"
-                    }
-                  }
-            },
+                        "type": "radio_buttons",
+                        "action_id": "Brainstorm_Options",
+                
+                        "options": [
+                        {
+                            "value": "Yes",
+                            "text": {
+                            "type": "plain_text",
+                            "text": "Yes"
+                            }   
+                        },
+                        {
+                            "value": "No",
+                            "text": {
+                            "type": "plain_text",
+                            "text": "No"
+                            }
+                        }]
+                    },
+                }
                 #Horizontal divider line 
                 {
                   "type": "divider"
@@ -1414,82 +1429,16 @@ def amy_home(ack, event, client, say):
         })
 
 
-
-@bolt_app.action("add_note")
-def action_button_click(ack, body, client):
+@bolt_app.action("Brainstorm_Options")
+def action_button_click(ack, body):
+    global brain_weekly
     # Acknowledge the action
     ack()
-    user = body['user']['id']
-    client.views_open(
-        # Pass a valid trigger_id within 3 seconds of receiving it
-        trigger_id=body["trigger_id"],
-        # View payload
-        view={
-            "type": 'modal',
-            "title": {
-              "type": 'plain_text',
-              "text": 'Create a stickie note'
-            },
-            "submit": {
-              "type": 'plain_text',
-              "text": 'Create'
-            },
-            "blocks": [
-              #Text input
-              {
-                "type": "input",
-                "block_id": "note01",
-                "label": {
-                  "type": "plain_text",
-                  "text": "Note"
-                },
-                "element": {
-                  "action_id": "content",
-                  "type": "plain_text_input",
-                  "placeholder": {
-                    "type": "plain_text",
-                    "text": "Take a note... "
-                  },
-                  "multiline": "true"
-                }
-              },
-              
-              #Drop-down menu      
-              {
-                "type": "input",
-                "block_id": "note02",
-                "label": {
-                  "type": "plain_text",
-                  "text": "Color",
-                },
-                "element": {
-                  "type": "static_select",
-                  "action_id": "color",
-                  "options": [
-                    {
-                      "text": {
-                        "type": "plain_text",
-                        "text": "yellow"
-                      },
-                      "value": "yellow"
-                    },
-                    {
-                      "text": {
-                        "type": "plain_text",
-                        "text": "blue"
-                      },
-                      "value": "blue"
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-    )
-
-
-
-
+    value = body['actions']['selected_option']['value']
+    if (value == 1):
+        brain_weekly = 1
+    else:
+        brain_weekly = 0;
 
 
 
