@@ -1398,6 +1398,10 @@ def psych_survey(ack, body, say, command, client):
 @bolt_app.event("app_home_opened")
 def amy_home(ack, event, client, say):
     ack()
+    stats = list(statDB.read_all_items())
+    totalMessages = stats.get("total_workspace_messages")
+    StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
+    
     client.views_publish(
         user_id = event["user"], 
         view = app_home)
