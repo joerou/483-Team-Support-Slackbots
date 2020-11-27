@@ -1434,11 +1434,14 @@ def action_button_click(ack, body):
     global brain_weekly
     # Acknowledge the action
     ack()
-    value = body['actions']['selected_option']['value']
+    form_json = json.dumps(body)
+    value = form_json.find('value')
+
     if (value == 1):
+        say("brain_weekly is now 1")
         brain_weekly = 1
     else:
-        brain_weekly = 0;
+        brain_weekly = 0
 
 
 
