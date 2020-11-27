@@ -237,7 +237,7 @@ def action_button_click(ack, body, say):
     # Acknowledge the action
     ack()
     global brainstormOn
-
+    global brain_weekly
     #Check if brainstorm bit is already 0 to prevent spamming of the button
     if (brainstormOn == 1):
         brainstormOn = 0
@@ -1286,7 +1286,7 @@ def psych_survey(ack, body, client):
 def psych_survey(ack, body, say, command, client):
     ack();
     global brainstormOn
-
+    global brain_weekly
     #Set the global listening bit to 1 to open up the container
     brainstormOn = 1
     say('Brainstorm listening has begun! A 30 minute timer has started or you can manually end the listening by using: /EndBrainstorming. Remember do not critique ideas until after the session is over')
@@ -1335,7 +1335,7 @@ def psych_survey(ack, body, say, command, client):
 def psych_survey(ack, body, say, command, client):
     ack();
     global brainstormOn
-
+    global brain_weekly
     #If brainstorming is off no need to run through the rest of the proceedures
     if (brainstormOn == 1):
         brainstormOn = 0
