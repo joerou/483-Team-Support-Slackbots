@@ -1368,7 +1368,7 @@ def psych_survey(ack, body, say, command, client):
 ###############################################################################
 
 @bolt_app.event("app_home_opened")
-def amy_home(ack, event, say):
+def amy_home(ack, event, client, say):
     ack()
     say("Home Page was Opened")
     client.views_publish(
