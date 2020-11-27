@@ -1397,20 +1397,24 @@ def psych_survey(ack, body, say, command, client):
 @bolt_app.event("app_home_opened")
 def amy_home(ack, event, client, say):
     ack()
-    client.views_publish(
-        user_id = event["user"], 
-        view = {
+    stats = list(statDB.read_all_items())
+    totalMessages = stats.get("total_workspace_messages")
+    StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
+
+    opening = """Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
+            On this page you can customize certain funcitonalities to best suit your teams needs as well as
+            check out some interesting statistics from your channel that could help you identify certain things
+            and allow your team to be more efficient in their work. Also, check out the about tab to see what 
+            slash commands are available to you!\n\n\n"""
+            
+    app_home = {
            "type":"home",
            "blocks":[
               {
                  "type":"section",
                  "text":{
                     "type":"mrkdwn",
-                    "text":"""Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
-                    On this page you can customize certain funcitonalities to best suit your teams needs as well as
-                    check out some interesting statistics from your channel that could help you identify certain things
-                    and allow your team to be more efficient in their work. Also, check out the about tab to see what 
-                    slash commands are available to you!\n\n\n"""
+                    "text": opening
                  }
               },
               {
@@ -1454,7 +1458,7 @@ def amy_home(ack, event, client, say):
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Weekly Survey* \nHow Often would you like a psychological saftey check in?"
+                    "text": "*Weekly Survey* \nHow often would you like a psychological saftey check in?"
                   },
                   "accessory": {
                         "type": "radio_buttons",
@@ -1483,9 +1487,26 @@ def amy_home(ack, event, client, say):
                             }
                         }]
                     }
+                },
+                #Horizontal divider line 
+                {
+                  "type": "divider"
+                },
+              {
+                  #Section with text and a button
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": StatsText
+                  }
+                  
                 }
            ]
-        })
+        }
+
+    client.views_publish(
+        user_id = event["user"], 
+        view = app_home)
 
 
 @bolt_app.action("Brainstorm_Options")
@@ -1495,7 +1516,7 @@ def action_button_click(ack, body):
     ack()
     form_json = json.dumps(body)
     value = form_json.find('value')
-    if (value == 1):
+    if (value == '1'):
         brain_weekly = 1
     else:
         brain_weekly = 0
