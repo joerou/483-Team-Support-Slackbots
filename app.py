@@ -1379,28 +1379,37 @@ def amy_home(ack, event, client, say):
                  "type":"section",
                  "text":{
                     "type":"mrkdwn",
-                    "text":"A simple stack of blocks for the simple sample Block Kit Home tab."
+                    "text":"""Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
+                        On this page you can customize certain funcitonalities to best suit your teams needs as well as
+                        check out some interesting statistics from your channel that could help you identify certain things
+                        and allow your team to be more efficient in their work. Also, check out the about tab to see what 
+                        slash commands are available to you!\n\n\n"""
                  }
               },
               {
-                 "type":"actions",
-                 "elements":[
-                    {
-                       "type":"button",
-                       "text":{
-                          "type":"plain_text",
-                          "text":"Action A",
-                       }
-                    },
-                    {
-                       "type":"button",
-                       "text":{
-                          "type":"plain_text",
-                          "text":"Action B",
-                       }
+                #Horizontal divider line 
+                "type": "divider"
+              },
+              {
+                  #Section with text and a button
+                  "type": "section",
+                  text: {
+                    "type": "mrkdwn",
+                    "text": "*Welcome!* \nYou can add small notes here!"
+                  },
+                  "accessory": {
+                    "type": "button",
+                    "action_id": "add_note", 
+                    "text": {
+                      "type": "plain_text",
+                      "text": "Add a Stickie"
                     }
-                 ]
-              }
+                  }
+            },
+                #Horizontal divider line 
+                {
+                  "type": "divider"
+                }
            ]
         })
 
