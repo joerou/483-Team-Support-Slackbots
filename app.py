@@ -9,6 +9,7 @@ from flask import Flask, request
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from questions_payloads import *
 from statistics import update_statistics
+from app_home import *
 
 ###############################################################################
 # Initializing
@@ -1399,93 +1400,7 @@ def amy_home(ack, event, client, say):
     ack()
     client.views_publish(
         user_id = event["user"], 
-        view = {
-           "type":"home",
-           "blocks":[
-              {
-                 "type":"section",
-                 "text":{
-                    "type":"mrkdwn",
-                    "text":"""Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
-                    On this page you can customize certain funcitonalities to best suit your teams needs as well as
-                    check out some interesting statistics from your channel that could help you identify certain things
-                    and allow your team to be more efficient in their work. Also, check out the about tab to see what 
-                    slash commands are available to you!\n\n\n"""
-                 }
-              },
-              {
-                #Horizontal divider line 
-                "type": "divider"
-              },
-              {
-                  #Section with text and a button
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Brainstorming* \nWould you like to be reminded to revisit your brainstorming session a week after?"
-                  },
-                  "accessory": {
-                        "type": "radio_buttons",
-                        "action_id": "Brainstorm_Options",
-                
-                        "options": [
-                        {
-                            "value": "1",
-                            "text": {
-                            "type": "plain_text",
-                            "text": "Yes"
-                            }   
-                        },
-                        {
-                            "value": "0",
-                            "text": {
-                            "type": "plain_text",
-                            "text": "No"
-                            }
-                        }]
-                    }
-                },
-                #Horizontal divider line 
-                {
-                  "type": "divider"
-                },
-              {
-                  #Section with text and a button
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": "*Weekly Survey* \nHow Often would you like a psychological saftey check in?"
-                  },
-                  "accessory": {
-                        "type": "radio_buttons",
-                        "action_id": "Weekly_Survey",
-                
-                        "options": [
-                        {
-                            "value": "1",
-                            "text": {
-                            "type": "plain_text",
-                            "text": "Once a week"
-                            }   
-                        },
-                        {
-                            "value": "2",
-                            "text": {
-                            "type": "plain_text",
-                            "text": "Once every 2 weeks"
-                            }
-                        },
-                        {
-                            "value": "3",
-                            "text": {
-                            "type": "plain_text",
-                            "text": "Once every 3 weeks"
-                            }
-                        }]
-                    }
-                }
-           ]
-        })
+        view = app_home)
 
 
 @bolt_app.action("Brainstorm_Options")
@@ -1495,7 +1410,7 @@ def action_button_click(ack, body):
     ack()
     form_json = json.dumps(body)
     value = form_json.find('value')
-    if (value == 1):
+    if (value == '1'):
         brain_weekly = 1
     else:
         brain_weekly = 0
