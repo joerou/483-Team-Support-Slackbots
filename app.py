@@ -1522,7 +1522,7 @@ def action_button_click(ack, body):
             text = "Please take your psychological saftey survey using /psych_survey",
             post_at = 30,
         )
-    else if (value == 2):
+    elif (value == 2):
         weekly_survey = 2
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
