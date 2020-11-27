@@ -1390,7 +1390,6 @@ def amy_home(ack, event, client, say):
                        "text":{
                           "type":"plain_text",
                           "text":"Action A",
-                          "emoji":true
                        }
                     },
                     {
@@ -1398,7 +1397,6 @@ def amy_home(ack, event, client, say):
                        "text":{
                           "type":"plain_text",
                           "text":"Action B",
-                          "emoji":true
                        }
                     }
                  ]
