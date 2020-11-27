@@ -112,6 +112,11 @@ except exceptions.CosmosHttpResponseError:
 brainstormOn = 0
 brain_weekly = 0
 
+#Weekly Survey 
+weekly_survey = 0
+weekly_id = ""
+channel = ""
+
 ###############################################################################
 # Middleware
 ###############################################################################
@@ -948,7 +953,7 @@ def action_button_click(ack, body, client):
        )
     
 
-# Psych Survey crap
+# Psych Survey
         
 @bolt_app.action("psych_q1_next")
 def action_button_click(ack, body, client):
@@ -1117,8 +1122,10 @@ def reaction_added(ack, event, say, client):
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
 def new_member_survey(ack, event, say):
+    global channel
     ack()
     user = event["user"]
+    channel = event["channel"]
     message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey by pressing the take survey button! :tada:" % user
     say(
         blocks=[
@@ -1272,9 +1279,26 @@ def survey(ack, body, client):
 # Psych Survey slash command (temp)
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client):
+    global weekly_survey
+    global weekly_id
     user = body['user_id']
     psych_dict[user] = [0 for x in range(8)]
-    ack();
+    ack()
+
+    try:
+        client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = weekly_id)
+        weekly_id = client.chat_scheduleMessage(
+            channel = channel,
+            text = "Please take your psychological saftey survey using /psych_survey",
+            post_at = weekly_survey*604800,
+        )
+    except:
+        weekly_id = client.chat_scheduleMessage(
+            channel = channel,
+            text = "Please take your psychological saftey survey using /psych_survey",
+            post_at = weekly_survey*604800,
+        ) 
+
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
@@ -1406,14 +1430,14 @@ def amy_home(ack, event, client, say):
                 
                         "options": [
                         {
-                            "value": "Yes",
+                            "value": "1",
                             "text": {
                             "type": "plain_text",
                             "text": "Yes"
                             }   
                         },
                         {
-                            "value": "No",
+                            "value": "0",
                             "text": {
                             "type": "plain_text",
                             "text": "No"
@@ -1424,6 +1448,41 @@ def amy_home(ack, event, client, say):
                 #Horizontal divider line 
                 {
                   "type": "divider"
+                },
+              {
+                  #Section with text and a button
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "*Weekly Survey* \nHow Often would you like a psychological saftey check in?"
+                  },
+                  "accessory": {
+                        "type": "radio_buttons",
+                        "action_id": "Weekly_Survey",
+                
+                        "options": [
+                        {
+                            "value": "1",
+                            "text": {
+                            "type": "plain_text",
+                            "text": "Once a week"
+                            }   
+                        },
+                        {
+                            "value": "2",
+                            "text": {
+                            "type": "plain_text",
+                            "text": "Once every 2 weeks"
+                            }
+                        },
+                        {
+                            "value": "3",
+                            "text": {
+                            "type": "plain_text",
+                            "text": "Once every 3 weeks"
+                            }
+                        }]
+                    }
                 }
            ]
         })
@@ -1441,6 +1500,42 @@ def action_button_click(ack, body):
     else:
         brain_weekly = 0
 
+@bolt_app.action("Weekly_Survey")
+def action_button_click(ack, body):
+    global weekly_survey
+    global weekly_id
+    # Acknowledge the action
+    ack()
+    form_json = json.dumps(body)
+    value = form_json.find('value')
+
+    if(weekly_id != ""):
+        try:
+            client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = weekly_id)
+        except:
+            pass
+
+    if (value == 1):
+        weekly_survey = 1
+        weekly_id = client.chat_scheduleMessage(
+            channel = channel,
+            text = "Please take your psychological saftey survey using /psych_survey",
+            post_at = 30,
+        )
+    else if (value == 2):
+        weekly_survey = 2
+        weekly_id = client.chat_scheduleMessage(
+            channel = channel,
+            text = "Please take your psychological saftey survey using /psych_survey",
+            post_at = 2*604800,
+        )
+    else:
+        weekly_survey = 3
+        weekly_id = client.chat_scheduleMessage(
+            channel = channel,
+            text = "Please take your psychological saftey survey using /psych_survey",
+            post_at = 3*604800,
+        )
 
 
 
