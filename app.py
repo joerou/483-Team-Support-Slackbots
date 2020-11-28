@@ -1516,7 +1516,7 @@ def action_button_click(ack, body, client):
     # Acknowledge the action
     ack()
     form_json = json.dumps(body)
-
+    form_json = form_json[500:]
 
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
