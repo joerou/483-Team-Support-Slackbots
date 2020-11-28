@@ -1527,7 +1527,6 @@ def action_button_click(ack, body, client):
             }
     )
 
-    value = form_json.find('value')
     if (value == '1'):
         brain_weekly = 1
     else:
