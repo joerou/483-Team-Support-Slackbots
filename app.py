@@ -1517,8 +1517,8 @@ def action_button_click(ack, body, client):
     ack()
     form_json = json.dumps(body)
     form_json = form_json[500:]
-    value_index = form_json.find('value')
-    form_json = form_json[value_index+9]
+    #value_index = form_json.find('value')
+    #form_json = form_json[value_index+9]
 
 
     client.views_open(
@@ -1548,15 +1548,15 @@ def action_button_click(ack, body, client):
         brain_weekly = 0
 
 @bolt_app.action("Weekly_Survey")
-def action_button_click(ack, body):
+def action_button_click(ack, body, client):
     global weekly_survey
     global weekly_id
     # Acknowledge the action
     ack()
     form_json = json.dumps(body)
     form_json = form_json[500:]
-    value_index = form_json.find('value')
-    form_json = form_json[value_index+9]
+    #value_index = form_json.find('value')
+    #form_json = form_json[value_index+9]
 
 
     client.views_open(
