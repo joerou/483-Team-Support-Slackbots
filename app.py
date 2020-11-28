@@ -1522,8 +1522,17 @@ def action_button_click(ack, body, client):
             trigger_id=body["trigger_id"],
         # View payload
             view={
-                "type":"modal",
-                "text":"%s"%(form_json)
+                "type": "modal",
+            # View identifier
+                "callback_id": "view_1",
+                "title": {"type": "plain_text", "text": "Json Dump"},
+                
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {"type": "mrkdwn", "text": "%s" % (form_json)}
+                    }
+                ]
             }
     )
 
