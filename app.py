@@ -1517,6 +1517,8 @@ def action_button_click(ack, body, client):
     ack()
     form_json = json.dumps(body)
     form_json = form_json[788:]
+    actions_index = form_json.find('actions')
+    form_json = form_json[actions_index:]
     value_index = form_json.find('value')
     value = form_json[value_index+9]
 
@@ -1564,6 +1566,8 @@ def action_button_click(ack, body, client):
     ack()
     form_json = json.dumps(body)
     form_json = form_json[788:]
+    actions_index = form_json.find('actions')
+    form_json = form_json[actions_index:]
     value_index = form_json.find('value')
     value = form_json[value_index+9]
 
