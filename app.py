@@ -1522,6 +1522,23 @@ def action_button_click(ack, body, client):
     value_index = form_json.find('value')
     value = form_json[value_index+9]
 
+    if (value == '1'):
+        brain_weekly = 1
+    else:
+        brain_weekly = 0
+
+@bolt_app.action("Weekly_Survey")
+def action_button_click(ack, body, client):
+    global weekly_survey
+    global weekly_id
+    # Acknowledge the action
+    ack()
+    form_json = json.dumps(body)
+    form_json = form_json[788:]
+    actions_index = form_json.find('actions')
+    form_json = form_json[actions_index:]
+    value_index = form_json.find('value')
+    value = form_json[value_index+9]
 
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1552,24 +1569,6 @@ def action_button_click(ack, body, client):
                 ]
             }
     )
-
-    if (value == '1'):
-        brain_weekly = 1
-    else:
-        brain_weekly = 0
-
-@bolt_app.action("Weekly_Survey")
-def action_button_click(ack, body, client):
-    global weekly_survey
-    global weekly_id
-    # Acknowledge the action
-    ack()
-    form_json = json.dumps(body)
-    form_json = form_json[788:]
-    actions_index = form_json.find('actions')
-    form_json = form_json[actions_index:]
-    value_index = form_json.find('value')
-    value = form_json[value_index+9]
 
     if(weekly_id != ""):
         try:
