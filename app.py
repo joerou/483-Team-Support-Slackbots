@@ -99,7 +99,18 @@ except exceptions.CosmosHttpResponseError:
     print("Initial item for workspace-wide statistics already exists, continuing:")
 
 # Insert the initial items for individual user statistics.
+result = bolt_app.client.users_list()
+for user in result["members"]:
+    try:
+        statDB.create_item({
+            'id': user["id"],
+            'total_user_messages': 0,
+            'info_type': 'User stats'
+        }
+        )
 
+    except exceptions.CosmosHttpResponseError:
+        print("Initial item for workspace-wide statistics already exists, continuing:")
 # Insert the initial items for individual channel statistics.
 
 
@@ -150,6 +161,9 @@ def log_message(payload, next):
         statDB.replace_item("1", prev_stats)
 
         # Update individual user statistics
+        # prev_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+        # prev_stats['total_user_messages'] += 1
+        # statDB.replace_item(payload["user"], prev_stats)
 
         # Update individual channel statistics
 
