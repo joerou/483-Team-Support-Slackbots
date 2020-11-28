@@ -1284,19 +1284,20 @@ def psych_survey(ack, body, client):
     user = body['user_id']
     psych_dict[user] = [0 for x in range(8)]
     ack()
+    ts = time.time()
 
     try:
         client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = weekly_id)
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = weekly_survey*604800,
+            post_at = ts + weekly_survey*604800,
         )
     except:
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = weekly_survey*604800,
+            post_at = ts + weekly_survey*604800,
         ) 
 
     client.views_open(
@@ -1539,6 +1540,7 @@ def action_button_click(ack, body, client):
     form_json = form_json[actions_index:]
     value_index = form_json.find('value')
     value = form_json[value_index+9]
+    ts = time.time()
 
     if(weekly_id != ""):
         try:
@@ -1551,21 +1553,21 @@ def action_button_click(ack, body, client):
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = 60,
+            post_at = ts+ 60,
         )
     elif (value == '2'):
         weekly_survey = 2
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = 2*604800,
+            post_at = ts + 2*604800,
         )
     else:
         weekly_survey = 3
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = 3*604800,
+            post_at = ts + 3*604800,
         )
 
 
