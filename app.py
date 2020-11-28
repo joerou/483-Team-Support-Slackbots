@@ -1518,20 +1518,19 @@ def action_button_click(ack, body, client):
     form_json = json.dumps(body)
     form_json = form_json[500:]
     value_index = form_json.find('value')
-    value = form_json[value_index+9]
+    form_json = form_json[value_index+9]
+
 
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
         # View payload
             view={
-                "type":"modal",
-                "text":"%s"%(form_json)
                 "type": "modal",
             # View identifier
                 "callback_id": "view_1",
                 "title": {"type": "plain_text", "text": "Json Dump"},
-
+                
                 "blocks": [
                     {
                         "type": "section",
@@ -1540,6 +1539,8 @@ def action_button_click(ack, body, client):
                 ]
             }
     )
+
+    value = form_json
 
     if (value == '1'):
         brain_weekly = 1
@@ -1555,20 +1556,19 @@ def action_button_click(ack, body):
     form_json = json.dumps(body)
     form_json = form_json[500:]
     value_index = form_json.find('value')
-    value = form_json[value_index+9]
+    form_json = form_json[value_index+9]
+
 
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
         # View payload
             view={
-                "type":"modal",
-                "text":"%s"%(form_json)
                 "type": "modal",
             # View identifier
                 "callback_id": "view_1",
                 "title": {"type": "plain_text", "text": "Json Dump"},
-
+                
                 "blocks": [
                     {
                         "type": "section",
@@ -1577,6 +1577,8 @@ def action_button_click(ack, body):
                 ]
             }
     )
+
+    value = form_json
 
     if(weekly_id != ""):
         try:
