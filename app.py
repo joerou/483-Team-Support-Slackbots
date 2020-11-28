@@ -1518,29 +1518,7 @@ def action_button_click(ack, body, client):
     form_json = json.dumps(body)
     form_json = form_json[500:]
     value_index = form_json.find('value')
-    form_json = form_json[value_index+9]
-
-
-    client.views_open(
-        # Pass a valid trigger_id within 3 seconds of receiving it
-            trigger_id=body["trigger_id"],
-        # View payload
-            view={
-                "type": "modal",
-            # View identifier
-                "callback_id": "view_1",
-                "title": {"type": "plain_text", "text": "Json Dump"},
-                
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {"type": "mrkdwn", "text": "%s" % (form_json)}
-                    }
-                ]
-            }
-    )
-
-    value = form_json
+    value = form_json[value_index+9]
 
     if (value == '1'):
         brain_weekly = 1
@@ -1554,7 +1532,9 @@ def action_button_click(ack, body):
     # Acknowledge the action
     ack()
     form_json = json.dumps(body)
-    value = form_json.find('value')
+    form_json = form_json[500:]
+    value_index = form_json.find('value')
+    value = form_json[value_index+9]
 
     if(weekly_id != ""):
         try:
@@ -1562,14 +1542,14 @@ def action_button_click(ack, body):
         except:
             pass
 
-    if (value == 1):
+    if (value == '1'):
         weekly_survey = 1
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
             post_at = 30,
         )
-    elif (value == 2):
+    elif (value == '2'):
         weekly_survey = 2
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
