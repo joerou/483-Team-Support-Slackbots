@@ -110,7 +110,7 @@ for user in result["members"]:
         )
 
     except exceptions.CosmosHttpResponseError:
-        print("Initial item for workspace-wide statistics already exists, continuing:")
+        print("Initial item for user:", user, "statistics already exists, continuing:")
 # Insert the initial items for individual channel statistics.
 
 
@@ -161,9 +161,9 @@ def log_message(payload, next):
         statDB.replace_item("1", prev_stats)
 
         # Update individual user statistics
-        # prev_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
-        # prev_stats['total_user_messages'] += 1
-        # statDB.replace_item(payload["user"], prev_stats)
+        prev_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+        prev_stats['total_user_messages'] += 1
+        statDB.replace_item(payload["user"], prev_stats)
 
         # Update individual channel statistics
 
