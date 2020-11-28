@@ -1518,7 +1518,7 @@ def action_button_click(ack, body, client):
     form_json = json.dumps(body)
     form_json = form_json[500:]
     value_index = form_json.find('value')
-    form_json = form_json[value_index+8]
+    form_json = form_json[value_index+9]
 
 
     client.views_open(
