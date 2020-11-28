@@ -1520,6 +1520,37 @@ def action_button_click(ack, body, client):
     value_index = form_json.find('value')
     value = form_json[value_index+9]
 
+
+    client.views_open(
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            trigger_id=body["trigger_id"],
+        # View payload
+            view={
+                "type": "modal",
+            # View identifier
+                "callback_id": "view_1",
+                "title": {"type": "plain_text", "text": "Json Dump"},
+                
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {"type": "mrkdwn", "text": "%s" % (form_json)}
+                    },
+                  {
+                    #Horizontal divider line 
+                    "type": "divider"
+                  },
+                  {
+                     "type":"section",
+                     "text":{
+                        "type":"mrkdwn",
+                        "text": value
+                     }
+                  }
+                ]
+            }
+    )
+
     if (value == '1'):
         brain_weekly = 1
     else:
@@ -1535,6 +1566,37 @@ def action_button_click(ack, body, client):
     form_json = form_json[788:]
     value_index = form_json.find('value')
     value = form_json[value_index+9]
+
+
+    client.views_open(
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            trigger_id=body["trigger_id"],
+        # View payload
+            view={
+                "type": "modal",
+            # View identifier
+                "callback_id": "view_1",
+                "title": {"type": "plain_text", "text": "Json Dump"},
+                
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {"type": "mrkdwn", "text": "%s" % (form_json)}
+                    }
+                ]
+            },
+              {
+                #Horizontal divider line 
+                "type": "divider"
+              },
+            {
+                 "type":"section",
+                 "text":{
+                    "type":"mrkdwn",
+                    "text": value
+                 }
+              }
+    )
 
     if(weekly_id != ""):
         try:
