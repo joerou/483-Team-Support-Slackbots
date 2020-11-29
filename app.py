@@ -200,7 +200,7 @@ def log_message(payload, next):
         # Total messages sent
         prev_channel_stats = statDB.read_item(item=payload["channel"], partition_key="Channel stats")
         prev_channel_stats['total_channel_messages'] += 1
-        statDB.replace_item(payload["user"], prev_channel_stats)
+        statDB.replace_item(payload["channel"], prev_channel_stats)
 
         # Message length
         if len(payload["text"]) > 40:
