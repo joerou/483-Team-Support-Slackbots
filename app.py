@@ -99,20 +99,37 @@ except exceptions.CosmosHttpResponseError:
     print("Initial item for workspace-wide statistics already exists, continuing:")
 
 # Insert the initial items for individual user statistics.
-result = bolt_app.client.users_list()
-for user in result["members"]:
+user_result = bolt_app.client.users_list()
+for user in user_result["members"]:
     try:
         statDB.create_item({
             'id': user["id"],
             'total_user_messages': 0,
+            'total_mentions': 0,
+            'total_long_user_messages': 0,
+            'total_short_user_messages': 0,
             'info_type': 'User stats'
         }
         )
 
     except exceptions.CosmosHttpResponseError:
-        print("Initial item for user:", user, "statistics already exists, continuing:")
-# Insert the initial items for individual channel statistics.
+        print("Initial item for user:", user["id"], "statistics already exists, continuing:")
 
+# Insert the initial items for individual channel statistics.
+channel_result = bolt_app.client.conversations_list()
+for channel in channel_result["channels"]:
+    try:
+        statDB.create_item({
+            'id': channel["id"],
+            'total_channel_messages': 0,
+            'total_long_channel_messages': 0,
+            'total_short_channel_messages': 0,
+            'info_type': 'Channel stats'
+        }
+        )
+
+    except exceptions.CosmosHttpResponseError:
+        print("Initial item for channel:", channel["id"], "statistics already exists, continuing:")
 
 ## The database usage in the rest part may need to be changed on a different platform
 ## End platform related code
@@ -154,19 +171,48 @@ def log_message(payload, next):
         msgDB.create_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
         # due to the above error, im trying just having the code here for now.
+        # Also, the updating definitely should be condensed into a function, but Ill probably do that later
 
         # Update workspace-wide statistics
-        prev_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
-        prev_stats['total_workspace_messages'] += 1
-        statDB.replace_item("1", prev_stats)
+        prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+        prev_workspace_stats['total_workspace_messages'] += 1
+        statDB.replace_item("1", prev_workspace_stats)
 
         # Update individual user statistics
-        prev_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
-        prev_stats['total_user_messages'] += 1
-        statDB.replace_item(payload["user"], prev_stats)
+
+        # Total messages sent
+        prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+        prev_user_stats['total_user_messages'] += 1
+        statDB.replace_item(payload["user"], prev_user_stats)
+
+        # Message length
+        if len(payload["text"]) > 40:
+            prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+            prev_user_stats['total_long_user_messages'] += 1
+            statDB.replace_item(payload["user"], prev_user_stats)
+        else:
+            prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+            prev_user_stats['total_short_user_messages'] += 1
+            statDB.replace_item(payload["user"], prev_user_stats)
 
         # Update individual channel statistics
 
+        # Total messages sent
+        prev_channel_stats = statDB.read_item(item=payload["channel"], partition_key="Channel stats")
+        prev_channel_stats['total_channel_messages'] += 1
+        statDB.replace_item(payload["user"], prev_channel_stats)
+
+        # Message length
+        if len(payload["text"]) > 40:
+            prev_channel_stats = statDB.read_item(item=payload["channel"], partition_key="Channel stats")
+            prev_channel_stats['total_long_channel_messages'] += 1
+            statDB.replace_item(payload["channel"], prev_channel_stats)
+        else:
+            prev_channel_stats = statDB.read_item(item=payload["user"], partition_key="Channel stats")
+            prev_channel_stats['total_short_channel_messages'] += 1
+            statDB.replace_item(payload["channel"], prev_channel_stats)
+
+        # Brainstorming
         if (brainstormOn == 1):
             msgBrain = {
                 'id' : payload["ts"],
