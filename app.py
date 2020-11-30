@@ -273,7 +273,7 @@ def message_hello(ack, message, say):
 @bolt_app.message("")
 def message_rest(ack, client, message):
     ack()
-    client.chat_postMessage(channel=message['channel'], text=f"Hey there <@{message['user']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
+    client.chat_postMessage(channel=message['user'], text=f"Hey there <@{message['user']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
     
     
 
