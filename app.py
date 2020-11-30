@@ -179,6 +179,7 @@ def log_message(payload, next):
         lang_response = requests.post(language_api_url, headers=headers, json=lang_documents)
         languages = lang_response.json()
         lang_reply = pprint(languages)
+        print(lang_reply["documents"])
         senti_documents = {"documents": [{
             "id": payload["ts"], 
             "language": lang_reply["documents"][0]["detectedLanguage"]["iso6391Name"],
