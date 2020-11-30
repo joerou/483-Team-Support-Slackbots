@@ -181,7 +181,7 @@ def log_message(payload, next):
         lang_reply = pprint(languages)
         senti_documents = {"documents": [{
             "id": payload["ts"], 
-            "language": lang_reply["documents"]["iso6391Name"],
+            "language": lang_reply["documents"][0]["detectedLanguage"]["iso6391Name"],
             "text": payload["text"]}
         ]}
         response = requests.post(sentiment_url, headers=headers, json=senti_documents)
@@ -194,7 +194,7 @@ def log_message(payload, next):
             'user': payload["user"],
             'message': payload["text"],
             'mention': None,
-            'sentiment': senti_reply["documents"]["sentiment"]
+            'sentiment': senti_reply["documents"][0]["sentiment"]
         }
         msgDB.create_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
@@ -1480,6 +1480,7 @@ def end_brainstorming(ack, body, say, command, client):
 @bolt_app.event("app_home_opened")
 def amy_home(ack, event, client, say):
     ack()
+    totalMessages = -1
     stats = list(statDB.read_all_items())
     for i in stats:
         totalMessages = i.get("total_workspace_messages")
