@@ -4,7 +4,6 @@ import os
 import time
 import json
 import requests
-from pprint import pprint
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
@@ -178,16 +177,14 @@ def log_message(payload, next):
         headers = {"Ocp-Apim-Subscription-Key": subscription_key}
         lang_response = requests.post(language_api_url, headers=headers, json=lang_documents)
         languages = lang_response.json()
-        lang_reply = pprint(languages)
-        print(lang_reply["documents"])
+        print(languages["documents"])
         senti_documents = {"documents": [{
             "id": payload["ts"], 
-            "language": lang_reply["documents"][0]["detectedLanguage"]["iso6391Name"],
+            "language": languages["documents"][0]["detectedLanguage"]["iso6391Name"],
             "text": payload["text"]}
         ]}
         response = requests.post(sentiment_url, headers=headers, json=senti_documents)
         sentiments = response.json()
-        senti_reply = pprint(sentiments)
         # id is required
         msg = {
             'id' : payload["ts"],
@@ -195,7 +192,7 @@ def log_message(payload, next):
             'user': payload["user"],
             'message': payload["text"],
             'mention': None,
-            'sentiment': senti_reply["documents"][0]["sentiment"]
+            'sentiment': sentiments["documents"][0]["sentiment"]
         }
         msgDB.create_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
