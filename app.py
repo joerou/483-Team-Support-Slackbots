@@ -3,6 +3,8 @@ import logging
 import os
 import time
 import json
+import requests
+from pprint import pprint
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
@@ -132,6 +134,13 @@ for channel in channel_result["channels"]:
         print("Initial item for channel:", channel["id"], "statistics already exists, continuing:")
 
 ## The database usage in the rest part may need to be changed on a different platform
+
+# API setup for sentiment analysis
+subscription_key=os.environ.get("TEXT_ANALYTICS_KEY")
+endpoint=os.environ.get("TEXT_ANALYTICS_ENDPOINT")
+language_api_url = endpoint + "/text/analytics/v3.0/languages"
+sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
+
 ## End platform related code
 
 # Global Variables
@@ -159,14 +168,33 @@ def log_request(logger, body, next):
 @bolt_app.middleware
 def log_message(payload, next):
     global brainstormOn
+
     if ("type" in payload and payload["type"]=="message"):
+        # sentiment analysis
+        lang_documents = {"documents": [{
+            "id": payload["ts"], 
+            "text": payload["text"]}
+        ]}
+        headers = {"Ocp-Apim-Subscription-Key": subscription_key}
+        lang_response = requests.post(language_api_url, headers=headers, json=lang_documents)
+        languages = lang_response.json()
+        lang_reply = pprint(languages)
+        senti_documents = {"documents": [{
+            "id": payload["ts"], 
+            "language": lang_reply["documents"]["iso6391Name"],
+            "text": payload["text"]}
+        ]}
+        response = requests.post(sentiment_url, headers=headers, json=senti_documents)
+        sentiments = response.json()
+        senti_reply = pprint(sentiments)
         # id is required
         msg = {
             'id' : payload["ts"],
             'channel': payload["channel"],
             'user': payload["user"],
             'message': payload["text"],
-            'mention': None
+            'mention': None,
+            'sentiment': senti_reply["documents"]["sentiment"]
         }
         msgDB.create_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
@@ -326,7 +354,7 @@ def action_button_click(ack, body, client):
     # Acknowledge the action
     user = body['user']['id']
     survey_dict[user] = [0 for x in range(50)]
-    ack();
+    ack()
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
             trigger_id=body["trigger_id"],
@@ -336,7 +364,7 @@ def action_button_click(ack, body, client):
 
 @bolt_app.action("back")
 def action_button_click(ack, body, client):
-    ack();
+    ack()
     form_json = json.dumps(body)
     result = form_json.find('Question')
     form_json = form_json[result+8:]
@@ -359,7 +387,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question1_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -371,7 +399,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question2_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -384,7 +412,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question3_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -396,7 +424,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question4_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -408,7 +436,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question5_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -420,7 +448,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question6_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -432,7 +460,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question7_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -444,7 +472,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question8_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -456,7 +484,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question9_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -468,7 +496,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question10_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -480,7 +508,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question11_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -492,7 +520,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question12_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -504,7 +532,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question13_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -516,7 +544,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question14_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -528,7 +556,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question15_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -540,7 +568,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question16_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -552,7 +580,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question17_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -564,7 +592,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question18_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -576,7 +604,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question19_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -588,7 +616,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question20_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -600,7 +628,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question21_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -612,7 +640,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question22_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -624,7 +652,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question23_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -636,7 +664,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question24_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -648,7 +676,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question25_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -660,7 +688,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question26_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -672,7 +700,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question27_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -684,7 +712,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question28_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -696,7 +724,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question29_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -708,7 +736,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question30_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -720,7 +748,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question31_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -732,7 +760,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question32_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -744,7 +772,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question33_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -756,7 +784,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question34_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -768,7 +796,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question35_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -780,7 +808,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question36_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -792,7 +820,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question37_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -804,7 +832,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question38_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -816,7 +844,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question39_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -829,7 +857,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question40_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -841,7 +869,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question41_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -853,7 +881,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question42_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -865,7 +893,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question43_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -877,7 +905,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question44_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -889,7 +917,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question45_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -901,7 +929,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question46_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -913,7 +941,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question47_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -925,7 +953,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question48_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -937,7 +965,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("question49_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -949,7 +977,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("submit")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     user = body["user"]["id"]
     temp = survey_dict[user]
     e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
@@ -1012,7 +1040,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("psych_q1_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1024,7 +1052,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("psych_q2_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1036,7 +1064,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("psych_q3_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1048,7 +1076,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("psych_q4_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1060,7 +1088,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("psych_q5_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1072,7 +1100,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("psych_q6_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
             view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1084,7 +1112,7 @@ def action_button_click(ack, body, client):
 @bolt_app.action("psych_submit")
 def action_button_click(ack, body, client, say):
     # Acknowledge the action
-    ack();
+    ack()
     client.views_update(
         view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1362,8 +1390,8 @@ def psych_survey(ack, body, client):
     )
 
 @bolt_app.command('/startbrainstorming')
-def psych_survey(ack, body, say, command, client):
-    ack();
+def start_brainstorming(ack, body, say, command, client):
+    ack()
     global brainstormOn
     global brain_weekly
     #Set the global listening bit to 1 to open up the container
@@ -1411,8 +1439,8 @@ def psych_survey(ack, body, say, command, client):
         )
 
 @bolt_app.command('/endbrainstorming')
-def psych_survey(ack, body, say, command, client):
-    ack();
+def end_brainstorming(ack, body, say, command, client):
+    ack()
     global brainstormOn
     global brain_weekly
     #If brainstorming is off no need to run through the rest of the proceedures
@@ -1566,7 +1594,7 @@ slash commands are available to you!"""
 
 
 @bolt_app.action("Brainstorm_Options")
-def action_button_click(ack, body, client):
+def brainstorm_options(ack, body, client):
     global brain_weekly
     # Acknowledge the action
     ack()
@@ -1583,7 +1611,7 @@ def action_button_click(ack, body, client):
         brain_weekly = 0
 
 @bolt_app.action("Weekly_Survey")
-def action_button_click(ack, body, client):
+def weekly_survey(ack, body, client):
     global weekly_survey
     global weekly_id
     # Acknowledge the action
