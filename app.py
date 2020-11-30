@@ -194,7 +194,7 @@ def log_message(payload, next):
             'mention': None,
             'sentiment': sentiments["documents"][0]["sentiment"]
         }
-        msgDB.create_item(msg)
+        msgDB.upsert_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
         # due to the above error, im trying just having the code here for now.
         # Also, the updating definitely should be condensed into a function, but Ill probably do that later
