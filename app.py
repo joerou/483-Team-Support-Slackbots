@@ -1209,6 +1209,7 @@ def action_button_click(ack, body, client, say):
                 }]
     )
 
+    say("testing")
     if(psychBad == 1):
         say('Thank you all for taking the survey, at least 1 member identified that they feel the team enviroment does not feel psychologically safe. Please be more open to opinions and speak respectfully to each other.')
         psychBad = 0
