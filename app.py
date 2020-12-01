@@ -1175,14 +1175,14 @@ def action_button_click(ack, body, client, say):
                 
                         "options": [
                         {
-                            "value": "1",
+                            "value": "0",
                             "text": {
                             "type": "plain_text",
                             "text": "Perfect"
                             }   
                         },
                         {
-                            "value": "0",
+                            "value": "1",
                             "text": {
                             "type": "plain_text",
                             "text": "Too Frequent"
@@ -1226,7 +1226,7 @@ def psych_feedback(ack, body, client, say):
         ratio = prev_psych_stats['Feedback-Change']/totalMembers['total_users']
         prev_psych_stats['Feedback-Change'] = 0
         prev_psych_stats['Feedback-Keep'] = 0
-        if (ratio > .5):
+        if (ratio >= .5):
             say("Thank you all for your feedback on the psych survey! It appears most members feel the survey is too frequent. Perhaps consider changing its frequency on the dashboard.")
     statDB.replace_item("2", prev_psych_stats)
     
@@ -1439,6 +1439,8 @@ def psych_survey(ack, body, client, say):
     psych_dict[user] = [0 for x in range(8)]
     ack()
 
+    text = "Weekly Val = %d" %(weekly_survey)
+    say(text)
     if (weekly_survey == 0):
         say("Please go to my Dashboard and set up the reminder before taking the survey!")
         return
