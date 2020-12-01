@@ -271,11 +271,9 @@ def message_hello(ack, message, say):
 
 # handle all messages
 @bolt_app.message("")
-def message_rest(ack, client, message):
+def message_rest(ack):
     ack()
-    client.chat_postMessage(channel=message['user'], text=f"Hey there <@{message['user']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
-    
-    
+
 
 ###############################################################################
 # Action Handler
@@ -363,7 +361,6 @@ def action_button_click(ack, body, client):
     )
 
 @bolt_app.action("back")
-#handling when a user presses the back button on a question
 def action_button_click(ack, body, client):
     ack()
     form_json = json.dumps(body)
@@ -1482,9 +1479,8 @@ def end_brainstorming(ack, body, say, command, client):
 def amy_home(ack, event, client, say):
     ack()
     totalMessages = -1
-    stats = list(statDB.read_all_items())
-    for i in stats:
-        totalMessages = i.get("total_workspace_messages")
+    stats = statDB.read_itme(item = 1, partition_key = "Workspace-wide stats")
+    totalMessages = stats.get("total_workspace_messages")
     StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
 
     opening = """Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
