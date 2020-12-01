@@ -1369,19 +1369,19 @@ def psych_survey(ack, body, client):
     psych_dict[user] = [0 for x in range(8)]
     ack()
     ts = time.time()
-
+    ts = ts + (weekly_survey*604800)
     try:
         client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = weekly_id)
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = ts + weekly_survey*604800,
+            post_at = ts,
         )
     except:
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = ts + weekly_survey*604800,
+            post_at = ts,
         ) 
 
     client.views_open(
@@ -1545,7 +1545,7 @@ slash commands are available to you!"""
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Weekly Survey* Number of People that have completed the survey: %d \nHow often would you like a psychological saftey check in?" %(weeklyCompleted)
+                    "text": "*Weekly Survey* \nNumber of People that have completed the survey: %d \nHow often would you like a psychological saftey check in?" %(weeklyCompleted)
                   },
                   "accessory": {
                         "type": "radio_buttons",
@@ -1635,24 +1635,27 @@ def weekly_survey(ack, body, client):
 
     if (value == '1'):
         weekly_survey = 1
+        ts = ts + 60
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = ts+ 60,
+            post_at = ts,
         )
     elif (value == '2'):
         weekly_survey = 2
+        ts = ts + (2*604800)
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = ts + 2*604800,
+            post_at = ts ,
         )
     else:
         weekly_survey = 3
+        ts = ts + (3*604800)
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
-            post_at = ts + 3*604800,
+            post_at = ts,
         )
 
 
