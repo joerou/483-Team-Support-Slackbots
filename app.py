@@ -1312,9 +1312,9 @@ def new_member_survey(ack, event, say):
 def member_leaving(ack, event, say):
     global channel
     ack()
-    #prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
-    #prev_workspace_stats['total_users'] -= 1
-    #statDB.replace_item("1", prev_workspace_stats)      
+    prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+    prev_workspace_stats['total_users'] -= 1
+    statDB.replace_item("1", prev_workspace_stats)      
 
 # Error events
 @bolt_app.event("error")
