@@ -1171,23 +1171,8 @@ def action_button_click(ack, body, client, say):
                     "text": {"type": "mrkdwn", "text": "Please Select an Option"},
                     "accessory": {
                         "type": "button",
-                        "action_id": "psychFeedback",
-                
-                        "options": [
-                        {
-                            "value": "1",
-                            "text": {
-                                "type": "plain_text",
-                                "text": "Perfect!"
-                            }   
-                        },
-                        {
-                            "value": "0",
-                            "text": {
-                                "type": "plain_text",
-                                "text": "Too Frequent"
-                            }
-                        }]
+                        "text": {"type": "plain_text", "text": "Click me!"},
+                        "action_id": "button_abc"
                     }
                 }]
     )
