@@ -1170,14 +1170,24 @@ def action_button_click(ack, body, client, say):
                     "type": "section",
                     "text": {"type": "mrkdwn", "text": "Thank you for taking the survey! Do you think the surveys is asked too frequently or just right? \n Please Select an Option"},
                     "accessory": {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "Perfect!", "value": "0"},
-                        "action_id": "psychFeedback"
-                    },
-                    "accessory": {
-                        "type": "button",
-                        "text": {"type": "plain_text", "text": "Too Frequent", "value":"1"},
-                        "action_id": "psychFeedback"
+                        "type": "radio_buttons",
+                        "action_id": "psychFeedback",
+                
+                        "options": [
+                        {
+                            "value": "1",
+                            "text": {
+                            "type": "plain_text",
+                            "text": "Perfect"
+                            }   
+                        },
+                        {
+                            "value": "0",
+                            "text": {
+                            "type": "plain_text",
+                            "text": "Too Frequent"
+                            }
+                        }]
                     }
                 }]
     )
