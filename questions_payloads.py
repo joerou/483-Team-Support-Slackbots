@@ -1,5 +1,3 @@
-
-
 question1_payload = {
     "type": "modal",
 # View identifier
@@ -4075,35 +4073,35 @@ psych_q1_payload = {
             
             "options": [
               {
-                "value": "psych_q1_1",
+                "value": "1_1",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_q1_2",
+                "value": "2_1",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_q1_3",
+                "value": "3_1",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_q1_4",
+                "value": "4_1",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_q1_5",
+                "value": "5_1",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -4145,35 +4143,35 @@ psych_q2_payload = {
             
             "options": [
               {
-                "value": "psych_q2_1",
+                "value": "1_2",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_q2_2",
+                "value": "2_2",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_q2_3",
+                "value": "3_2",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_q2_4",
+                "value": "4_2",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_q2_5",
+                "value": "5_2",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -4215,35 +4213,35 @@ psych_q3_payload = {
             
             "options": [
               {
-                "value": "psych_q3_1",
+                "value": "1_3",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_q3_2",
+                "value": "2_3",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_q3_3",
+                "value": "3_3",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_q3_4",
+                "value": "4_3",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_q3_5",
+                "value": "5_3",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -4285,35 +4283,35 @@ psych_q4_payload = {
             
             "options": [
               {
-                "value": "psych_q4_1",
+                "value": "1_4",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_q4_2",
+                "value": "2_4",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_q4_3",
+                "value": "3_4",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_q4_4",
+                "value": "4_4",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_q4_5",
+                "value": "5_4",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -4355,35 +4353,35 @@ psych_q5_payload = {
             
             "options": [
               {
-                "value": "psych_q5_1",
+                "value": "1_5",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_q5_2",
+                "value": "2_5",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_q5_3",
+                "value": "3_5",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_q5_4",
+                "value": "4_5",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_q5_5",
+                "value": "5_5",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -4425,35 +4423,35 @@ psych_q6_payload = {
             
             "options": [
               {
-                "value": "psych_q6_1",
+                "value": "1_6",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_q6_2",
+                "value": "2_6",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_q6_3",
+                "value": "3_6",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_q6_4",
+                "value": "4_6",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_q6_5",
+                "value": "5_6",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -4495,35 +4493,35 @@ psych_q7_payload = {
             
             "options": [
               {
-                "value": "psych_q7_1",
+                "value": "1_7",
                 "text": {
                   "type": "plain_text",
                   "text": "very inaccurate"
                 }
               },
               {
-                "value": "psych_q7_2",
+                "value": "2_7",
                 "text": {
                   "type": "plain_text",
                   "text": "inaccurate"
                 }
               },
               {
-                "value": "psych_q7_3",
+                "value": "3_7",
                 "text": {
                   "type": "plain_text",
                   "text": "neutral"
                 }
               },
               {
-                "value": "psych_q7_4",
+                "value": "4_7",
                 "text": {
                   "type": "plain_text",
                   "text": "accurate"
                 }
               },
               {
-                "value": "psych_q7_5",
+                "value": "5_7",
                 "text": {
                   "type": "plain_text",
                   "text": "very accurate"
@@ -4589,4 +4587,3 @@ question_list.append(question47_payload)
 question_list.append(question48_payload)
 question_list.append(question49_payload)
 question_list.append(question50_payload)
-
