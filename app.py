@@ -163,7 +163,7 @@ brainstormOn = 0
 brain_weekly = 0
 
 #Weekly Survey 
-weekly_survey = 0
+weeklySurveyValue = 0
 weekly_id = ""
 channel = ""
 weeklyCompleted = 0
@@ -1432,21 +1432,19 @@ def survey(ack, body, client):
 # Psych Survey slash command (temp)
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client, say):
-    global weekly_survey
+    global weeklySurveyValue
     global weekly_id
     global channel
     user = body['user_id']
     psych_dict[user] = [0 for x in range(8)]
     ack()
 
-    text = "Weekly Val = %d" %(weekly_survey)
-    say(text)
-    if (weekly_survey == 0):
+    if (weeklySurveyValue == 0):
         say("Please go to my Dashboard and set up the reminder before taking the survey!")
         return
 
     ts = time.time()
-    ts = ts + (weekly_survey*604800)
+    ts = ts + (weeklySurveyValue*604800)
     try:
         client.chat_deleteScheduledMessage(channel = channel, scheduled_message_id = weekly_id)
         weekly_id = client.chat_scheduleMessage(
@@ -1692,7 +1690,7 @@ def brainstorm_options(ack, body, client):
 
 @bolt_app.action("Weekly_Survey")
 def weekly_survey(ack, body, client):
-    global weekly_survey
+    global weeklySurveyValue
     global weekly_id
     global channel
     # Acknowledge the action
@@ -1712,7 +1710,7 @@ def weekly_survey(ack, body, client):
             pass
 
     if (value == '1'):
-        weekly_survey = 1
+        weeklySurveyValue = 1
         ts = ts + 60
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
@@ -1720,7 +1718,7 @@ def weekly_survey(ack, body, client):
             post_at = ts,
         )
     elif (value == '2'):
-        weekly_survey = 2
+        weeklySurveyValue = 2
         ts = ts + (2*604800)
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
@@ -1728,7 +1726,7 @@ def weekly_survey(ack, body, client):
             post_at = ts ,
         )
     else:
-        weekly_survey = 3
+        weeklySurveyValue = 3
         ts = ts + (3*604800)
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
