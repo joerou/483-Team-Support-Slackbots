@@ -1173,7 +1173,7 @@ def action_button_click(ack, body, client, say):
                         "type": "button",
                         "text": {"type": "plain_text", "text": "Perfect!", "value": "0"},
                         "action_id": "psychFeedback"
-                    }
+                    },
                     "accessory": {
                         "type": "button",
                         "text": {"type": "plain_text", "text": "Too Frequent", "value":"1"},
