@@ -104,6 +104,7 @@ try:
     statDB.create_item({
         'id': '2',
         'Feedback-Change': 0,
+        "Feedback-Keep": 0,
         'Psych-Completed': 0,
         'info_type': 'Survey stats'
     }
@@ -1198,6 +1199,35 @@ def action_button_click(ack, body, client, say):
     #    'user' : user,
     #    'q_total' : temp[0]
     #}
+
+
+@bolt_app.action("psychFeedback")
+def psych_feedback(ack, body, client):
+    # Acknowledge the action
+    ack()
+    form_json = json.dumps(body)
+    form_json = form_json[788:]
+    actions_index = form_json.find('actions')
+    form_json = form_json[actions_index:]
+    value_index = form_json.find('value')
+    value = form_json[value_index+9]
+
+    prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
+
+    if (value == 1):
+        prev_psych_stats['Feedback-Change'] += 1
+    else:
+        prev_psych_stats['Feedback-Keep'] += 1
+
+    totalFeedback = prev_psych_stats['Feedback-Change'] + prev_psych_stats['Feedback-Keep']
+    totalMembers = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+    if (totalFeedback == totalMembers['total_users']):
+        ratio = prev_psych_stats['Feedback-Change']/totalMembers['total_users']
+        prev_psych_stats['Feedback-Change'] = 0
+        prev_psych_stats['Feedback-Keep'] = 0
+        if (ratio > .5):
+            say("Thank you all for your feedback on the psych survey! It appears most members feel the survey is too frequent. Perhaps consider changing its frequency on the dashboard.")
+    statDB.replace_item("2", prev_psych_stats)
     
     
 
