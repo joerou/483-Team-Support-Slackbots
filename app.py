@@ -123,6 +123,7 @@ for user in user_result["members"]:
             'total_mentions': 0,
             'total_long_user_messages': 0,
             'total_short_user_messages': 0,
+            'psychScore': 0,
             'info_type': 'User stats'
         }
         )
@@ -167,6 +168,7 @@ weeklySurveyValue = 0
 weekly_id = ""
 channel = ""
 weeklyCompleted = 0
+psychBad = 0
 
 ###############################################################################
 # Middleware
@@ -323,13 +325,27 @@ def action_button_click(ack, body, client, say):
 @bolt_app.action("psych_radio_id")
 def action_button_click(ack, body, say):
     ack()
+    global psychBad
+    form_json = json.dumps(body)
+    form_json = form_json[500:]
+    actions_index = form_json.find('actions')
+    form_json = form_json[actions_index:]
+    value_index = form_json.find('value')
+    value = form_json[value_index+9]
     user = body['user']['id']
-    value = body['actions']['selected_option']['value']
-    question = int(value[7])
-    response = int(value[-1])
-    temp = psych_dict[user]
-    temp[question] = response
-    psych_dict[user] = temp
+
+    psychScore = statDB.read_item(item=user, partition_key="User stats")
+    psychScore['psychScore'] += int(value)
+
+    if (form_json[value_index+11] == "7"):
+        psychScore['psychScore'] /= 7
+        if (psychScore['psychScore'] < 3):
+            psychBad = 1
+        psychScore['psychScore'] = 0
+
+    statDB.replace_item(user, psychScore)
+
+    
 
     
     
@@ -1129,6 +1145,7 @@ def action_button_click(ack, body, client, say):
     ack()
     global channel
     global weeklyCompleted
+    global psychBad
     user = body["user"]["id"]
 
     prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
@@ -1139,6 +1156,10 @@ def action_button_click(ack, body, client, say):
         prev_psych_stats['Psych-Completed'] = 0
     statDB.replace_item("2", prev_psych_stats)
     weeklyCompleted = prev_psych_stats['Psych-Completed'];
+
+    if(psychBad == 1):
+        say('Thank you all for taking the survey, at least 1 member identified that they feel the team enviroment does not feel psychologically safe. Please be more open to opinions and speak respectfully to each other.')
+        psychBad = 0
 
     client.views_update(
         view_id=body["view"]["id"],
