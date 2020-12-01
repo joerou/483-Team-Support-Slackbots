@@ -1157,10 +1157,6 @@ def action_button_click(ack, body, client, say):
     statDB.replace_item("2", prev_psych_stats)
     weeklyCompleted = prev_psych_stats['Psych-Completed'];
 
-    if(psychBad == 1):
-        say('Thank you all for taking the survey, at least 1 member identified that they feel the team enviroment does not feel psychologically safe. Please be more open to opinions and speak respectfully to each other.')
-        psychBad = 0
-
     client.views_update(
         view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1213,13 +1209,9 @@ def action_button_click(ack, body, client, say):
                 }]
     )
 
-    #user = body["user"]["id"]
-    #temp = psych_dict[user]
-    #temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
-    #psych_msg = {
-    #    'user' : user,
-    #    'q_total' : temp[0]
-    #}
+    if(psychBad == 1):
+        say('Thank you all for taking the survey, at least 1 member identified that they feel the team enviroment does not feel psychologically safe. Please be more open to opinions and speak respectfully to each other.')
+        psychBad = 0
 
 
 @bolt_app.action("psychFeedback")
