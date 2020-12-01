@@ -1206,12 +1206,43 @@ def psych_feedback(ack, body, client, say):
     # Acknowledge the action
     ack()
     form_json = json.dumps(body)
+    form_json = form_json[788:]
     actions_index = form_json.find('actions')
     form_json = form_json[actions_index:]
     value_index = form_json.find('value')
     value = form_json[value_index+9]
     text = "Value is: %s" %(value)
-    say(text)
+    
+    client.views_open(
+        # Pass a valid trigger_id within 3 seconds of receiving it
+            trigger_id=body["trigger_id"],
+        # View payload
+            view={
+                "type": "modal",
+            # View identifier
+                "callback_id": "view_1",
+                "title": {"type": "plain_text", "text": "Json Dump"},
+                
+                "blocks": [
+                    {
+                        "type": "section",
+                        "text": {"type": "mrkdwn", "text": "%s" % (form_json)}
+                    },
+                  {
+                    #Horizontal divider line 
+                    "type": "divider"
+                  },
+                  {
+                     "type":"section",
+                     "text":{
+                        "type":"mrkdwn",
+                        "text": text
+                     }
+                  }
+                ]
+            }
+    )
+
     prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
 
     if (value == '1'):
