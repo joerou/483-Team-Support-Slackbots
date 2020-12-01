@@ -152,6 +152,7 @@ brain_weekly = 0
 weekly_survey = 0
 weekly_id = ""
 channel = ""
+weeklyCompleted = 0
 
 ###############################################################################
 # Middleware
@@ -1131,6 +1132,38 @@ def action_button_click(ack, body, client, say):
             ]
         }
     )
+
+    client.chat_postEphemeral(
+        channel = channel,
+        user = user,
+        text = "Thank you for taking the survey! Do you think the surveys is asked too frequently or just right?",
+        attachments =
+            [
+                {
+                    "text": "Please Select an Option",
+                    "fallback": "Error",
+                    "callback_id": "feedback_button",
+                    "action_id": "psychFeedback",
+                    "color": "#3AA3E3",
+                    "actions": [
+                        {
+                            "name": "Perfect",
+                            "text": "Perfect!",
+                            "type": "button",
+                            "value": "1"
+                        },
+                        {
+                            "name": "Bad",
+                            "text": "Too Frequent",
+                            "style": "danger",
+                            "type": "button",
+                            "value": "0"
+                        }
+                    ]
+                }
+            ]
+    )
+
     #user = body["user"]["id"]
     #temp = psych_dict[user]
     #temp[0] = temp[1]+temp[2]+temp[3]+temp[4]+temp[5]+temp[6]+temp[7]+temp[8]
@@ -1169,35 +1202,6 @@ def reaction_added(ack, event, say, client):
     user = event["user"]
     ts = event["item"]["ts"]
 
-    client.chat_postEphemeral(
-        channel = channel,
-        user = user,
-        text = "Thank you for taking the survey! Do you think the surveys is asked too frequently or just right?",
-        attachments =
-            [
-                {
-                    "text": "Please Select an Option",
-                    "fallback": "Error",
-                    "callback_id": "feedback_button",
-                    "color": "#3AA3E3",
-                    "actions": [
-                        {
-                            "name": "Perfect",
-                            "text": "Perfect!",
-                            "type": "button",
-                            "value": "Perfect"
-                        },
-                        {
-                            "name": "Bad",
-                            "text": "Too Frequent",
-                            "style": "danger",
-                            "type": "button",
-                            "value": "Bad"
-                        }
-                    ]
-                }
-            ]
-    )
 
 # Triggering event upon new member joining
 @bolt_app.event("member_joined_channel")
@@ -1478,6 +1482,7 @@ def end_brainstorming(ack, body, say, command, client):
 @bolt_app.event("app_home_opened")
 def amy_home(ack, event, client, say):
     ack()
+    global weeklyCompleted
     totalMessages = -1
     stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     totalMessages = stats.get("total_workspace_messages")
@@ -1540,7 +1545,7 @@ slash commands are available to you!"""
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "*Weekly Survey* \nHow often would you like a psychological saftey check in?"
+                    "text": "*Weekly Survey* Number of People that have completed the survey: %d \nHow often would you like a psychological saftey check in?" %(weeklyCompleted)
                   },
                   "accessory": {
                         "type": "radio_buttons",
