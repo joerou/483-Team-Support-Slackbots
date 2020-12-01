@@ -92,7 +92,20 @@ try:
     statDB.create_item({
         'id': '1',
         'total_workspace_messages': 0,
+        'total_users': 0,
         'info_type': 'Workspace-wide stats'
+    }
+)
+
+except exceptions.CosmosHttpResponseError:
+    print("Initial item for workspace-wide statistics already exists, continuing:")
+
+try:
+    statDB.create_item({
+        'id': '2',
+        'Feedback-Given': 0,
+        'Psych-Completed': 0,
+        'info_type': 'Survey stats'
     }
 )
 
@@ -274,6 +287,7 @@ def message_hello(ack, message, say):
 @bolt_app.message("")
 def message_rest(ack):
     ack()
+
 
 
 ###############################################################################
@@ -1112,6 +1126,19 @@ def action_button_click(ack, body, client):
 def action_button_click(ack, body, client, say):
     # Acknowledge the action
     ack()
+    global channel
+    global weeklyCompleted
+    user = body["user"]["id"]
+
+    prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
+    prev_psych_stats['Psych-Completed'] += 1
+
+    totalMembers = statDB.read_item(item="2", partition_key="Workspace-wide stats")
+    if(prev_psych_stats['Psych-Completed'] == totalMembers['total_users']):
+        prev_psych_stats['Psych-Completed'] = 0
+    statDB.replace_item("2", prev_psych_stats)
+    weeklyCompleted = prev_psych_stats['Psych-Completed'];
+
     client.views_update(
         view_id=body["view"]["id"],
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1208,6 +1235,10 @@ def reaction_added(ack, event, say, client):
 def new_member_survey(ack, event, say):
     global channel
     ack()
+    prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+    prev_workspace_stats['total_users'] += 1
+    statDB.replace_item("1", prev_workspace_stats)
+
     user = event["user"]
     channel = event["channel"]
     message = "Hello <@%s> Thanks for joining the chat!, Please take a personality survey by pressing the take survey button! :tada:" % user
@@ -1225,7 +1256,14 @@ def new_member_survey(ack, event, say):
         ],
         text=message
     )
-        
+  
+@bolt_app.event("member_left_channel")
+def member_leaving(ack, event, say):
+    global channel
+    ack()
+    prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+    prev_workspace_stats['total_users'] -= 1
+    statDB.replace_item("1", prev_workspace_stats)      
 
 # Error events
 @bolt_app.event("error")
@@ -1368,6 +1406,11 @@ def psych_survey(ack, body, client):
     user = body['user_id']
     psych_dict[user] = [0 for x in range(8)]
     ack()
+
+    if (weekly_survey == 0):
+        say("Please go to my Dashboard and set up the reminder before taking the survey!")
+        return
+
     ts = time.time()
     ts = ts + (weekly_survey*604800)
     try:
