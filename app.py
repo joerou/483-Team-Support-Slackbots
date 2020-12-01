@@ -1206,7 +1206,7 @@ def psych_feedback(ack, body, client, say):
     # Acknowledge the action
     ack()
     form_json = json.dumps(body)
-    form_json = form_json[788:]
+    form_json = form_json[500:]
     actions_index = form_json.find('actions')
     form_json = form_json[actions_index:]
     value_index = form_json.find('value')
