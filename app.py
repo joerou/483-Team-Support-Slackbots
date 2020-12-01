@@ -1133,7 +1133,7 @@ def action_button_click(ack, body, client, say):
     prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
     prev_psych_stats['Psych-Completed'] += 1
 
-    totalMembers = statDB.read_item(item="2", partition_key="Workspace-wide stats")
+    totalMembers = statDB.read_item(item="1", partition_key="Workspace-wide stats")
     if(prev_psych_stats['Psych-Completed'] == totalMembers['total_users']):
         prev_psych_stats['Psych-Completed'] = 0
     statDB.replace_item("2", prev_psych_stats)
