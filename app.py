@@ -1211,37 +1211,6 @@ def psych_feedback(ack, body, client, say):
     form_json = form_json[actions_index:]
     value_index = form_json.find('value')
     value = form_json[value_index+9]
-    text = "Value is: %s" %(value)
-    
-    client.views_open(
-        # Pass a valid trigger_id within 3 seconds of receiving it
-            trigger_id=body["trigger_id"],
-        # View payload
-            view={
-                "type": "modal",
-            # View identifier
-                "callback_id": "view_1",
-                "title": {"type": "plain_text", "text": "Json Dump"},
-                
-                "blocks": [
-                    {
-                        "type": "section",
-                        "text": {"type": "mrkdwn", "text": "%s" % (form_json)}
-                    },
-                  {
-                    #Horizontal divider line 
-                    "type": "divider"
-                  },
-                  {
-                     "type":"section",
-                     "text":{
-                        "type":"mrkdwn",
-                        "text": text
-                     }
-                  }
-                ]
-            }
-    )
 
     prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
 
@@ -1322,9 +1291,9 @@ def new_member_survey(ack, event, say):
 def member_leaving(ack, event, say):
     global channel
     ack()
-    prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
-    prev_workspace_stats['total_users'] -= 1
-    statDB.replace_item("1", prev_workspace_stats)      
+    #prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+    #prev_workspace_stats['total_users'] -= 1
+    #statDB.replace_item("1", prev_workspace_stats)      
 
 # Error events
 @bolt_app.event("error")
