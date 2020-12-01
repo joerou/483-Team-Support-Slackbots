@@ -1403,6 +1403,7 @@ def survey(ack, body, client):
 def psych_survey(ack, body, client):
     global weekly_survey
     global weekly_id
+    global channel
     user = body['user_id']
     psych_dict[user] = [0 for x in range(8)]
     ack()
