@@ -1479,7 +1479,7 @@ def end_brainstorming(ack, body, say, command, client):
 def amy_home(ack, event, client, say):
     ack()
     totalMessages = -1
-    stats = statDB.read_item(item = 1, partition_key = "Workspace-wide stats")
+    stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     totalMessages = stats.get("total_workspace_messages")
     StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
 
