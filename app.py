@@ -1202,9 +1202,10 @@ def action_button_click(ack, body, client, say):
 
 
 @bolt_app.action("psychFeedback")
-def psych_feedback(ack, body, client):
+def psych_feedback(ack, body, client, say):
     # Acknowledge the action
     ack()
+    say("Im here!")
     form_json = json.dumps(body)
     form_json = form_json[788:]
     actions_index = form_json.find('actions')
@@ -1430,7 +1431,7 @@ def survey(ack, body, client):
 
 # Psych Survey slash command (temp)
 @bolt_app.command('/psych_survey')
-def psych_survey(ack, body, client):
+def psych_survey(ack, body, client, say):
     global weekly_survey
     global weekly_id
     global channel
