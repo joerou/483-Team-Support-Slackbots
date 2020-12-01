@@ -1165,31 +1165,31 @@ def action_button_click(ack, body, client, say):
         channel = channel,
         user = user,
         text = "Thank you for taking the survey! Do you think the surveys is asked too frequently or just right?",
-        attachments =
-            [
+        blocks = [
                 {
-                    "text": "Please Select an Option",
-                    "fallback": "Error",
-                    "callback_id": "feedback_button",
-                    "action_id": "psychFeedback",
-                    "color": "#3AA3E3",
-                    "actions": [
+                    "type": "section",
+                    "text": {"type": "mrkdwn", "text": "Please Select an Option"},
+                    "accessory": {
+                        "type": "button",
+                        "action_id": "psychFeedback",
+                
+                        "options": [
                         {
-                            "name": "Perfect",
-                            "text": "Perfect!",
-                            "type": "button",
-                            "value": "1"
+                            "value": "1",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Perfect!"
+                            }   
                         },
                         {
-                            "name": "Bad",
-                            "text": "Too Frequent",
-                            "style": "danger",
-                            "type": "button",
-                            "value": "0"
-                        }
-                    ]
-                }
-            ]
+                            "value": "0",
+                            "text": {
+                                "type": "plain_text",
+                                "text": "Too Frequent"
+                            }
+                        }]
+                    }
+                }]
     )
 
     #user = body["user"]["id"]
@@ -1692,6 +1692,7 @@ def brainstorm_options(ack, body, client):
 def weekly_survey(ack, body, client):
     global weekly_survey
     global weekly_id
+    global channel
     # Acknowledge the action
     ack()
     form_json = json.dumps(body)
