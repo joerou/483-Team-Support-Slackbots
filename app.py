@@ -1168,11 +1168,16 @@ def action_button_click(ack, body, client, say):
         blocks = [
                 {
                     "type": "section",
-                    "text": {"type": "mrkdwn", "text": "Please Select an Option"},
+                    "text": {"type": "mrkdwn", "text": "Thank you for taking the survey! Do you think the surveys is asked too frequently or just right? \n Please Select an Option"},
                     "accessory": {
                         "type": "button",
-                        "text": {"type": "plain_text", "text": "Click me!"},
-                        "action_id": "button_abc"
+                        "text": {"type": "plain_text", "text": "Perfect!", "value": "0"},
+                        "action_id": "psychFeedback"
+                    }
+                    "accessory": {
+                        "type": "button",
+                        "text": {"type": "plain_text", "text": "Too Frequent", "value":"1"},
+                        "action_id": "psychFeedback"
                     }
                 }]
     )
