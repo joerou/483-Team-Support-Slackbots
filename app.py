@@ -1205,17 +1205,17 @@ def action_button_click(ack, body, client, say):
 def psych_feedback(ack, body, client, say):
     # Acknowledge the action
     ack()
-    say("Im here!")
     form_json = json.dumps(body)
     form_json = form_json[788:]
     actions_index = form_json.find('actions')
     form_json = form_json[actions_index:]
     value_index = form_json.find('value')
     value = form_json[value_index+9]
-
+    text = "Value is: %s" %(value)
+    say(text)
     prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
 
-    if (value == 1):
+    if (value == '1'):
         prev_psych_stats['Feedback-Change'] += 1
     else:
         prev_psych_stats['Feedback-Keep'] += 1
