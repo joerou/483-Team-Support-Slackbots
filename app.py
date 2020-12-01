@@ -103,7 +103,7 @@ except exceptions.CosmosHttpResponseError:
 try:
     statDB.create_item({
         'id': '2',
-        'Feedback-Given': 0,
+        'Feedback-Change': 0,
         'Psych-Completed': 0,
         'info_type': 'Survey stats'
     }
