@@ -4054,7 +4054,7 @@ psych_q1_payload = {
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "1. If you make a mistake on this team, it is often held against you."},
+            "text": {"type": "mrkdwn", "text": "1. If you make a mistake on this team, it is never held against you."},
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
@@ -4194,7 +4194,7 @@ psych_q3_payload = {
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "3. People on this team sometimes reject others for being different."},
+            "text": {"type": "mrkdwn", "text": "3. People on this team are usually accepting of others for being different."},
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
@@ -4334,7 +4334,7 @@ psych_q5_payload = {
     "blocks": [
         {
             "type": "section",
-            "text": {"type": "mrkdwn", "text": "5. It is difficult to ask other members of this team for help."},
+            "text": {"type": "mrkdwn", "text": "5. It is easy to ask other members of this team for help."},
             "accessory": {
                 "type": "button",
                 "text": {"type": "plain_text", "text": "Next"},
