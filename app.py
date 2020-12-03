@@ -1152,6 +1152,11 @@ def action_button_click(ack, body, client, say):
     prev_psych_stats['Psych-Completed'] += 1
 
     totalMembers = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+
+    if(psychBad == 1 && prev_psych_stats['Psych-Completed'] == totalMembers['total_users']):
+        client.chat_postMessage(channel = channel, text = 'Thank you all for taking the survey, at least 1 member identified that they feel the team enviroment does not feel psychologically safe. Please be more open to opinions and speak respectfully to each other.')
+        psychBad = 0
+
     if(prev_psych_stats['Psych-Completed'] == totalMembers['total_users']):
         prev_psych_stats['Psych-Completed'] = 0
     statDB.replace_item("2", prev_psych_stats)
@@ -1177,10 +1182,6 @@ def action_button_click(ack, body, client, say):
             ]
         }
     )
-
-    if(psychBad == 1):
-        client.chat_postMessage(channel = channel, text = 'Thank you all for taking the survey, at least 1 member identified that they feel the team enviroment does not feel psychologically safe. Please be more open to opinions and speak respectfully to each other.')
-        psychBad = 0
 
     client.chat_postEphemeral(
         channel = channel,
