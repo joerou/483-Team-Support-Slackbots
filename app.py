@@ -1725,7 +1725,7 @@ def weekly_survey(ack, body, client):
 
     if (value == '1'):
         weeklySurveyValue = 1
-        ts = ts + 60
+        ts = ts + 604800
         weekly_id = client.chat_scheduleMessage(
             channel = channel,
             text = "Please take your psychological saftey survey using /psych_survey",
