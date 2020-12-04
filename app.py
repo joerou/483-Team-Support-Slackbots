@@ -120,7 +120,8 @@ for user in user_result["members"]:
         statDB.create_item({
             'id': user["id"],
             'total_user_messages': 0,
-            'total_mentions': 0,
+            'total_sent_mentions': 0,
+            'total_received_mentions': 0,
             'total_long_user_messages': 0,
             'total_short_user_messages': 0,
             'psychScore': 0,
@@ -237,6 +238,17 @@ def log_message(payload, next):
             prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
             prev_user_stats['total_short_user_messages'] += 1
             statDB.replace_item(payload["user"], prev_user_stats)
+
+        # Check and record mentions
+        for user in user_result["members"]:
+            if (payload["text"].find(user) != -1):
+                prev_user_stats = statDB.read_item(item=user, partition_key="User stats")
+                prev_user_stats['total_received_mentions'] += 1
+                statDB.replace_item(user, prev_user_stats)
+
+                prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+                prev_user_stats['total_sent_mentions'] += 1
+                statDB.replace_item(payload["user"], prev_user_stats)
 
         # Update individual channel statistics
 
