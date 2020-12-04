@@ -296,6 +296,15 @@ def is_introvert(user):
     else:
         return False
 
+#returns true if user is an extrovert, false otherwise
+def is_extrovert(user):
+    temp = survey_dict[user]
+    e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
+    if e > 27:
+        return True
+    else:
+        return False
+
 # handle all messages
 @bolt_app.message("")
 def message_rest(ack, client, message):
@@ -310,6 +319,8 @@ def message_rest(ack, client, message):
             total = user_stats['total_user_messages']
             if (total < average - 10) and (is_introvert(user['id'])):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
+            elif (total > average + 20) and (is_extrovert(user['id'])):
+                client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
 
 
 ###############################################################################
