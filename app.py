@@ -4,6 +4,7 @@ import os
 import time
 import json
 import requests
+import datetime
 from slack_bolt import App
 from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
@@ -93,6 +94,8 @@ try:
         'id': '1',
         'total_workspace_messages': 0,
         'total_users': 0,
+        'average_msg_time': 0,
+        'sum_msg_ts': 0,
         'info_type': 'Workspace-wide stats'
     }
 )
@@ -209,8 +212,8 @@ def log_message(payload, next):
             'channel': payload["channel"],
             'user': payload["user"],
             'message': payload["text"],
-            'mention': None,
-            'sentiment': sentiments["documents"][0]["sentiment"]
+            'mention': None
+            # 'sentiment': sentiments["documents"][0]["sentiment"]
         }
         msgDB.upsert_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
@@ -220,6 +223,18 @@ def log_message(payload, next):
         # Update workspace-wide statistics
         prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
         prev_workspace_stats['total_workspace_messages'] += 1
+        statDB.replace_item("1", prev_workspace_stats)
+
+        prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+        msg_ts = payload["ts"]
+        date = datetime.datetime.fromtimestamp(msg_ts)
+        msg_ts_time = date.time()
+
+        msg_ts_secs = int(msg_ts_time.hour) * 3600 + int(msg_ts_time.minute) * 60 + int(msg_ts_time.second)
+        prev_workspace_stats['sum_msg_ts'] += msg_ts_secs
+        new_avg = int(prev_workspace_stats['sum_msg_ts']) / int(prev_workspace_stats["total_workspace_messages"])
+
+        prev_workspace_stats['average_msg_time'] = str(datetime.timedelta(seconds=new_avg))
         statDB.replace_item("1", prev_workspace_stats)
 
         # Update individual user statistics
