@@ -226,7 +226,7 @@ def log_message(payload, next):
         statDB.replace_item("1", prev_workspace_stats)
 
         prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
-        msg_ts = payload["ts"]
+        msg_ts = int(payload["ts"])
         date = datetime.datetime.fromtimestamp(msg_ts)
         msg_ts_time = date.time()
 
