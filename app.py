@@ -288,8 +288,27 @@ def message_hello(ack, message, say):
 
 # handle all messages
 @bolt_app.message("")
-def message_rest(ack):
+def message_rest(ack, client, message):
     ack()
+    workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+    user_result = bolt_app.client.users_list()
+    user_count = len(user_result)
+    average = workspace_stats['total_workspace_messages']/user_count
+    if workspace_stats['total_workspace_messages'] > 100:
+        for user in user_result:
+            user_stats = statDB.read_item(item=user["id"], partition_key="User stats")
+            total = user_stats['total_user_messages']
+            if (total < average - 10) and (is_introvert(user['id'])):
+                client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
+
+    #returns true if user is an introvert, false otherwise
+def is_introvert(user):
+    temp = survey_dict[user]
+    e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
+    if e < 13:
+        return True
+    else:
+        return False
 
 
 
