@@ -180,7 +180,7 @@ psychBad = 0
 # Middleware
 ###############################################################################
 
-# Log request
+# Log and print request
 @bolt_app.middleware
 def log_request(logger, body, next):
     logger.debug(body)
@@ -192,6 +192,17 @@ def log_message(payload, next):
     global brainstormOn
 
     if ("type" in payload and payload["type"]=="message"):
+        # get mention
+        mentions = []
+        for c in payload["text"]:
+            if c == "<":
+                if c.next() == "@": 
+                    c = c.next()
+                    mention = ""
+                    while c.next() != ">":
+                        c = c.next()
+                        mention = mention + c
+                    mentions.append(mention)
         # sentiment analysis
         lang_documents = {"documents": [{
             "id": payload["ts"], 
@@ -214,7 +225,7 @@ def log_message(payload, next):
             'channel': payload["channel"],
             'user': payload["user"],
             'message': payload["text"],
-            'mention': None
+            'mention': mentions
             # 'sentiment': sentiments["documents"][0]["sentiment"]
         }
         msgDB.upsert_item(msg)
