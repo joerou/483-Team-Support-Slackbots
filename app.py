@@ -128,6 +128,8 @@ for user in user_result["members"]:
             'total_long_user_messages': 0,
             'total_short_user_messages': 0,
             'psychScore': 0,
+            'previous_messages': 0,
+            'most_messages': 0,
             'info_type': 'User stats'
         }
         )
@@ -340,14 +342,22 @@ def message_rest(ack, client, message):
     user_result = bolt_app.client.users_list()
     user_count = len(user_result)
     average = workspace_stats['total_workspace_messages']/user_count
+    most_messages = 0
+    user_with_most = message['user']
     if workspace_stats['total_workspace_messages'] % 100 == 0:
+        total = total/(workspace_stats['total_workspace_messages']/100)
         for user in user_result:
+            
             user_stats = statDB.read_item(item=user["id"], partition_key="User stats")
-            total = user_stats['total_user_messages']
-            if (total < average - 10) and (is_introvert(user['id'])):
+            total = user_stats['total_user_messages'] - user_stats['previous_messages']
+            
+            user_stats['previous_messages'] = user_stats['total_user_messages']
+            statDB.replace_item(payload["user"], user_stats)
+            if (total < average - 15) and (is_introvert(user['id'])):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
             elif (total > average + 20) and (is_extrovert(user['id'])):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
+        
 
 
 ###############################################################################
