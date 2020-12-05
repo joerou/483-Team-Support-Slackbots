@@ -195,7 +195,7 @@ def log_message(payload, next):
         text = payload["text"]
         # get mention
         mentions = []
-        for i in len(text):
+        for i in range(len(text)):
             if text[i] == "<":
                 if text[i+1] == "@": 
                     j = i + 1
