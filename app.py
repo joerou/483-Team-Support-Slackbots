@@ -268,7 +268,7 @@ def log_message(payload, next):
 
         # Check and record mentions
         for user in user_result["members"]:
-            if (payload["text"].find(user) != -1):
+            if user in mentions:
                 prev_user_stats = statDB.read_item(item=user, partition_key="User stats")
                 prev_user_stats['total_received_mentions'] += 1
                 statDB.replace_item(user, prev_user_stats)
