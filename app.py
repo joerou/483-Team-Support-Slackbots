@@ -201,7 +201,7 @@ def log_message(payload, next):
                     j = i + 1
                     while text[j] != ">":
                         j = j + 1
-                    mentions.append(text[i+2,j-1])
+                    mentions.append(text[i+2:j])
         # sentiment analysis
         lang_documents = {"documents": [{
             "id": payload["ts"], 
