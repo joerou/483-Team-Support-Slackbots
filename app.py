@@ -192,17 +192,16 @@ def log_message(payload, next):
     global brainstormOn
 
     if ("type" in payload and payload["type"]=="message"):
+        text = payload["text"]
         # get mention
         mentions = []
-        for c in payload["text"]:
-            if c == "<":
-                if c.next() == "@": 
-                    c = c.next()
-                    mention = ""
-                    while c.next() != ">":
-                        c = c.next()
-                        mention = mention + c
-                    mentions.append(mention)
+        for i in len(text):
+            if text[i] == "<":
+                if text[i+1] == "@": 
+                    j = i + 1
+                    while text[j] != ">":
+                        j = j + 1
+                    mentions.append(text[i+2,j-1])
         # sentiment analysis
         lang_documents = {"documents": [{
             "id": payload["ts"], 
