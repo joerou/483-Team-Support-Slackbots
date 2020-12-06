@@ -203,21 +203,30 @@ def log_message(payload, next):
                         j = j + 1
                     mentions.append(text[i+2:j])
         # sentiment analysis
+        # get language
         lang_documents = {"documents": [{
             "id": payload["ts"], 
             "text": payload["text"]}
         ]}
         headers = {"Ocp-Apim-Subscription-Key": subscription_key}
         lang_response = requests.post(language_api_url, headers=headers, json=lang_documents)
+        # wait for response
+        time.sleep(1)
         languages = lang_response.json()
         print(languages["documents"])
+
         senti_documents = {"documents": [{
             "id": payload["ts"], 
             "language": languages["documents"][0]["detectedLanguage"]["iso6391Name"],
             "text": payload["text"]}
         ]}
         response = requests.post(sentiment_url, headers=headers, json=senti_documents)
+        time.sleep(1)
         sentiments = response.json()
+        if (sentiments != None):
+            sentiment = sentiments["documents"][0]["sentiment"]
+        else:
+            sentiment = None
         # id is required
         msg = {
             'id' : payload["ts"],
@@ -225,7 +234,7 @@ def log_message(payload, next):
             'user': payload["user"],
             'message': payload["text"],
             'mention': mentions,
-            'sentiment': sentiments["documents"][0]["sentiment"]
+            'sentiment': sentiment
         }
         msgDB.upsert_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
