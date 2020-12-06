@@ -224,8 +224,8 @@ def log_message(payload, next):
             'channel': payload["channel"],
             'user': payload["user"],
             'message': payload["text"],
-            'mention': mentions
-            # 'sentiment': sentiments["documents"][0]["sentiment"]
+            'mention': mentions,
+            'sentiment': sentiments["documents"][0]["sentiment"]
         }
         msgDB.upsert_item(msg)
         # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
