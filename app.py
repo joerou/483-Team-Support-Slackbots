@@ -250,9 +250,7 @@ def log_message(client, payload, next):
         # Update workspace-wide statistics
         prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
         prev_workspace_stats['total_workspace_messages'] += 1
-        # statDB.replace_item("1", prev_workspace_stats)
 
-        # prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
         msg_ts = float(payload["ts"])
         date = datetime.datetime.fromtimestamp(msg_ts)
         msg_ts_time = date.time()
@@ -269,24 +267,17 @@ def log_message(client, payload, next):
         # Total messages sent
         prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
         prev_user_stats['total_user_messages'] += 1
-        # statDB.replace_item(payload["user"], prev_user_stats)
 
         # Message length
         if len(payload["text"]) > 40:
-            # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
             prev_user_stats['total_long_user_messages'] += 1
-            # statDB.replace_item(payload["user"], prev_user_stats)
         else:
-            # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
             prev_user_stats['total_short_user_messages'] += 1
-            # statDB.replace_item(payload["user"], prev_user_stats)
 
         # Per user sentiment
-        # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
         count = prev_user_stats['sentiment_count']
         prev_user_stats['sentiment_score'] = (prev_user_stats['sentiment_score']*count + sentiment)/(count+1)
         prev_user_stats['sentiment_count'] = count + 1
-        # statDB.replace_item(payload["user"], prev_user_stats)
 
         # Check and record mentions
         for user in user_result["members"]:
@@ -295,9 +286,7 @@ def log_message(client, payload, next):
                 other_user_stats['total_received_mentions'] += 1
                 statDB.replace_item(user, other_user_stats)
 
-                # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
                 prev_user_stats['total_sent_mentions'] += 1
-                # statDB.replace_item(payload["user"], prev_user_stats)
 
         # update database
         statDB.replace_item(payload["user"], prev_user_stats)
@@ -391,7 +380,6 @@ def message_rest(ack, client, message):
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
             
             user_stats['previous_messages'] = user_stats['total_user_messages']
-            # statDB.replace_item(payload["user"], user_stats)
             if (total < average - 15) and (is_introvert(user['id'])):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
             elif (total > average + 20) and (is_extrovert(user['id'])):
