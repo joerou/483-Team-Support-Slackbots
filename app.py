@@ -387,7 +387,7 @@ def message_rest(ack, client, message):
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
             
             user_stats['previous_messages'] = user_stats['total_user_messages']
-            statDB.replace_item(payload["user"], user_stats)
+            # statDB.replace_item(payload["user"], user_stats)
             if (total < average - 15) and (is_introvert(user['id'])):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
             elif (total > average + 20) and (is_extrovert(user['id'])):
