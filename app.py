@@ -180,7 +180,7 @@ weeklyCompleted = 0
 psychBad = 0
 
 group_leader_id = 'None'
-group_leader_name = 'None'
+group_leader_name = 'Brendan Hemstreet2'
 
 ###############################################################################
 # Middleware
