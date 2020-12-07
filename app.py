@@ -396,7 +396,7 @@ def message_rest(ack, client, message):
             if (user_stats['sentiment_score'] < 0):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
             user_stats['sentiment_count'] = 0
-        
+            statDB.replace_item(user["id"], user_stats)
 
 
 ###############################################################################
