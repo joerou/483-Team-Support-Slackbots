@@ -132,6 +132,7 @@ for user in user_result["members"]:
             'most_messages': 0,
             'sentiment_count': 0,
             'sentiment_score': 0,
+            'group_leader': 0,
             'info_type': 'User stats'
         }
         )
@@ -177,6 +178,9 @@ weekly_id = ""
 channel = ""
 weeklyCompleted = 0
 psychBad = 0
+
+group_leader = 0
+group_leader_name = ''
 
 ###############################################################################
 # Middleware
@@ -379,6 +383,10 @@ def message_rest(ack, client, message):
             user_stats = statDB.read_item(item=user["id"], partition_key="User stats")
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
             
+            if total > most_messages:
+                most_messages = total
+                user_id = user
+            
             user_stats['previous_messages'] = user_stats['total_user_messages']
             if (total < average - 15) and (is_introvert(user['id'])):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
@@ -389,6 +397,15 @@ def message_rest(ack, client, message):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
             user_stats['sentiment_count'] = 0
             statDB.replace_item(user["id"], user_stats)
+        
+        if group_leader == 0:
+            leader = statDB.read_item(item=user_id['id'], partition_key="User stats" )
+            leader['most_messages'] = leader['most_messages'] + 1
+            if leader['most_messages'] == 5:
+                group_leader = 1
+                leader['group_leader'] = 1
+                group_leader_name = user_id['real_name']
+            statDB.replace_item(user_id['id'], leader)
 
 
 ###############################################################################
