@@ -377,7 +377,8 @@ def is_extrovert(user):
 def message_rest(ack, client, message):
     ack()
     workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
-    user_result = bolt_app.client.users_list()
+    user_result = client.users_list()
+    user_result = user_result['members']
     user_count = len(user_result)
     average = workspace_stats['total_workspace_messages']/user_count
     most_messages = 0
