@@ -398,14 +398,14 @@ def message_rest(ack, client, message):
             user_stats['sentiment_count'] = 0
             statDB.replace_item(user["id"], user_stats)
         
-        if group_leader == 0:
-            leader = statDB.read_item(item=user_id['id'], partition_key="User stats" )
-            leader['most_messages'] = leader['most_messages'] + 1
-            if leader['most_messages'] == 5:
-                group_leader = 1
-                leader['group_leader'] = 1
-                group_leader_name = user_id['real_name']
-            statDB.replace_item(user_id['id'], leader)
+
+        leader = statDB.read_item(item=user_id['id'], partition_key="User stats" )
+        leader['most_messages'] = leader['most_messages'] + 1
+        total_checks = workspace_stats['total_workspace_messages']/100
+        if leader['most_messages']/total_checks > 0.5:
+            leader['group_leader'] = 1
+            group_leader_name = user_id['real_name']
+        statDB.replace_item(user_id['id'], leader)
 
 
 ###############################################################################
