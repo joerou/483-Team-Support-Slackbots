@@ -372,8 +372,8 @@ def message_rest(ack, client, message):
     global group_leader_name
     group_leader_name = 'Brendan Hemstreet3'
     
-    workspace_stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
-    total_messages = workplace_stats.get("total_workspace_messages")
+    stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
+    totalMessages = stats.get("total_workspace_messages")
     client.chat_postMessage(channel=message['channel'], text=f"Hey there <@{message['user']}>, {total_messages}")
     
     
