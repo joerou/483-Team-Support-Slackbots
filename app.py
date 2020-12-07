@@ -305,13 +305,16 @@ def log_message(client, payload, next):
         # Update individual channel statistics
 
         # Total messages sent and message length
-        prev_channel_stats = statDB.read_item(item=payload["channel"], partition_key="Channel stats")
-        prev_channel_stats['total_channel_messages'] += 1
-        if len(payload["text"]) > 40:
-            prev_channel_stats['total_long_channel_messages'] += 1
-        else:
-            prev_channel_stats['total_short_channel_messages'] += 1
-        statDB.replace_item(payload["channel"], prev_channel_stats)
+        try:
+            prev_channel_stats = statDB.read_item(item=payload["channel"], partition_key="Channel stats")
+            prev_channel_stats['total_channel_messages'] += 1
+            if len(payload["text"]) > 40:
+                prev_channel_stats['total_long_channel_messages'] += 1
+            else:
+                prev_channel_stats['total_short_channel_messages'] += 1
+            statDB.replace_item(payload["channel"], prev_channel_stats)
+        except exceptions.CosmosHttpResponseError:
+            print("Channel:", payload["channel"], "not found, continuing:")
 
         # Brainstorming
         if (brainstormOn == 1):
