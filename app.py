@@ -374,7 +374,7 @@ def message_rest(ack, client, message):
     
     
     workspace_stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
-    client.chat_postMessage(channel=message['channel'], text=f"Hey there <@{message['user']}>!")
+    client.chat_postMessage(channel=message['channel'], text=f"Hey there <@{message['user']}, {workplace_stats['total_workplace_messages}>!")
     total_messages = workplace_stats.get("total_workspace_messages")
     
     
