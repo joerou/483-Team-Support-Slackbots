@@ -370,15 +370,13 @@ def is_extrovert(user):
 def message_rest(ack, client, message):
     ack()
     global group_leader_name
-    #group_leader_name = 'Brendan Hemstreet1'
     
     
     workspace_stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
-    client.chat_postMessage(channel=message['channel'], text=f"Hey there <@{message['user']}>, {workplace_stats['total_workplace_messages']}!")
     total_messages = workplace_stats.get("total_workspace_messages")
     
     
-    """
+    
     user_result = client.users_list()
     user_result = user_result['members']
     user_count = len(user_result)
@@ -421,7 +419,7 @@ def message_rest(ack, client, message):
             group_leader_name = user_id['real_name']
             group_leader_id = user_id['id']
         statDB.replace_item(user_id['id'], leader)
-        """
+        
 
 
 ###############################################################################
