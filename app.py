@@ -213,7 +213,7 @@ def log_message(client, payload, next):
         headers = {"Ocp-Apim-Subscription-Key": subscription_key}
         lang_response = requests.post(language_api_url, headers=headers, json=lang_documents)
         # wait for response
-        time.sleep(1)
+        time.sleep(.050)
         languages = lang_response.json()
         print(languages["documents"])
 
@@ -223,7 +223,7 @@ def log_message(client, payload, next):
             "text": payload["text"]}
         ]}
         response = requests.post(sentiment_url, headers=headers, json=senti_documents)
-        time.sleep(1)
+        time.sleep(.050)
         sentiments = response.json()
         if (sentiments != None):
             sentiment = sentiments["documents"][0]["confidenceScores"]["positive"] - sentiments["documents"][0]["confidenceScores"]["negative"]
@@ -524,6 +524,7 @@ def action_button_click(ack, body, client):
             view=question_list[question_number-2]
     )
 
+# TODO: Use only 1 next button function like above
 @bolt_app.action("question1_next")
 def action_button_click(ack, body, client):
     # Acknowledge the action
