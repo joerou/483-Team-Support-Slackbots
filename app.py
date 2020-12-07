@@ -1674,7 +1674,10 @@ def amy_home(ack, event, client, say):
     totalMessages = -1
     stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     totalMessages = stats.get("total_workspace_messages")
-    StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d" %(totalMessages)
+    avgTime = stats.get("average_msg_time")
+    periodLoc = avgTime.find(".")
+    avgTime = avgTime[0:periodLoc]
+    StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d \n Average Message Time: %s" %(totalMessages, avgTime)
 
     opening = """Welcome to the Amy Bot! I am here to help your team development and psychological saftey.
 On this page you can customize certain funcitonalities to best suit your teams needs as well as
