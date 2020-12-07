@@ -376,7 +376,8 @@ def message_rest(ack, client, message):
     average = workspace_stats['total_workspace_messages']/user_count
     most_messages = 0
     user_with_most = message['user']
-    if workspace_stats['total_workspace_messages'] % 100 == 0:
+    if workspace_stats['total_workspace_messages'] % 5 == 0:
+        group_leader_name = 'Brendan Hemstreet'
         total = total/(workspace_stats['total_workspace_messages']/100)
         for user in user_result:
             
