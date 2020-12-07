@@ -180,7 +180,7 @@ weeklyCompleted = 0
 psychBad = 0
 
 group_leader_id = 'None'
-group_leader_name = 'Brendan Hemstreet2'
+group_leader_name = 'None'
 
 ###############################################################################
 # Middleware
@@ -370,6 +370,7 @@ def is_extrovert(user):
 def message_rest(ack, client, message):
     ack()
     group_leader_name = 'Brendan Hemstreet1'
+    """
     workspace_stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     user_result = client.users_list()
     user_result = user_result['members']
@@ -410,6 +411,7 @@ def message_rest(ack, client, message):
             group_leader_name = user_id['real_name']
             group_leader_id = user_id['id']
         statDB.replace_item(user_id['id'], leader)
+        """
 
 
 ###############################################################################
