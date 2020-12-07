@@ -179,8 +179,8 @@ channel = ""
 weeklyCompleted = 0
 psychBad = 0
 
-group_leader_id = ''
-group_leader_name = ''
+group_leader_id = 'None'
+group_leader_name = 'None'
 
 ###############################################################################
 # Middleware
