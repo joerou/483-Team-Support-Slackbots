@@ -228,7 +228,7 @@ def log_message(client, payload, next):
         if (sentiments != None):
             sentiment = sentiments["documents"][0]["confidenceScores"]["positive"] - sentiments["documents"][0]["confidenceScores"]["negative"]
         else:
-            sentiment = None
+            sentiment = 0
         # id is required
         msg = {
             'id' : payload["ts"],
@@ -273,16 +273,16 @@ def log_message(client, payload, next):
 
         # Message length
         if len(payload["text"]) > 40:
-            prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+            # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
             prev_user_stats['total_long_user_messages'] += 1
             # statDB.replace_item(payload["user"], prev_user_stats)
         else:
-            prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+            # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
             prev_user_stats['total_short_user_messages'] += 1
             # statDB.replace_item(payload["user"], prev_user_stats)
 
         # Per user sentiment
-        prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+        # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
         count = prev_user_stats['sentiment_count']
         prev_user_stats['sentiment_score'] = (prev_user_stats['sentiment_score']*count + sentiment)/(count+1)
         prev_user_stats['sentiment_count'] = count + 1
@@ -291,11 +291,11 @@ def log_message(client, payload, next):
         # Check and record mentions
         for user in user_result["members"]:
             if user in mentions:
-                prev_user_stats = statDB.read_item(item=user, partition_key="User stats")
-                prev_user_stats['total_received_mentions'] += 1
-                statDB.replace_item(user, prev_user_stats)
+                other_user_stats = statDB.read_item(item=user, partition_key="User stats")
+                other_user_stats['total_received_mentions'] += 1
+                statDB.replace_item(user, other_user_stats)
 
-                prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+                # prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
                 prev_user_stats['total_sent_mentions'] += 1
                 # statDB.replace_item(payload["user"], prev_user_stats)
 
