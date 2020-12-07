@@ -369,7 +369,6 @@ def is_extrovert(user):
 @bolt_app.message("")
 def message_rest(ack, client, message):
     ack()
-    group_leader_name = 'Brendan Hemstreet1'
     
     workspace_stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     user_result = client.users_list()
@@ -381,6 +380,7 @@ def message_rest(ack, client, message):
     user_with_most = message['user']
     client.chat_postMessage(channel=message['user'], text="total messages = %d" % (total_messages))
     global group_leader_name
+    group_leader_name = 'Brendan Hemstreet1'
     """
     if total_messages % 5 == 0:
         group_leader_name = 'Brendan Hemstreet'
