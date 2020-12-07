@@ -375,11 +375,12 @@ def message_rest(ack, client, message):
     user_result = client.users_list()
     user_result = user_result['members']
     user_count = len(user_result)
-    total_messages = stats.get("total_workspace_messages")
+    total_messages = workplace_stats.get("total_workspace_messages")
     average = total_messages/user_count
     most_messages = 0
     user_with_most = message['user']
     client.chat_postMessage(channel=message['user'], text="total messages = %d" % (total_messages))
+    global group_leader_name
     """
     if total_messages % 5 == 0:
         group_leader_name = 'Brendan Hemstreet'
