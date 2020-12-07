@@ -130,6 +130,8 @@ for user in user_result["members"]:
             'psychScore': 0,
             'previous_messages': 0,
             'most_messages': 0,
+            'sentiment_count': 0,
+            'sentiment_score': 0,
             'info_type': 'User stats'
         }
         )
@@ -188,7 +190,7 @@ def log_request(logger, body, next):
 
 # Log all messages
 @bolt_app.middleware
-def log_message(payload, next):
+def log_message(client, payload, next):
     global brainstormOn
 
     if ("type" in payload and payload["type"]=="message"):
@@ -224,7 +226,7 @@ def log_message(payload, next):
         time.sleep(1)
         sentiments = response.json()
         if (sentiments != None):
-            sentiment = sentiments["documents"][0]["sentiment"]
+            sentiment = sentiments["documents"][0]["confidenceScores"]["positive"] - sentiments["documents"][0]["confidenceScores"]["negative"]
         else:
             sentiment = None
         # id is required
@@ -241,19 +243,23 @@ def log_message(payload, next):
         # due to the above error, im trying just having the code here for now.
         # Also, the updating definitely should be condensed into a function, but Ill probably do that later
 
+        # bad sentiment alert
+        if (sentiment < -0.5):
+            client.chat_postMessage(channel=payload['user'], text=f"Hey there <@{payload['user']}>, be careful! You are saying very bad words!")
+
         # Update workspace-wide statistics
         prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
         prev_workspace_stats['total_workspace_messages'] += 1
-        statDB.replace_item("1", prev_workspace_stats)
+        # statDB.replace_item("1", prev_workspace_stats)
 
-        prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
+        # prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
         msg_ts = float(payload["ts"])
         date = datetime.datetime.fromtimestamp(msg_ts)
         msg_ts_time = date.time()
 
         msg_ts_secs = int(msg_ts_time.hour) * 3600 + int(msg_ts_time.minute) * 60 + int(msg_ts_time.second)
         prev_workspace_stats['sum_msg_ts'] += msg_ts_secs
-        new_avg = int(prev_workspace_stats['sum_msg_ts']) / int(prev_workspace_stats["total_workspace_messages"])
+        new_avg = int(prev_workspace_stats['sum_msg_ts']) / int(prev_workspace_stats["total_workspace_messages"]+1)
 
         prev_workspace_stats['average_msg_time'] = str(datetime.timedelta(seconds=new_avg))
         statDB.replace_item("1", prev_workspace_stats)
@@ -263,17 +269,24 @@ def log_message(payload, next):
         # Total messages sent
         prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
         prev_user_stats['total_user_messages'] += 1
-        statDB.replace_item(payload["user"], prev_user_stats)
+        # statDB.replace_item(payload["user"], prev_user_stats)
 
         # Message length
         if len(payload["text"]) > 40:
             prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
             prev_user_stats['total_long_user_messages'] += 1
-            statDB.replace_item(payload["user"], prev_user_stats)
+            # statDB.replace_item(payload["user"], prev_user_stats)
         else:
             prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
             prev_user_stats['total_short_user_messages'] += 1
-            statDB.replace_item(payload["user"], prev_user_stats)
+            # statDB.replace_item(payload["user"], prev_user_stats)
+
+        # Per user sentiment
+        prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
+        count = prev_user_stats['sentiment_count']
+        prev_user_stats['sentiment_score'] = (prev_user_stats['sentiment_score']*count + sentiment)/(count+1)
+        prev_user_stats['sentiment_count'] = count + 1
+        # statDB.replace_item(payload["user"], prev_user_stats)
 
         # Check and record mentions
         for user in user_result["members"]:
@@ -284,7 +297,10 @@ def log_message(payload, next):
 
                 prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
                 prev_user_stats['total_sent_mentions'] += 1
-                statDB.replace_item(payload["user"], prev_user_stats)
+                # statDB.replace_item(payload["user"], prev_user_stats)
+
+        # update database
+        statDB.replace_item(payload["user"], prev_user_stats)
 
         # Update individual channel statistics
 
@@ -376,6 +392,10 @@ def message_rest(ack, client, message):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
             elif (total > average + 20) and (is_extrovert(user['id'])):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
+            # sentiment alert
+            if (user_stats['sentiment_score'] < 0):
+                client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
+            user_stats['sentiment_count'] = 0
         
 
 
