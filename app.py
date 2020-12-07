@@ -378,7 +378,7 @@ def message_rest(ack, client, message):
     average = total_messages/user_count
     most_messages = 0
     user_with_most = message['user']
-    client.chat_postMessage(channel=message['user'], text="total messages = %d" % (total_messages))
+    client.chat_postMessage(channel=message['channel'], text="total messages = %d" % (total_messages))
     global group_leader_name
     group_leader_name = 'Brendan Hemstreet1'
     """
