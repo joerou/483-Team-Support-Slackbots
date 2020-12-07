@@ -370,8 +370,7 @@ def is_extrovert(user):
 def message_rest(ack, client, message):
     ack()
     group_leader_name = 'Brendan Hemstreet1'
-    client.chat_postMessage(channel=message['channel'], text="Hey there, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
-    """
+    
     workspace_stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     user_result = client.users_list()
     user_result = user_result['members']
@@ -380,6 +379,8 @@ def message_rest(ack, client, message):
     average = total_messages/user_count
     most_messages = 0
     user_with_most = message['user']
+    client.chat_postMessage(channel=message['user'], text="total messages = %d" % (total_messages))
+    """
     if total_messages % 5 == 0:
         group_leader_name = 'Brendan Hemstreet'
         total = total/(workspace_stats['total_workspace_messages']/100)
