@@ -179,7 +179,7 @@ channel = ""
 weeklyCompleted = 0
 psychBad = 0
 
-group_leader = 0
+group_leader_id = ''
 group_leader_name = ''
 
 ###############################################################################
@@ -405,6 +405,7 @@ def message_rest(ack, client, message):
         if leader['most_messages']/total_checks > 0.5:
             leader['group_leader'] = 1
             group_leader_name = user_id['real_name']
+            group_leader_id = user_id['id']
         statDB.replace_item(user_id['id'], leader)
 
 
