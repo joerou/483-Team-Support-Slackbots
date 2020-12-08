@@ -280,7 +280,7 @@ def log_message(client, payload, next):
 
         # bad sentiment alert
         if (sentiment < -0.75):
-            client.chat_postMessage(channel=payload['user'], text=f"Hey there <@{payload['user']}>, be careful! You are saying very bad words!")
+            client.chat_postMessage(channel=payload['user'], text=f"Hey Everyone! Please speak kindly to one another, we want discussion and disagreement not hostility!")
 
         # Update workspace-wide statistics
         prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
@@ -441,7 +441,7 @@ def message_rest(ack, client, message):
                 client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
             # sentiment alert
             if (user_stats['sentiment_score'] < -0.25):
-                client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
+                client.chat_postEphemeral(channel = message['channel'], user = message['user'], text = "Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
             user_stats['sentiment_count'] = 0
             statDB.replace_item(user["id"], user_stats)
         
