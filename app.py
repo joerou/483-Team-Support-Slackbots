@@ -63,7 +63,6 @@ msgDB = database.create_container_if_not_exists(
     offer_throughput=400
 )
 survey_containter = database.get_container_client("survey-storage")
-## Add more container here for survey
 
 #Create Brainstorming container in the Azure database during the first start up. 
 #This database will be used for the brainstorm listener functionality and will be activated
@@ -209,6 +208,8 @@ group_leader_name = 'None'
 ###############################################################################
 # Middleware
 ###############################################################################
+# If this part goes slow the server may send the message mutiple times
+# Maybe consider ack in one of these functions?
 
 # Log and print request
 @bolt_app.middleware
@@ -223,7 +224,7 @@ def log_message(client, payload, next):
 
     if ("type" in payload and payload["type"]=="message"):
         text = payload["text"]
-        # get mention
+        # get mention from message text
         mentions = []
         for i in range(len(text)):
             if text[i] == "<":
@@ -254,7 +255,13 @@ def log_message(client, payload, next):
         time.sleep(.050)
         sentiments = response.json()
         if (sentiments != None):
-            sentiment = sentiments["documents"][0]["confidenceScores"]["positive"] - sentiments["documents"][0]["confidenceScores"]["negative"]
+            # In case the resopnse maybe empty or error
+            try:
+                # Positive/negative score range:[0,1], sentiment range:[-1,1]. See Azure documents for details
+                sentiment = sentiments["documents"][0]["confidenceScores"]["positive"] - sentiments["documents"][0]["confidenceScores"]["negative"]
+            except:
+                sentiment = 0
+                print("Sentiment error")
         else:
             sentiment = 0
         # id is required
