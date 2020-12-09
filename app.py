@@ -292,7 +292,7 @@ def log_message(client, payload, next):
 
         msg_ts_secs = int(msg_ts_time.hour) * 3600 + int(msg_ts_time.minute) * 60 + int(msg_ts_time.second)
         prev_workspace_stats['sum_msg_ts'] += msg_ts_secs
-        new_avg = int(prev_workspace_stats['sum_msg_ts']) / int(prev_workspace_stats["total_workspace_messages"]+1)
+        new_avg = int(prev_workspace_stats['sum_msg_ts']) / int(prev_workspace_stats["total_workspace_messages"])
 
         prev_workspace_stats['average_msg_time'] = str(datetime.timedelta(seconds=new_avg))
         statDB.replace_item("1", prev_workspace_stats)
