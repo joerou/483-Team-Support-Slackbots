@@ -1828,7 +1828,7 @@ def amy_home(ack, event, client, say):
     avgTime = stats.get("average_msg_time")
     periodLoc = avgTime.find(".")
     avgTime = avgTime[0:periodLoc]
-    StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d \n Average Message Time: %s \n Identified Leader of the Group: %s" %(totalMessages, avgTime, group_leader_name)
+    StatsText = "*Statistics* \nBelow are some statistics from your group channel that you may be interested in!\n Total Messages Sent: %d \n Average Message Time (UTC): %s \n Identified Leader of the Group: %s" %(totalMessages, avgTime, group_leader_name)
 
     #This is the preamble to the Dashboard as an introduction to what the bot does
     opening = """Welcome to the Amy Bot! I am here to help your team development and psychological safety.
