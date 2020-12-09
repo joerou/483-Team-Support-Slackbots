@@ -276,7 +276,7 @@ def log_message(client, payload, next):
 
         # bad sentiment alert
         if (sentiment < -0.75):
-            client.chat_postMessage(channel=payload['user'], text=f"Hey Everyone! Please speak kindly to one another, we want discussion and disagreement not hostility!")
+            client.chat_postMessage(channel=payload["channel"], text=f"Hey Everyone! Please speak kindly to one another, we want discussion and disagreement not hostility!")
 
         # Update workspace-wide statistics
 
