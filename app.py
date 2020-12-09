@@ -10,7 +10,6 @@ from slack_bolt.adapter.flask import SlackRequestHandler
 from flask import Flask, request
 from azure.cosmos import exceptions, CosmosClient, PartitionKey
 from questions_payloads import *
-from statistics import update_statistics
 
 ###############################################################################
 # Initializing
@@ -274,18 +273,18 @@ def log_message(client, payload, next):
             'sentiment': sentiment
         }
         msgDB.upsert_item(msg)
-        # update_statistics(msg, statDB)    # this line causes a ModuleNotFoundError with slack_bolt for unknown reasons.
-        # due to the above error, im trying just having the code here for now.
-        # Also, the updating definitely should be condensed into a function, but Ill probably do that later
 
         # bad sentiment alert
         if (sentiment < -0.75):
             client.chat_postMessage(channel=payload['user'], text=f"Hey Everyone! Please speak kindly to one another, we want discussion and disagreement not hostility!")
 
         # Update workspace-wide statistics
+
+        # Increment the count of total messages in the workspace
         prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
         prev_workspace_stats['total_workspace_messages'] += 1
 
+        # Update the average time messages are sent. Note that the time calculated is in UTC.
         msg_ts = float(payload["ts"])
         date = datetime.datetime.fromtimestamp(msg_ts)
         msg_ts_time = date.time()
@@ -299,11 +298,11 @@ def log_message(client, payload, next):
 
         # Update individual user statistics
 
-        # Total messages sent
+        # Update total messages sent
         prev_user_stats = statDB.read_item(item=payload["user"], partition_key="User stats")
         prev_user_stats['total_user_messages'] += 1
 
-        # Message length
+        # Update the message counts based on length
         if len(payload["text"]) > 40:
             prev_user_stats['total_long_user_messages'] += 1
         else:
@@ -340,9 +339,9 @@ def log_message(client, payload, next):
         except exceptions.CosmosHttpResponseError:
             print("Channel:", payload["channel"], "not found, continuing:")
 
-        #Brainstorming Listener that fills entries into the brainstorming container when the listener
-        #is active. This container will allow all of the ideas put into the chat in the time period 
-        #to be output by Amy into the chat once the listener is turned off 
+        # Brainstorming Listener that fills entries into the brainstorming container when the listener
+        # is active. This container will allow all of the ideas put into the chat in the time period
+        # to be output by Amy into the chat once the listener is turned off
         if (brainstormOn == 1):
             msgBrain = {
                 'id' : payload["ts"],
@@ -406,7 +405,7 @@ def message_rest(ack, client, message):
     group_leader_name = 'Brendan Hemstreet3'
     
     stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
-    totalMessages = stats.get("total_workspace_messages")
+    total_messages = stats.get("total_workspace_messages")
     text_send = "messages: %d" % (total_messages)
     client.chat_postMessage(channel=message['channel'], text=text_send)
     
