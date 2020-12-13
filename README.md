@@ -2,10 +2,13 @@
 
 ## File description
 
+/.github/workflows: Config needed for GitHub Action. \
+/readme_images: Images for this file. \
+.gitignore: List of the file/folders will not be pushed into repo. \
+README.md: This file! \
 app.py: The main program contains all the logic. \
 questions_payloads.py: The file include all survey question payloads. \
-requirements.txt: Contains every python package being used in the program. Will be installed automatically by pip in each build. \
-README.md: This File!
+requirements.txt: Contains every python package being used in the program. Will be installed automatically by pip in each build.
 
 ## Slack bot setup
 
@@ -29,17 +32,17 @@ Reference: <https://github.com/slackapi/python-slack-events-api/blob/main/exampl
 3. Create the services in the subcription. The services we are current using is included in the image below.
 ![azure services](./readme_images/azure_1.png)
     3.1. After set the service and tokens, the database and the container should be created automatically by the code. \
-    Reference: <https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-python>
+    Reference: <https://docs.microsoft.com/en-us/azure/cosmos-db/create-sql-api-python> \
     3.2. For "Cognitive Services", we are using "Text Analytics" API to provide sentiment analysis. \
     Reference: <https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/quickstarts/python>
 4. Get the service tokens from services. Then. go to "App Service>Configuration", enter all related tokens as environment variables.
 ![environment variables](./readme_images/azure_2.png)
-5. Under "App Service>Deployment Center", choose "GitHub Action". Then the app will build and redeploy on push. The action will require advanced permission on GitHub repo.
-Note: "App Service>Log stream" is super helpful for debugging. \
+5. Under "App Service>Deployment Center", choose "GitHub Action". Then the app will build and redeploy on push. The action will require advanced permission on GitHub repo. \
+Note: "App Service>Log stream" is super helpful for debugging.
 
 ## Some useful links
 
 Remember, always check slack and Azure documents! \
-bolt framework: <https://slack.dev/bolt-python/>
-slack API: <https://api.slack.com/>
+bolt framework: <https://slack.dev/bolt-python/> \
+slack API: <https://api.slack.com/> \
 Azure doc home: <https://docs.microsoft.com/en-us/azure/>
