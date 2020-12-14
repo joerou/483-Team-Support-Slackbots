@@ -402,7 +402,7 @@ def is_extrovert(user):
 def message_rest(ack, client, message):
     ack()
     global group_leader_name
-    group_leader_name = 'Brendan Hemstreet3'
+    #group_leader_name = 'Brendan Hemstreet3'
     
     stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     total_messages = stats.get("total_workspace_messages")
@@ -424,7 +424,7 @@ def message_rest(ack, client, message):
         total = total/(workspace_stats['total_workspace_messages']/100)
         for user in user_results:
             group_leader_name = 'Brendan Hemstreet4'
-            user_stats = statDB.read_item(item=user["id"], partition_key="User stats")
+            user_stats = statDB.read_item(item=user, partition_key="User stats")
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
             
             if total > most_messages:
