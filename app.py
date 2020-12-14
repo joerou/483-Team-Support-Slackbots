@@ -416,7 +416,8 @@ def message_rest(ack, client, message):
     average = total_messages/user_count
     most_messages = 0
     user_with_most = message['user']
-    client.chat_postMessage(channel=message['channel'], text="userssssx %s" % (user_results[1]['id']))
+    user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
+    client.chat_postMessage(channel=message['channel'], text="userss %s" % (user_results[1]['id']))
     
     
     if total_messages % 5 == 0:
