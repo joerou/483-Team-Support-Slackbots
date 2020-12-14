@@ -416,16 +416,17 @@ def message_rest(ack, client, message):
     average = total_messages/user_count
     most_messages = 0
     user_with_most = message['user']
-    client.chat_postMessage(channel=message['channel'], text="usersx %s" % (user_results[0]['id']))
+    user_stats = statDB.read_item(item=user_results[0]['id'], partition_key="User stats")
+    client.chat_postMessage(channel=message['channel'], text="userssx %s %d" % (user_results[0]['id']), user_stats['total_user_messages'])
     
-    
+   """
     if total_messages % 5 == 0:
         #group_leader_name = 'Brendan Hemstreet6'
         total = total/(workspace_stats['total_workspace_messages']/100)
         
         for user in user_results:
             group_leader_name = 'Brendan Hemstreet4'
-            user_stats = statDB.read_item(item=user, partition_key="User stats")
+            user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
             
             if total > most_messages:
@@ -453,7 +454,7 @@ def message_rest(ack, client, message):
             group_leader_id = user_id['id']
         statDB.replace_item(user_id, leader)
         
-
+"""
 
 ###############################################################################
 # Action Handler
