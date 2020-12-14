@@ -406,10 +406,10 @@ def message_rest(ack, client, message):
     
     stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     total_messages = stats.get("total_workspace_messages")
-    client.chat_postMessage(channel=message['channel'], text="messages %d" % (total_messages))
+    #client.chat_postMessage(channel=message['channel'], text="messages %d" % (total_messages))
     
     
-    """
+    
     user_result = client.users_list()
     user_result = user_result['members']
     user_count = len(user_result)
@@ -417,9 +417,9 @@ def message_rest(ack, client, message):
     average = total_messages/user_count
     most_messages = 0
     user_with_most = message['user']
+    client.chat_postMessage(channel=message['channel'], text="messages %d" % (user_count))
     
-    
-    
+    """
     if total_messages % 5 == 0:
         group_leader_name = 'Brendan Hemstreet'
         total = total/(workspace_stats['total_workspace_messages']/100)
