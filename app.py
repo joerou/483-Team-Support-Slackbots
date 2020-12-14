@@ -420,7 +420,7 @@ def message_rest(ack, client, message):
     
     
     if total_messages % 5 == 0:
-        group_leader_name = 'Brendan Hemstreet6'
+        #group_leader_name = 'Brendan Hemstreet6'
         total = total/(workspace_stats['total_workspace_messages']/100)
         for user in user_results:
             group_leader_name = 'Brendan Hemstreet4'
