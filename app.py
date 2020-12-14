@@ -422,7 +422,7 @@ def message_rest(ack, client, message):
     if total_messages % 5 == 0:
         #group_leader_name = 'Brendan Hemstreet6'
         total = total/(workspace_stats['total_workspace_messages']/100)
-        """
+        
         for user in user_results:
             group_leader_name = 'Brendan Hemstreet4'
             user_stats = statDB.read_item(item=user, partition_key="User stats")
@@ -442,7 +442,7 @@ def message_rest(ack, client, message):
                 client.chat_postEphemeral(channel = message['channel'], user = message['user'], text = "Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
             user_stats['sentiment_count'] = 0
             statDB.replace_item(user, user_stats)
-        """
+        
         group_leader_name = 'Brendan Hemstreet5'
         leader = statDB.read_item(item=user_id, partition_key="User stats" )
         leader['most_messages'] = leader['most_messages'] + 1
