@@ -63,9 +63,9 @@ msgDB = database.create_container_if_not_exists(
 )
 survey_containter = database.get_container_client("survey-storage")
 
-#Create Brainstorming container in the Azure database during the first start up. 
+#Create Brainstorming container in the Azure database during the first start up.
 #This database will be used for the brainstorm listener functionality and will be activated
-#by the /startBrainstorming command  
+#by the /startBrainstorming command
 brainDB_name = 'brainstorm-storage'
 brainDB = database.create_container_if_not_exists(
     id=brainDB_name,
@@ -168,37 +168,37 @@ sentiment_url = endpoint + "/text/analytics/v3.0/sentiment"
 
 #Global Variables
 
-#Brainstorming Global Variables 
+#Brainstorming Global Variables
 
-#BrainstormOn indicated that the listener is active (if 1) and off (if 0) which is used in 
-#the middleware to determine if the brainstorming container should be accepting messages 
-#from the chat 
+#BrainstormOn indicated that the listener is active (if 1) and off (if 0) which is used in
+#the middleware to determine if the brainstorming container should be accepting messages
+#from the chat
 brainstormOn = 0
 
-#brain_weekly is a value from the dashboard which indicates if the team wants a reminder 
+#brain_weekly is a value from the dashboard which indicates if the team wants a reminder
 #to review their brainstorming session (if 1) or not (if 0)
 brain_weekly = 0
 
-#Psychological Safety Survey Global Variables 
+#Psychological Safety Survey Global Variables
 
 #This value will be used in determinging how often the team wants a reminder about the survey.
-#It can be set to either 1, 2, or 3 for a reminder every 1, 2, or 3 weeks respectivley  
+#It can be set to either 1, 2, or 3 for a reminder every 1, 2, or 3 weeks respectivley
 weeklySurveyValue = 0
 
-#Weekly Id is the Id of the scheduled reminder for the team that will be used when scheduling and 
+#Weekly Id is the Id of the scheduled reminder for the team that will be used when scheduling and
 #deleting the reminder according to how the team uses the survey
 weekly_id = ""
 
-#Channel is logged when a user joins the channel in order to allow the scheduling of the message 
+#Channel is logged when a user joins the channel in order to allow the scheduling of the message
 #in the channel for fields that do not have an associated channel (like from the dashboard for example)
 channel = ""
 
 #This value holds the number of people that have completed the survey in a given interval and is reset to 0
-#once every member has completed the survey 
+#once every member has completed the survey
 weeklyCompleted = 0
 
 #psychBad is a switch (0 or 1) that is used when determining if any member has identified that the team enviroment
-#feels psychologically unsafe. If they have psychBad will be set to 1 and will be used in sending a message in the team 
+#feels psychologically unsafe. If they have psychBad will be set to 1 and will be used in sending a message in the team
 psychBad = 0
 
 group_leader_id = 'None'
@@ -227,7 +227,7 @@ def log_message(client, payload, next):
         mentions = []
         for i in range(len(text)):
             if text[i] == "<":
-                if text[i+1] == "@": 
+                if text[i+1] == "@":
                     j = i + 1
                     while text[j] != ">":
                         j = j + 1
@@ -235,7 +235,7 @@ def log_message(client, payload, next):
         # sentiment analysis
         # get language
         lang_documents = {"documents": [{
-            "id": payload["ts"], 
+            "id": payload["ts"],
             "text": payload["text"]}
         ]}
         headers = {"Ocp-Apim-Subscription-Key": subscription_key}
@@ -246,7 +246,7 @@ def log_message(client, payload, next):
         print(languages["documents"])
 
         senti_documents = {"documents": [{
-            "id": payload["ts"], 
+            "id": payload["ts"],
             "language": languages["documents"][0]["detectedLanguage"]["iso6391Name"],
             "text": payload["text"]}
         ]}
@@ -416,17 +416,16 @@ def message_rest(ack, client, message):
     average = total_messages/user_count
     most_messages = 0
     user_with_most = message['user']
-    #user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
-    client.chat_postMessage(channel=message['channel'], text="userssx %s" % (user_results[0]['id']))
+    client.chat_postMessage(channel=message['channel'], text="userssssx %s" % (user_results[1]['id']))
     
-   """
+    
     if total_messages % 5 == 0:
         #group_leader_name = 'Brendan Hemstreet6'
         total = total/(workspace_stats['total_workspace_messages']/100)
         
         for user in user_results:
             group_leader_name = 'Brendan Hemstreet4'
-            user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
+            user_stats = statDB.read_item(item=user, partition_key="User stats")
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
             
             if total > most_messages:
@@ -454,7 +453,7 @@ def message_rest(ack, client, message):
             group_leader_id = user_id['id']
         statDB.replace_item(user_id, leader)
         
-"""
+
 
 ###############################################################################
 # Action Handler
@@ -484,15 +483,15 @@ def action_button_click(ack, body, client, say):
     survey_dict[user] = temp
                 
                 
-#This handler handles the radio buttons in the view payload after /psych_survey is called 
+#This handler handles the radio buttons in the view payload after /psych_survey is called
 @bolt_app.action("psych_radio_id")
 def action_button_click(ack, body, say):
     ack()
     global psychBad
 
-    #Take the body of the response from the buttons selected and turn it into a Json for simpiler 
-    #parsing. Find the label "actions" which contains information about the button pressed including 
-    #the value we associated with it (defined in the view above). 
+    #Take the body of the response from the buttons selected and turn it into a Json for simpiler
+    #parsing. Find the label "actions" which contains information about the button pressed including
+    #the value we associated with it (defined in the view above).
     form_json = json.dumps(body)
     form_json = form_json[500:]
     actions_index = form_json.find('actions')
@@ -523,8 +522,8 @@ def action_button_click(ack, body, say):
     
 
     
-#After 30 minutes the EndBrainstorming button will appear and prompt the team to end the Listener 
-#This buttom will act the exaxt same as if they typed /endBrainstorming but due to an inability to 
+#After 30 minutes the EndBrainstorming button will appear and prompt the team to end the Listener
+#This buttom will act the exaxt same as if they typed /endBrainstorming but due to an inability to
 #stop the listener automatically after 30 minutes the users must do so manually
 @bolt_app.action("EndBrainstorming")
 def action_button_click(ack, body, say):
@@ -553,10 +552,10 @@ def action_button_click(ack, body, say):
         #Propose a couple websites to the channel that allow the group to mock up ideas they came up with
         say("Need a mockup of one of the ideas? Try using <https://www.sketchup.com/plans-and-pricing/sketchup-free|Google Sketch up> or <https://www.figma.com/|Figma>")
         
-        #If the group decided they want a reminder to review their brainstorming session on the 
-        #dashboard then let them know the reminder has been set and will appear in a week 
+        #If the group decided they want a reminder to review their brainstorming session on the
+        #dashboard then let them know the reminder has been set and will appear in a week
         if (brain_weekly == 1):
-            say("Also a reminder has been set for next week to look back on the brainstorming process")      
+            say("Also a reminder has been set for next week to look back on the brainstorming process")
     else:
         say("Brainstorming has already ended")
 
@@ -1253,7 +1252,7 @@ def action_button_click(ack, body, client):
        )
     
 
-# Psych Survey View Buttons that access payloads in the question_payloads.py file 
+# Psych Survey View Buttons that access payloads in the question_payloads.py file
         
 @bolt_app.action("psych_q1_next")
 def action_button_click(ack, body, client):
@@ -1327,7 +1326,7 @@ def action_button_click(ack, body, client):
             view=psych_q7_payload
     )
 
-#After the final question there is a submit button rather than a next button. This button will 
+#After the final question there is a submit button rather than a next button. This button will
 #conclude the survey and deal with any post survey functionalities that are needed
 @bolt_app.action("psych_submit")
 def action_button_click(ack, body, client, say):
@@ -1338,17 +1337,17 @@ def action_button_click(ack, body, client, say):
     global psychBad
     user = body["user"]["id"]
 
-    #Update the number of completed surveys for a given iteration 
+    #Update the number of completed surveys for a given iteration
     prev_psych_stats = statDB.read_item(item="2", partition_key="Survey stats")
     prev_psych_stats['Psych-Completed'] += 1
 
     #Post in chat the number of people that have completed the survey to peer pressure the rest
-    #of the team to complete theirs if they have not done so already 
+    #of the team to complete theirs if they have not done so already
     client.chat_postMessage(channel = channel, text = "%d member(s) have now completed the Psychological Safety Survey!" %(prev_psych_stats['Psych-Completed']))
 
-    #Once everyone has completed the survey if anyone identified they feel psychologically unsafe 
-    #the team is sent a message that this is the case which will allow the team to discuss further 
-    #if neccisary 
+    #Once everyone has completed the survey if anyone identified they feel psychologically unsafe
+    #the team is sent a message that this is the case which will allow the team to discuss further
+    #if neccisary
     totalMembers = statDB.read_item(item="1", partition_key="Workspace-wide stats")
     if(psychBad == 1 and prev_psych_stats['Psych-Completed'] == totalMembers['total_users']):
         client.chat_postMessage(channel = channel, text = 'Thank you all for taking the survey, at least 1 member identified that they feel the team enviroment does not feel psychologically safe. Please be more open to opinions and speak respectfully to each other.')
@@ -1385,7 +1384,7 @@ def action_button_click(ack, body, client, say):
 
     #Privatley message the user who just completed the survey and ask them for feedback on the frequency
     #of the survey by selecting Perfect if they like the frequency or Too frequent if they would prefer it
-    #to be less often 
+    #to be less often
     client.chat_postEphemeral(
         channel = channel,
         user = user,
@@ -1404,7 +1403,7 @@ def action_button_click(ack, body, client, say):
                             "text": {
                             "type": "plain_text",
                             "text": "Perfect"
-                            }   
+                            }
                         },
                         {
                             "value": "1",
@@ -1425,9 +1424,9 @@ def psych_feedback(ack, body, client, say):
     # Acknowledge the action
     ack()
 
-    #Take the body of the response from the buttons selected and turn it into a Json for simpiler 
-    #parsing. Find the label "actions" which contains information about the button pressed including 
-    #the value we associated with it (defined in the view above). 
+    #Take the body of the response from the buttons selected and turn it into a Json for simpiler
+    #parsing. Find the label "actions" which contains information about the button pressed including
+    #the value we associated with it (defined in the view above).
     form_json = json.dumps(body)
     form_json = form_json[500:]
     actions_index = form_json.find('actions')
@@ -1443,7 +1442,7 @@ def psych_feedback(ack, body, client, say):
     else:
         prev_psych_stats['Feedback-Keep'] += 1
 
-    #If everyone has responded to the question then check the results. If the majority of the team 
+    #If everyone has responded to the question then check the results. If the majority of the team
     #wants the survey to be less frequent then a message will be sent to the team to consider changing it
     totalFeedback = prev_psych_stats['Feedback-Change'] + prev_psych_stats['Feedback-Keep']
     totalMembers = statDB.read_item(item="1", partition_key="Workspace-wide stats")
@@ -1513,9 +1512,9 @@ def new_member_survey(ack, event, say):
         text=message
     )
   
-#Whenever a member leaves the channel update the back end statistics so that functionalities 
-#that rely on total members does not get inflated with the leaving and joining of members in 
-#the team. Without this many functionalities would take significantly longer to print out 
+#Whenever a member leaves the channel update the back end statistics so that functionalities
+#that rely on total members does not get inflated with the leaving and joining of members in
+#the team. Without this many functionalities would take significantly longer to print out
 #messages to the channel.
 @bolt_app.event("member_left_channel")
 def member_leaving(ack, event, say):
@@ -1523,7 +1522,7 @@ def member_leaving(ack, event, say):
     ack()
     prev_workspace_stats = statDB.read_item(item="1", partition_key="Workspace-wide stats")
     prev_workspace_stats['total_users'] -= 1
-    statDB.replace_item("1", prev_workspace_stats)      
+    statDB.replace_item("1", prev_workspace_stats)
 
 # Error events
 @bolt_app.event("error")
@@ -1658,7 +1657,7 @@ def survey(ack, body, client):
         }
 )
 
-# Psych Survey slash command 
+# Psych Survey slash command
 @bolt_app.command('/psych_survey')
 def psych_survey(ack, body, client, say):
     global weeklySurveyValue
@@ -1668,7 +1667,7 @@ def psych_survey(ack, body, client, say):
     psych_dict[user] = [0 for x in range(8)]
     ack()
 
-    #If the team tries to take the survey before going to the dashboard they will be asked to 
+    #If the team tries to take the survey before going to the dashboard they will be asked to
     #visit the dashboard and set up the reminder first to avoid any possible errors of not setting
     #the reminder (either in the code or human error of forgetting)
     if (weeklySurveyValue == 0):
@@ -1679,7 +1678,7 @@ def psych_survey(ack, body, client, say):
     #if they have delete their scheduled message and replace it with a new one for the time interval
     #they selected on the dashboard. This sets the reminder to be x weeks after the last person takes
     #the survey to ensure there is no survey fatiuge of someone taking the survey at the end of the week
-    #and being prompted to take it again at the end of the week 
+    #and being prompted to take it again at the end of the week
     ts = time.time()
     ts = ts + (weeklySurveyValue*604800)
     try:
@@ -1694,7 +1693,7 @@ def psych_survey(ack, body, client, say):
             channel = channel,
             text = "Please take your psychological safety survey using /psych_survey",
             post_at = ts,
-        ) 
+        )
 
     client.views_open(
         # Pass a valid trigger_id within 3 seconds of receiving it
@@ -1722,7 +1721,7 @@ def start_brainstorming(ack, body, say, command, client):
     
     #Schedule Reminders to the group throughout the process one for 15 minutes and one to end
     #the listener at 30 minutes. 30 minutes was chosen as typically an effective online brainstorming
-    #session will not exceed this 
+    #session will not exceed this
     client.chat_scheduleMessage(
         channel = channel,
         text = "Reminder: Brainstorm listening ends in 15 minutes. Think outside the box and dont be afraid to come up with unique ideas!",
@@ -1761,7 +1760,7 @@ def start_brainstorming(ack, body, say, command, client):
             post_at = ts + 604800,
         )
 
-#The end brainstorming command works inversley to the start brainstorming command and will close 
+#The end brainstorming command works inversley to the start brainstorming command and will close
 #the listener and output the ideas put into the channel (exactly the same as the EndBrainstorming button)
 @bolt_app.command('/endbrainstorming')
 def end_brainstorming(ack, body, say, command, client):
@@ -1771,7 +1770,7 @@ def end_brainstorming(ack, body, say, command, client):
     global brainstormOn
     global brain_weekly
 
-    #If brainstorming is off no need to run through the rest of the proceedures simply notifiy 
+    #If brainstorming is off no need to run through the rest of the proceedures simply notifiy
     #the team the listener is already off, this will prevent command spam and possible errors
     if (brainstormOn == 1):
         brainstormOn = 0
@@ -1779,8 +1778,8 @@ def end_brainstorming(ack, body, say, command, client):
         channel = command["channel_id"]
         
         #Try checking if any of the scheduled messages still need to be run, if they do just delete them.
-        #Because /endBrainstorming is possible at any time in the listener this is neccisary so the team 
-        #does not get an errant reminder after the session is over. 
+        #Because /endBrainstorming is possible at any time in the listener this is neccisary so the team
+        #does not get an errant reminder after the session is over.
         ts = time.time()
         scheduledList = client.chat_scheduledMessages_list(channel = channel, latest = ts + 1800, oldest = ts)
         for i in scheduledList['scheduled_messages']:
@@ -1835,13 +1834,13 @@ def amy_home(ack, event, client, say):
     opening = """Welcome to the Amy Bot! I am here to help your team development and psychological safety.
 On this page you can customize certain funcitonalities to best suit your teams needs as well as
 check out some interesting statistics from your channel that could help you identify certain things
-and allow your team to be more efficient in their work. Also, check out the about tab to see what 
+and allow your team to be more efficient in their work. Also, check out the about tab to see what
 slash commands are available to you!"""
            
-    #This is the entire view of the Dashboard seperated in sections by dividers. Each section has 
+    #This is the entire view of the Dashboard seperated in sections by dividers. Each section has
     #a text opener and either followed but statistics (that get updated every time the view is opened)
     #or by buttons that allow the group to customize the bot. The buttons are handled below in seperate
-    #handlers 
+    #handlers
     app_home = {
            "type":"home",
            "blocks":[
@@ -1853,7 +1852,7 @@ slash commands are available to you!"""
                  }
               },
               {
-                #Horizontal divider line 
+                #Horizontal divider line
                 "type": "divider"
               },
               {
@@ -1873,7 +1872,7 @@ slash commands are available to you!"""
                             "text": {
                             "type": "plain_text",
                             "text": "Yes"
-                            }   
+                            }
                         },
                         {
                             "value": "0",
@@ -1884,7 +1883,7 @@ slash commands are available to you!"""
                         }]
                     }
                 },
-                #Horizontal divider line 
+                #Horizontal divider line
                 {
                   "type": "divider"
                 },
@@ -1905,7 +1904,7 @@ slash commands are available to you!"""
                             "text": {
                             "type": "plain_text",
                             "text": "Once a week"
-                            }   
+                            }
                         },
                         {
                             "value": "2",
@@ -1923,7 +1922,7 @@ slash commands are available to you!"""
                         }]
                     }
                 },
-                #Horizontal divider line 
+                #Horizontal divider line
                 {
                   "type": "divider"
                 },
@@ -1940,7 +1939,7 @@ slash commands are available to you!"""
         }
 
     client.views_publish(
-        user_id = event["user"], 
+        user_id = event["user"],
         view = app_home)
 
 
@@ -1951,9 +1950,9 @@ def brainstorm_options(ack, body, client):
     # Acknowledge the action
     ack()
 
-    #Take the body of the response from the buttons selected and turn it into a Json for simpiler 
-    #parsing. Find the label "actions" which contains information about the button pressed including 
-    #the value we associated with it (defined in the view above). 
+    #Take the body of the response from the buttons selected and turn it into a Json for simpiler
+    #parsing. Find the label "actions" which contains information about the button pressed including
+    #the value we associated with it (defined in the view above).
     form_json = json.dumps(body)
     form_json = form_json[788:]
     actions_index = form_json.find('actions')
@@ -1977,9 +1976,9 @@ def weekly_survey(ack, body, client):
     # Acknowledge the action
     ack()
 
-    #Take the body of the response from the buttons selected and turn it into a Json for simpiler 
-    #parsing. Find the label "actions" which contains information about the button pressed including 
-    #the value we associated with it (defined in the view above). 
+    #Take the body of the response from the buttons selected and turn it into a Json for simpiler
+    #parsing. Find the label "actions" which contains information about the button pressed including
+    #the value we associated with it (defined in the view above).
     form_json = json.dumps(body)
     form_json = form_json[788:]
     actions_index = form_json.find('actions')
@@ -1998,7 +1997,7 @@ def weekly_survey(ack, body, client):
             pass
 
     #Take the value identified in the json to determine how often the team wants a reminder to take
-    #the survey. Set the weeklySurveyValue accordingly (for future rescheduling of the reminder) and 
+    #the survey. Set the weeklySurveyValue accordingly (for future rescheduling of the reminder) and
     #schedule the first instance of the reminder.
     if (value == '1'):
         weeklySurveyValue = 1
