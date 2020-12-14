@@ -1539,7 +1539,7 @@ def hello(ack, say):
     # Acknowledge command request
     ack()
     # Send 'Hello!' to channel
-    say('Hello!!')
+    say('Hello!')
 
 
 # The echo command simply echoes on command
