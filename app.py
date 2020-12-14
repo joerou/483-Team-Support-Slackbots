@@ -440,17 +440,17 @@ def message_rest(ack, client, message):
             if (user_stats['sentiment_score'] < -0.25):
                 client.chat_postEphemeral(channel = message['channel'], user = message['user'], text = "Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
             user_stats['sentiment_count'] = 0
-            statDB.replace_item(user["id"], user_stats)
+            statDB.replace_item(user, user_stats)
         
         group_leader_name = 'Brendan Hemstreet5'
-        leader = statDB.read_item(item=user_id['id'], partition_key="User stats" )
+        leader = statDB.read_item(item=user_id, partition_key="User stats" )
         leader['most_messages'] = leader['most_messages'] + 1
         total_checks = workspace_stats['total_workspace_messages']/100
         if leader['most_messages']/total_checks > 0.5:
             leader['group_leader'] = 1
             group_leader_name = user_id['real_name']
             group_leader_id = user_id['id']
-        statDB.replace_item(user_id['id'], leader)
+        statDB.replace_item(user_id, leader)
         
 
 
