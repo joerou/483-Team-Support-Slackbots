@@ -418,6 +418,7 @@ def most_messages_(user_results, average):
             if total > most_messages:
                 most_messages = total
                 user_id = user['id']
+                real_name = user['real_name']
 
             user_stats['previous_messages'] = user_stats['total_user_messages']
             if (total < average - 15) and (is_introvert(user['id'])):
@@ -433,7 +434,7 @@ def most_messages_(user_results, average):
             user_stats['sentiment_count'] = 0
             statDB.replace_item(user['id'], user_stats)
 
-    return [user_id, introvert, extrovert, sentiment]
+    return [user_id, real_name, introvert, extrovert, sentiment]
 
 # handle all messages
 @bolt_app.message("")
@@ -458,7 +459,7 @@ def message_rest(ack, client, message):
     user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
     most_messages_array = most_messages_(user_results, average)
     for user in user_results:
-        client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (most_messages_array[0], user_stats['total_user_messages'], user['is_bot']))
+        client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (most_messages_array[1], user_stats['total_user_messages'], user['is_bot']))
     
 """
     if total_messages % 1 == 0:
