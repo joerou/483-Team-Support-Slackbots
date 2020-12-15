@@ -421,11 +421,11 @@ def message_rest(ack, client, message):
     for user in user_results:
         client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
     
-    """
+    
     if total_messages % 5 == 0:
         #group_leader_name = 'Brendan Hemstreet6'
         total = total/(workspace_stats['total_workspace_messages']/100)
-        
+        """
         for user in user_results:
             group_leader_name = 'Brendan Hemstreet4'
             user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
