@@ -464,7 +464,7 @@ def message_rest(ack, client, message):
     
 
     if total_messages % 1 == 0:
-        most_messages_array = most_messages()
+        most_messages_array = most_messages_()
         result = most_messages_array[0]
         real_name = most_messages_array[1]
         introvert = most_messages_array[2]
