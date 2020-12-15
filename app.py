@@ -419,7 +419,7 @@ def message_rest(ack, client, message):
     user_with_most = message['user']
     user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
     for user in user_results:
-        client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
+        client.chat_postMessage(channel=message['channel'], text="usersss %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
     
     
     if total_messages % 1 == 0:
@@ -428,7 +428,7 @@ def message_rest(ack, client, message):
         for user in user_results:
             if (user['is_bot']):
                 pass
-            group_leader_name = 'Brendan Hemstreet4'
+            
             user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
             """
@@ -458,6 +458,7 @@ def message_rest(ack, client, message):
         statDB.replace_item(user_id['id'], leader)
         
 """
+    group_leader_name = 'Brendan Hemstreet4'
 
 ###############################################################################
 # Action Handler
