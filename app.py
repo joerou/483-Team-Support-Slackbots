@@ -458,7 +458,7 @@ def message_rest(ack, client, message):
     user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
     most_messages_array = most_messages_(user_results, average)
     for user in user_results:
-        client.chat_postMessage(channel=message['channel'], text="users %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
+        client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (most_messages_array[0], user_stats['total_user_messages'], user['is_bot']))
     
 """
     if total_messages % 1 == 0:
