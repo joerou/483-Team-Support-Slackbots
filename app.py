@@ -419,13 +419,14 @@ def message_rest(ack, client, message):
     user_with_most = message['user']
     user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
     for user in user_results:
-        client.chat_postMessage(channel=message['channel'], text="usersssx %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
+        client.chat_postMessage(channel=message['channel'], text="userssss %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
     
     
     if total_messages % 1 == 0:
-        group_leader_name = 'Brendan Hemstreet6'
+        #group_leader_name = 'Brendan Hemstreet6'
         total = total/(workspace_stats['total_workspace_messages']/100)
         most_messages_array = most_messages()
+        group_leader_name = 'Brendan Hemstreet7'
         result = most_messages_array[0]
         introvert = most_messages_array[1]
         extrovert = most_messages_array[2]
