@@ -432,7 +432,7 @@ def message_rest(ack, client, message):
             user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
         group_leader_name = 'Brendan Hemstreet4'
-            """
+"""
             if total > most_messages:
                 most_messages = total
                 user_id = user
