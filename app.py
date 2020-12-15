@@ -457,7 +457,7 @@ def message_rest(ack, client, message):
     average = total_messages/(len(user_results) - number_bots)
     
 
-    if total_messages % 1 == 0:
+    if total_messages % 100 == 0:
         most_messages_array = most_messages_(user_results, average)
         result = most_messages_array[0]
         real_name = most_messages_array[1]
@@ -470,7 +470,6 @@ def message_rest(ack, client, message):
             client.chat_postMessage(channel=id_, text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
         for id__ in sentiment:
             client.chat_postEphemeral(channel = message['channel'], user = id__, text = "Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
-        client.chat_postMessage(channel=message['channel'], text="usersx %s" % (result))
         
         leader = statDB.read_item(item=most_messages_array[0], partition_key="User stats" )
         leader['most_messages'] = leader['most_messages'] + 1
