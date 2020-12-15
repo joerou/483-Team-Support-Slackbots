@@ -441,7 +441,6 @@ def most_messages_(user_results, average):
 def message_rest(ack, client, message):
     ack()
     global group_leader_name
-    #group_leader_name = 'Brendan Hemstreet3'
     
     stats = statDB.read_item(item = "1", partition_key = "Workspace-wide stats")
     total_messages = stats.get("total_workspace_messages")
@@ -456,11 +455,6 @@ def message_rest(ack, client, message):
             number_bots += 1
     
     average = total_messages/(len(user_results) - number_bots)
-    most_messages = 0
-    user_with_most = message['user']
-
-    #for user in user_results:
-        #client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (most_messages_array[1], user_stats['total_user_messages'], user['is_bot']))
     
 
     if total_messages % 1 == 0:
@@ -470,6 +464,12 @@ def message_rest(ack, client, message):
         introvert = most_messages_array[2]
         extrovert = most_messages_array[3]
         sentiment = most_messages_array[4]
+        for id in introvert:
+            client.chat_postMessage(channel=id, text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
+        for id_ in extrovert:
+            client.chat_postMessage(channel=id_, text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
+        for id__ in sentiment:
+            client.chat_postEphemeral(channel = message['channel'], user = id__, text = "Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
         client.chat_postMessage(channel=message['channel'], text="usersx %s" % (result))
         
         leader = statDB.read_item(item=most_messages_array[0], partition_key="User stats" )
