@@ -396,6 +396,38 @@ def is_extrovert(user):
         return True
     else:
         return False
+        
+def most_messages_(user_results):
+    result = []
+    introvert = []
+    extrovert = []
+    sentiment = []
+    most_messages = 0
+    for user in user_results:
+        if (not user['is_bot']) and (user['real_name'] != 'Slackbot'):
+
+            user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
+            total = user_stats['total_user_messages'] - user_stats['previous_messages']
+
+            if total > most_messages:
+                most_messages = total
+                user_id = user['id']
+
+            user_stats['previous_messages'] = user_stats['total_user_messages']
+            if (total < average - 15) and (is_introvert(user['id'])):
+                introvert.append(user['id'])
+            #client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
+            elif (total > average + 20) and (is_extrovert(user['id'])):
+                extrovert.append(user['id'])
+            #client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
+# sentiment alert
+            if (user_stats['sentiment_score'] < -0.25):
+            #client.chat_postEphemeral(channel = message['channel'], user = message['user'], text = "Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
+                sentiment.append(user['id'])
+            user_stats['sentiment_count'] = 0
+            statDB.replace_item(user['id'], user_stats)
+
+    return [user_id, introvert, extrovert, sentiment]
 
 # handle all messages
 @bolt_app.message("")
@@ -418,7 +450,7 @@ def message_rest(ack, client, message):
     most_messages = 0
     user_with_most = message['user']
     user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
-    most_messages_array = most_messages(user_results)
+    most_messages_array = most_messages_(user_results)
     for user in user_results:
         client.chat_postMessage(channel=message['channel'], text="users %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
     
@@ -447,37 +479,7 @@ def message_rest(ack, client, message):
 
 
 
-def most_messages(user_results):
-    result = []
-    introvert = []
-    extrovert = []
-    sentiment = []
-    most_messages = 0
-    for user in user_results:
-        if (not user['is_bot']) and (user['real_name'] != 'Slackbot'):
-    
-            user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
-            total = user_stats['total_user_messages'] - user_stats['previous_messages']
 
-            if total > most_messages:
-                most_messages = total
-                user_id = user['id']
-    
-            user_stats['previous_messages'] = user_stats['total_user_messages']
-            if (total < average - 15) and (is_introvert(user['id'])):
-                introvert.append(user['id'])
-                #client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you haven't been contributing a lot recently. We would love to hear your ideas!")
-            elif (total > average + 20) and (is_extrovert(user['id'])):
-                extrovert.append(user['id'])
-                #client.chat_postMessage(channel=user['id'], text=f"Hey there <@{user['id']}>, I have noticed you have been sending a lot of messages recently. Just wanted to check in and make sure that everyone has had the opportunity to share their ideas!")
-    # sentiment alert
-            if (user_stats['sentiment_score'] < -0.25):
-                #client.chat_postEphemeral(channel = message['channel'], user = message['user'], text = "Hey there <@{user['id']}>, I have noticed you aren't communicating in a friendly way. Please be kind to your teammates!")
-                sentiment.append(user['id'])
-            user_stats['sentiment_count'] = 0
-            statDB.replace_item(user['id'], user_stats)
-    
-    return [user_id, introvert, extrovert, sentiment]
 
 ###############################################################################
 # Action Handler
