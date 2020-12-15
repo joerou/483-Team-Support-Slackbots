@@ -450,39 +450,36 @@ def message_rest(ack, client, message):
     
     user_result = client.users_list()
     user_results = user_result['members']
-    #user_results = user_results[1:]
-    user_count = len(user_results)
+    number_bots = 0
+    for user in user_results:
+        if user['is_bot']:
+            number_bots += 1
     
-    average = total_messages/user_count
+    average = total_messages/(len(user_results) - number_bots)
     most_messages = 0
     user_with_most = message['user']
-    user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
-    most_messages_array = most_messages_(user_results, average)
-    group_leader_name = most_messages_array[1]
-    for user in user_results:
-        client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (most_messages_array[1], user_stats['total_user_messages'], user['is_bot']))
+
+    #for user in user_results:
+        #client.chat_postMessage(channel=message['channel'], text="userss %s %d %s" % (most_messages_array[1], user_stats['total_user_messages'], user['is_bot']))
     
-"""
+
     if total_messages % 1 == 0:
-        #group_leader_name = 'Brendan Hemstreet6'
         most_messages_array = most_messages()
-        group_leader_name = 'Brendan Hemstreet7'
         result = most_messages_array[0]
-        introvert = most_messages_array[1]
-        extrovert = most_messages_array[2]
-        sentiment = most_messages_array[3]
-        client.chat_postMessage(channel=message['channel'], text="users %s %d %s" % (result, user_stats['total_user_messages'], user['is_bot']))
+        real_name = most_messages_array[1]
+        introvert = most_messages_array[2]
+        extrovert = most_messages_array[3]
+        sentiment = most_messages_array[4]
+        client.chat_postMessage(channel=message['channel'], text="usersx %s %d %s" % (result, user_stats['total_user_messages'], user['is_bot']))
         
-        group_leader_name = 'Brendan Hemstreet5'
-        leader = statDB.read_item(item=user_id, partition_key="User stats" )
+        leader = statDB.read_item(item=most_messages_array[0], partition_key="User stats" )
         leader['most_messages'] = leader['most_messages'] + 1
         total_checks = workspace_stats['total_workspace_messages']/100
         if leader['most_messages']/total_checks > 0.5:
             leader['group_leader'] = 1
-            group_leader_name = user_id['real_name']
-            group_leader_id = user_id['id']
-        statDB.replace_item(user_id['id'], leader)
-        """
+            group_leader_name = most_messages_array[1]
+            group_leader_id = most_messages_array[0]
+        statDB.replace_item(most_messages_array[0], leader)
 
 
 
