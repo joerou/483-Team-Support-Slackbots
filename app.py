@@ -470,7 +470,7 @@ def message_rest(ack, client, message):
         introvert = most_messages_array[2]
         extrovert = most_messages_array[3]
         sentiment = most_messages_array[4]
-        client.chat_postMessage(channel=message['channel'], text="usersx %s %d %s" % (result, user_stats['total_user_messages'], user['is_bot']))
+        client.chat_postMessage(channel=message['channel'], text="usersx %s" % (result))
         
         leader = statDB.read_item(item=most_messages_array[0], partition_key="User stats" )
         leader['most_messages'] = leader['most_messages'] + 1
