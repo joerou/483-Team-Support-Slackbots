@@ -381,21 +381,23 @@ def message_hello(ack, message, say):
 
     #returns true if user is an introvert, false otherwise
 def is_introvert(user):
-    temp = survey_dict[user]
-    e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
-    if e < 13:
-        return True
-    else:
-        return False
+    if user in survey_dict:
+        temp = survey_dict[user]
+        e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
+        if e < 13:
+            return True
+        else:
+            return False
 
 #returns true if user is an extrovert, false otherwise
 def is_extrovert(user):
-    temp = survey_dict[user]
-    e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
-    if e > 27:
-        return True
-    else:
-        return False
+    if user in survey_dict:
+        temp = survey_dict[user]
+        e = 20 + temp[0] - temp[5] + temp[11] - temp[15] + temp[20] - temp[25] + temp[30] - temp[35] + temp[40] - temp[45]
+        if e > 27:
+            return True
+        else:
+            return False
         
 def most_messages_(user_results, average):
     result = []
