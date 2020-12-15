@@ -452,7 +452,7 @@ def most_messages():
     sentiment = []
     most_messages = 0
     for user in user_results:
-        if (not user['is_bot']) and (user['real_name'] != 'Slackbot):
+        if (not user['is_bot']) and (user['real_name'] != 'Slackbot'):
     
             user_stats = statDB.read_item(item=user['id'], partition_key="User stats")
             total = user_stats['total_user_messages'] - user_stats['previous_messages']
