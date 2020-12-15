@@ -474,7 +474,7 @@ def message_rest(ack, client, message):
         
         leader = statDB.read_item(item=most_messages_array[0], partition_key="User stats" )
         leader['most_messages'] = leader['most_messages'] + 1
-        total_checks = workspace_stats['total_workspace_messages']/100
+        total_checks = stats['total_workspace_messages']/100
         if leader['most_messages']/total_checks > 0.5:
             leader['group_leader'] = 1
             group_leader_name = most_messages_array[1]
