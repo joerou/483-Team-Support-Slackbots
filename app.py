@@ -421,7 +421,7 @@ def message_rest(ack, client, message):
     for user in user_results:
         client.chat_postMessage(channel=message['channel'], text="users %s %d" % (user['real_name'], user_stats['total_user_messages']))
     
-    
+    """
     if total_messages % 5 == 0:
         #group_leader_name = 'Brendan Hemstreet6'
         total = total/(workspace_stats['total_workspace_messages']/100)
@@ -456,7 +456,7 @@ def message_rest(ack, client, message):
             group_leader_id = user_id['id']
         statDB.replace_item(user_id['id'], leader)
         
-
+"""
 
 ###############################################################################
 # Action Handler
