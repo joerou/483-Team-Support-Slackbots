@@ -388,6 +388,8 @@ def is_introvert(user):
             return True
         else:
             return False
+    else:
+        return False
 
 #returns true if user is an extrovert, false otherwise
 def is_extrovert(user):
@@ -398,6 +400,8 @@ def is_extrovert(user):
             return True
         else:
             return False
+    else:
+        return False
         
 def most_messages_(user_results, average):
     result = []
