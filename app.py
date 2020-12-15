@@ -397,7 +397,7 @@ def is_extrovert(user):
     else:
         return False
         
-def most_messages_(user_results):
+def most_messages_(user_results, average):
     result = []
     introvert = []
     extrovert = []
@@ -450,7 +450,7 @@ def message_rest(ack, client, message):
     most_messages = 0
     user_with_most = message['user']
     user_stats = statDB.read_item(item="U019NC3JY2Y", partition_key="User stats")
-    most_messages_array = most_messages_(user_results)
+    most_messages_array = most_messages_(user_results, average)
     for user in user_results:
         client.chat_postMessage(channel=message['channel'], text="users %s %d %s" % (user['real_name'], user_stats['total_user_messages'], user['is_bot']))
     
